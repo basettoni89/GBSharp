@@ -1,13 +1,40 @@
 ﻿
-
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTK.Windowing.Desktop;
-
+using System.Diagnostics;
 
 namespace GBEmu.Win
 {
+    public struct Color
+    {
+        public Color(ushort r, ushort g, ushort b, ushort a)
+        {
+            R = r;
+            G = g;
+            B = b;
+            A = a;
+        }
+
+        public ushort R { get; }
+        public ushort G { get; }
+        public ushort B { get; }
+        public ushort A { get; }
+
+        public float[] GetNormalizedColor()
+        {
+            float[] normalized = new float[4];
+
+            normalized[0] = R / 255f;
+            normalized[1] = G / 255f;
+            normalized[2] = B / 255f;
+            normalized[3] = A / 255f;
+
+            return normalized;
+        }
+    }
+
     public class Window : GameWindow
     {
         private readonly uint[] _indices =
@@ -25,6 +52,9 @@ namespace GBEmu.Win
         // Add a handle for the EBO
         private int _elementBufferObject;
 
+        private readonly Color bgColor = new Color(0x9B, 0xBC, 0x0F, 0xFF);
+        private readonly Color fgColor = new Color(0x30, 0x62, 0x30, 0xFF);
+
         public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
             : base(gameWindowSettings, nativeWindowSettings)
         {
@@ -32,14 +62,16 @@ namespace GBEmu.Win
 
         protected override void OnLoad()
         {
-            GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+            var normalizedBG = bgColor.GetNormalizedColor();
+            GL.ClearColor(normalizedBG[0], normalizedBG[1], normalizedBG[2], normalizedBG[3]);
 
+            var normalizedFG = fgColor.GetNormalizedColor();
             float[] _vertices =
             {
-                 0.5f,  0.5f, 0.0f, // top right
-                 0.5f, -0.5f, 0.0f, // bottom right
-                -0.5f, -0.5f, 0.0f, // bottom left
-                -0.5f,  0.5f, 0.0f, // top left
+                 0.5f,  0.5f, 0.0f, normalizedFG[0], normalizedFG[1], normalizedFG[2], // top right
+                 0.5f, -0.5f, 0.0f, normalizedFG[0], normalizedFG[1], normalizedFG[2], // bottom right
+                -0.5f, -0.5f, 0.0f, normalizedFG[0], normalizedFG[1], normalizedFG[2], // bottom left
+                -0.5f,  0.5f, 0.0f, normalizedFG[0], normalizedFG[1], normalizedFG[2], // top left
             };
 
             _vertexBufferObject = GL.GenBuffer();
@@ -49,8 +81,14 @@ namespace GBEmu.Win
             _vertexArrayObject = GL.GenVertexArray();
             GL.BindVertexArray(_vertexArrayObject);
 
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
+            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 0);
             GL.EnableVertexAttribArray(0);
+
+            GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 3 * sizeof(float));
+            GL.EnableVertexAttribArray(1);
+
+            GL.GetInteger(GetPName.MaxVertexAttribs, out int maxAttributeCount);
+            Debug.WriteLine($"Maximum number of vertex attributes supported: {maxAttributeCount}");
 
             _elementBufferObject = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, _elementBufferObject);
@@ -91,8 +129,9 @@ namespace GBEmu.Win
 
         protected override void OnResize(ResizeEventArgs e)
         {
-            GL.Viewport(0, 0, Size.X, Size.Y);
             base.OnResize(e);
+
+            GL.Viewport(0, 0, Size.X, Size.Y);
         }
 
         protected override void OnUnload()
