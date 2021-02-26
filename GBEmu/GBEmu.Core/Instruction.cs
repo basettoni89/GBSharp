@@ -29,6 +29,21 @@ namespace GBEmu.Core
         public abstract override string ToString();
 
         public abstract int Execute();
+
+        protected void UpdateFlags(byte previous, byte actual, bool isSubtraction)
+        {
+            bus.GetCPU().Flags.ZF = actual == 0;
+            bus.GetCPU().Flags.N = isSubtraction;
+            bus.GetCPU().Flags.H = (actual & (1 << 3)) != (previous & (1 << 3));
+            bus.GetCPU().Flags.CY = (actual & (1 << 7)) != (previous & (1 << 7));
+        }
+        protected void UpdateFlags(ushort previous, ushort actual, bool isSubtraction)
+        {
+            bus.GetCPU().Flags.ZF = actual == 0;
+            bus.GetCPU().Flags.N = isSubtraction;
+            bus.GetCPU().Flags.H = (actual & (1 << 3)) != (previous & (1 << 3));
+            bus.GetCPU().Flags.CY = (actual & (1 << 15)) != (previous & (1 << 15));
+        }
     }
 
     public abstract class LDImplied : Instruction
@@ -1261,6 +1276,27 @@ namespace GBEmu.Core
         protected override void Load(byte value)
         {
             bus.GetCPU().L = value;
+        }
+    }
+
+    public class INCA : Instruction
+    {
+        public INCA(Bus bus) : base(bus, 0x3C, "INC A", 1)
+        {
+        }
+
+        public override int Execute()
+        {
+            byte prev = bus.GetCPU().A;
+            bus.GetCPU().A++;
+
+            UpdateFlags(prev, bus.GetCPU().A, false);
+            return usedCycles;
+        }
+
+        public override string ToString()
+        {
+            return this.Name;
         }
     }
 }

@@ -22,12 +22,16 @@ namespace GBEmu.Core
         public UInt16 SP;
         public UInt16 PC;
 
+        public FlagsClass Flags { get; private set; }
+
         private Instruction current;
         private int cycles = 0;
 
         public CPU(Bus bus)
         {
             this.bus = bus;
+
+            Flags = new FlagsClass();
 
             lookup = new Dictionary<byte, Instruction>()
             {
@@ -94,7 +98,8 @@ namespace GBEmu.Core
                 {0x56, new LDDIndHL(bus) },
                 {0x5E, new LDEIndHL(bus) },
                 {0x66, new LDHIndHL(bus) },
-                {0x6E, new LDLIndHL(bus) }
+                {0x6E, new LDLIndHL(bus) },
+                {0x3C, new INCA(bus) }
             };
         }
 
@@ -103,6 +108,7 @@ namespace GBEmu.Core
             A = B = C = D = E = F = H = L = 0;
             SP = 0xFFFE;
             PC = 0x0100;
+            Flags = new FlagsClass();
         }
 
         public void Clock()
@@ -123,6 +129,29 @@ namespace GBEmu.Core
             byte opCode = bus.ReadMemory(PC);
             PC++;
             return lookup[opCode];
+        }
+
+        public class FlagsClass
+        {
+            /// <summary>
+            /// Zero Flag
+            /// </summary>
+            public bool ZF { get; set; }
+
+            /// <summary>
+            /// Subtraction
+            /// </summary>
+            public bool N { get; set; }
+
+            /// <summary>
+            /// Half Carry
+            /// </summary>
+            public bool H { get; set; }
+
+            /// <summary>
+            /// Carry Flag
+            /// </summary>
+            public bool CY { get; set; }
         }
     }
 }
