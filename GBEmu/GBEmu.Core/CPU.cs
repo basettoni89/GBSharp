@@ -99,7 +99,8 @@ namespace GBEmu.Core
                 {0x5E, new LDEIndHL(bus) },
                 {0x66, new LDHIndHL(bus) },
                 {0x6E, new LDLIndHL(bus) },
-                {0x3C, new INCA(bus) }
+                {0x3C, new INCA(bus) },
+                {0x04, new INCB(bus) }
             };
         }
 
