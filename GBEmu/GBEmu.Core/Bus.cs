@@ -41,6 +41,25 @@ namespace GBEmu.Core
             }
         }
 
+        public void WriteMemory(byte value, UInt32 address)
+        {
+            switch (address)
+            {
+                case UInt32 a when (a <= 0xFFFE && a >= 0xFF80):
+                    ZPRAM[address - 0xFF80] = value;
+                    break;
+                case UInt32 a when (a <= 0xFE9F && a >= 0xFE00):
+                    OAM[address - 0xFE00] = value;
+                    break;
+                case UInt32 a when (a <= 0x9FFF && a >= 0x8000):
+                    VRAM[address - 0x8000] = value;
+                    break;
+                case UInt32 a when (a <= 0xDFFF && a >= 0xC000):
+                    WRAM[address - 0xC000] = value;
+                    break;
+            }
+        }
+
         /// <summary>
         /// Utility command for setting memory values
         /// </summary>

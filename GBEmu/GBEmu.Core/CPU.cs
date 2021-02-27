@@ -100,7 +100,17 @@ namespace GBEmu.Core
                 {0x66, new LDHIndHL(bus) },
                 {0x6E, new LDLIndHL(bus) },
                 {0x3C, new INCA(bus) },
-                {0x04, new INCB(bus) }
+                {0x04, new INCB(bus) },
+                {0x0C, new INCC(bus) },
+                {0x14, new INCD(bus) },
+                {0x1C, new INCE(bus) },
+                {0x24, new INCH(bus) },
+                {0x2C, new INCL(bus) },
+                {0x34, new INCAddrHL(bus) },
+                {0x03, new INCBC(bus) },
+                {0x13, new INCDE(bus) },
+                {0x23, new INCHL(bus) },
+                {0x33, new INCSP(bus) }
             };
         }
 
