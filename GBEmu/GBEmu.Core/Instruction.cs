@@ -30,30 +30,6 @@ namespace GBEmu.Core
 
         public abstract int Execute();
 
-        protected void UpdateFlags(byte previous, byte actual, bool isSubtraction, bool carry, bool halfCarry)
-        {
-            bus.GetCPU().Flags.ZF = actual == 0;
-            bus.GetCPU().Flags.N = isSubtraction;
-
-            if(halfCarry)
-                bus.GetCPU().Flags.H = (actual & (1 << 3)) == 0 && (previous & (1 << 3)) > 1;
-
-            if(carry)
-                bus.GetCPU().Flags.CY = (actual & (1 << 7)) == 0 && (previous & (1 << 7)) > 1;
-        }
-
-        protected void UpdateFlags(ushort previous, ushort actual, bool isSubtraction, bool carry, bool halfCarry)
-        {
-            bus.GetCPU().Flags.ZF = actual == 0;
-            bus.GetCPU().Flags.N = isSubtraction;
-
-            if (halfCarry)
-                bus.GetCPU().Flags.H = (actual & (1 << 3)) != (previous & (1 << 3));
-
-            if (carry)
-                bus.GetCPU().Flags.CY = (actual & (1 << 15)) == 0 && (previous & (1 << 15)) > 1;
-        }
-
         protected ushort CombineHILO(byte hi, byte lo)
         {
             return (ushort)((hi << 8) + lo);
@@ -127,6 +103,51 @@ namespace GBEmu.Core
         }
     }
 
+    public abstract class SumInstruction : Instruction
+    {
+        protected SumInstruction(Bus bus, byte opCode, string name, byte cycles) : base(bus, opCode, name, cycles)
+        {
+        }
+
+        protected byte Sum(byte a, byte b, bool halfCarry, bool carry)
+        {
+            ushort r = (ushort)(a + b);
+
+            bus.GetCPU().Flags.ZF = (byte)r == 0;
+            bus.GetCPU().Flags.N = false;
+
+            if (halfCarry)
+                bus.GetCPU().Flags.H = (((a & 0b1111) + (b & 0b1111)) & (1 << 4)) != 0;
+
+            if (carry)
+                bus.GetCPU().Flags.CY = (r & (1 << 8)) != 0;
+
+            return (byte)r;
+        }
+    }
+
+    public abstract class SubInstruction : Instruction
+    {
+        protected SubInstruction(Bus bus, byte opCode, string name, byte cycles) : base(bus, opCode, name, cycles)
+        {
+        }
+
+        protected byte Sub(byte a, byte b, bool halfCarry, bool carry)
+        {
+            ushort r = (ushort)(a - b);
+
+            bus.GetCPU().Flags.ZF = (byte)r == 0;
+            bus.GetCPU().Flags.N = true;
+
+            if (halfCarry)
+                bus.GetCPU().Flags.H = (((a & 0b1111) - (b & 0b1111)) & (1 << 4)) != 0;
+
+            if (carry)
+                bus.GetCPU().Flags.CY = (r & (1 << 8)) != 0;
+
+            return (byte)r;
+        }
+    }
     public class NOP : Instruction
     {
         public NOP(Bus bus) : base(bus, 0x00, "NOP", 1)
@@ -1293,7 +1314,7 @@ namespace GBEmu.Core
         }
     }
 
-    public class INCA : Instruction
+    public class INCA : SumInstruction
     {
         public INCA(Bus bus) : base(bus, 0x3C, "INC A", 1)
         {
@@ -1301,10 +1322,8 @@ namespace GBEmu.Core
 
         public override int Execute()
         {
-            byte prev = bus.GetCPU().A;
-            bus.GetCPU().A++;
+            bus.GetCPU().A = Sum(bus.GetCPU().A, 1, true, false);
 
-            UpdateFlags(prev, bus.GetCPU().A, false, false, true);
             return usedCycles;
         }
 
@@ -1314,7 +1333,7 @@ namespace GBEmu.Core
         }
     }
 
-    public class INCB : Instruction
+    public class INCB : SumInstruction
     {
         public INCB(Bus bus) : base(bus, 0x04, "INC B", 1)
         {
@@ -1322,10 +1341,7 @@ namespace GBEmu.Core
 
         public override int Execute()
         {
-            byte prev = bus.GetCPU().B;
-            bus.GetCPU().B++;
-
-            UpdateFlags(prev, bus.GetCPU().B, false, false, true);
+            bus.GetCPU().B = Sum(bus.GetCPU().B, 1, true, false);
             return usedCycles;
         }
 
@@ -1335,7 +1351,7 @@ namespace GBEmu.Core
         }
     }
 
-    public class INCC : Instruction
+    public class INCC : SumInstruction
     {
         public INCC(Bus bus) : base(bus, 0x0C, "INC C", 1)
         {
@@ -1343,10 +1359,7 @@ namespace GBEmu.Core
 
         public override int Execute()
         {
-            byte prev = bus.GetCPU().C;
-            bus.GetCPU().C++;
-
-            UpdateFlags(prev, bus.GetCPU().C, false, false, true);
+            bus.GetCPU().C = Sum(bus.GetCPU().C, 1, true, false);
             return usedCycles;
         }
 
@@ -1356,7 +1369,7 @@ namespace GBEmu.Core
         }
     }
 
-    public class INCD : Instruction
+    public class INCD : SumInstruction
     {
         public INCD(Bus bus) : base(bus, 0x14, "INC D", 1)
         {
@@ -1364,10 +1377,7 @@ namespace GBEmu.Core
 
         public override int Execute()
         {
-            byte prev = bus.GetCPU().D;
-            bus.GetCPU().D++;
-
-            UpdateFlags(prev, bus.GetCPU().D, false, false, true);
+            bus.GetCPU().D = Sum(bus.GetCPU().D, 1, true, false);
             return usedCycles;
         }
 
@@ -1377,7 +1387,7 @@ namespace GBEmu.Core
         }
     }
 
-    public class INCE : Instruction
+    public class INCE : SumInstruction
     {
         public INCE(Bus bus) : base(bus, 0x1C, "INC E", 1)
         {
@@ -1385,10 +1395,7 @@ namespace GBEmu.Core
 
         public override int Execute()
         {
-            byte prev = bus.GetCPU().E;
-            bus.GetCPU().E++;
-
-            UpdateFlags(prev, bus.GetCPU().E, false, false, true);
+            bus.GetCPU().E = Sum(bus.GetCPU().E, 1, true, false);
             return usedCycles;
         }
 
@@ -1398,7 +1405,7 @@ namespace GBEmu.Core
         }
     }
 
-    public class INCH : Instruction
+    public class INCH : SumInstruction
     {
         public INCH(Bus bus) : base(bus, 0x24, "INC H", 1)
         {
@@ -1406,10 +1413,7 @@ namespace GBEmu.Core
 
         public override int Execute()
         {
-            byte prev = bus.GetCPU().H;
-            bus.GetCPU().H++;
-
-            UpdateFlags(prev, bus.GetCPU().H, false, false, true);
+            bus.GetCPU().H = Sum(bus.GetCPU().H, 1, true, false);
             return usedCycles;
         }
 
@@ -1419,7 +1423,7 @@ namespace GBEmu.Core
         }
     }
 
-    public class INCL : Instruction
+    public class INCL : SumInstruction
     {
         public INCL(Bus bus) : base(bus, 0x2C, "INC L", 1)
         {
@@ -1427,10 +1431,7 @@ namespace GBEmu.Core
 
         public override int Execute()
         {
-            byte prev = bus.GetCPU().L;
-            bus.GetCPU().L++;
-
-            UpdateFlags(prev, bus.GetCPU().L, false, false, true);
+            bus.GetCPU().L = Sum(bus.GetCPU().L, 1, true, false);
             return usedCycles;
         }
 
@@ -1440,7 +1441,7 @@ namespace GBEmu.Core
         }
     }
 
-    public class INCAddrHL : Instruction
+    public class INCAddrHL : SumInstruction
     {
         public INCAddrHL(Bus bus) : base(bus, 0x34, "INC (HL)", 3)
         {
@@ -1449,12 +1450,8 @@ namespace GBEmu.Core
         public override int Execute()
         {
             ushort address = CombineHILO(bus.GetCPU().H, bus.GetCPU().L);
-            byte prev = bus.ReadMemory(address);
-            byte actual = (byte)(prev + 1);
 
-            bus.WriteMemory(actual, address);
-
-            UpdateFlags(prev, actual, false, false, true);
+            bus.WriteMemory(Sum(bus.ReadMemory(address), 1, true, false), address);
 
             usedCycles += 2;
             return usedCycles;
@@ -1543,6 +1540,154 @@ namespace GBEmu.Core
             bus.GetCPU().SP++;
 
             return usedCycles++;
+        }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
+    }
+
+    public class DECA : SubInstruction
+    {
+        public DECA(Bus bus) : base(bus, 0x3D, "DEC A", 1)
+        {
+        }
+
+        public override int Execute()
+        {
+            bus.GetCPU().A = Sub(bus.GetCPU().A, 1, true, false);
+            return usedCycles;
+        }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
+    }
+
+    public class DECB : SubInstruction
+    {
+        public DECB(Bus bus) : base(bus, 0x05, "DEC B", 1)
+        {
+        }
+
+        public override int Execute()
+        {
+            bus.GetCPU().B = Sub(bus.GetCPU().B, 1, true, false);
+            return usedCycles;
+        }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
+    }
+
+    public class DECC : SubInstruction
+    {
+        public DECC(Bus bus) : base(bus, 0x0D, "DEC C", 1)
+        {
+        }
+
+        public override int Execute()
+        {
+            bus.GetCPU().C = Sub(bus.GetCPU().C, 1, true, false);
+            return usedCycles;
+        }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
+    }
+
+    public class DECD : SubInstruction
+    {
+        public DECD(Bus bus) : base(bus, 0x15, "DEC D", 1)
+        {
+        }
+
+        public override int Execute()
+        {
+            bus.GetCPU().D = Sub(bus.GetCPU().D, 1, true, false);
+            return usedCycles;
+        }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
+    }
+
+    public class DECE : SubInstruction
+    {
+        public DECE(Bus bus) : base(bus, 0x1D, "DEC E", 1)
+        {
+        }
+
+        public override int Execute()
+        {
+            bus.GetCPU().E = Sub(bus.GetCPU().E, 1, true, false);
+            return usedCycles;
+        }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
+    }
+
+    public class DECH : SubInstruction
+    {
+        public DECH(Bus bus) : base(bus, 0x2D, "DEC H", 1)
+        {
+        }
+
+        public override int Execute()
+        {
+            bus.GetCPU().H = Sub(bus.GetCPU().H, 1, true, false);
+            return usedCycles;
+        }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
+    }
+
+    public class DECL : SubInstruction
+    {
+        public DECL(Bus bus) : base(bus, 0x35, "DEC L", 1)
+        {
+        }
+
+        public override int Execute()
+        {
+            bus.GetCPU().L = Sub(bus.GetCPU().L, 1, true, false);
+            return usedCycles;
+        }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
+    }
+
+    public class DECAddrHL : SubInstruction
+    {
+        public DECAddrHL(Bus bus) : base(bus, 0x35, "DEC (HL)", 3)
+        {
+        }
+
+        public override int Execute()
+        {
+            ushort address = CombineHILO(bus.GetCPU().H, bus.GetCPU().L);
+
+            bus.WriteMemory(Sub(bus.ReadMemory(address), 1, true, false), address);
+
+            usedCycles += 2;
+            return usedCycles;
         }
 
         public override string ToString()

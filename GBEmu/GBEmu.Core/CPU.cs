@@ -110,7 +110,15 @@ namespace GBEmu.Core
                 {0x03, new INCBC(bus) },
                 {0x13, new INCDE(bus) },
                 {0x23, new INCHL(bus) },
-                {0x33, new INCSP(bus) }
+                {0x33, new INCSP(bus) },
+                {0x3D, new DECA(bus) },
+                {0x05, new DECB(bus) },
+                {0x0D, new DECC(bus) },
+                {0x15, new DECD(bus) },
+                {0x1D, new DECE(bus) },
+                {0x25, new DECH(bus) },
+                {0x2D, new DECL(bus) },
+                {0x35, new DECAddrHL(bus) }
             };
         }
 
