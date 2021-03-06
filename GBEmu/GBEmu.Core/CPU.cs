@@ -150,6 +150,15 @@ namespace GBEmu.Core
             return lookup[opCode];
         }
 
+        /// <summary>
+        /// Debug function to retrieve actual instruction lookup table
+        /// </summary>
+        /// <returns> Instruction lookup table </returns>
+        public Dictionary<byte, Instruction> GetInstructionLookup()
+        {
+            return lookup;
+        }
+
         public class FlagsClass
         {
             /// <summary>
