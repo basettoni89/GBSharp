@@ -1,4 +1,5 @@
 ﻿using GBEmu.Core;
+using GBEmu.Core.Instructions;
 using System;
 using System.Collections.Generic;
 using System.Text;

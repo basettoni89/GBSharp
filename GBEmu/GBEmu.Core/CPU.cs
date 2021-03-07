@@ -1,4 +1,7 @@
-﻿using System;
+﻿using GBEmu.Core.Instructions;
+using GBEmu.Core.Instructions.Loads;
+using GBEmu.Core.Instructions.Math;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
