@@ -5,8 +5,12 @@ using System.Text;
 
 namespace GBEmu.CLI.CPUDebug
 {
-    public class InstructionTable
+    public class InstructionTableCommand : Command
     {
+        public static new string Name => "lookup";
+
+        public override string Description => "Print the actual implemented instruction lookup table";
+
         private const int CELL_WIDTH = 13;
         private const int CELL_HEIGHT = 4;
 
@@ -14,19 +18,19 @@ namespace GBEmu.CLI.CPUDebug
 
         private readonly CPU cpu;
 
-        public InstructionTable(CPU cpu)
+        public InstructionTableCommand(CPU cpu, ConsoleHandler handler) : base(handler)
         {
             this.cpu = cpu;
         }
 
-        public override string ToString()
+        public override void Execute()
         {
             StringBuilder sb = new StringBuilder();
             var lookup = cpu.GetInstructionLookup();
 
             string instructionName = string.Empty;
-            
-            for(long i = 0; i < 0x100 * CELL_WIDTH * CELL_HEIGHT; i++)
+
+            for (long i = 0; i < 0x100 * CELL_WIDTH * CELL_HEIGHT; i++)
             {
                 long charRow = i / (CELL_IN_ROW * CELL_WIDTH);
                 long charCol = i % (CELL_IN_ROW * CELL_WIDTH);
@@ -75,7 +79,12 @@ namespace GBEmu.CLI.CPUDebug
                 }
             }
 
-            return sb.ToString();
+            handler.NewLine();
+            
+            handler.Write(sb.ToString());
+
+            handler.NewLine();
+            handler.NewLine();
         }
     }
 }
