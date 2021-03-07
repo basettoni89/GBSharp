@@ -6,9 +6,9 @@ namespace GBEmu.Core.Instructions.Loads
 {
     public class LDARegA : Instruction
     {
+        public static new byte OpCode => 0x7F;
 
-
-        public LDARegA(Bus bus) : base(bus, 0x7F, "LD A", 1)
+        public LDARegA(Bus bus) : base(bus, "LD A", 1)
         {
         }
 
@@ -26,9 +26,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDARegB : Instruction
     {
+        public static new byte OpCode => 0x78;
 
-
-        public LDARegB(Bus bus) : base(bus, 0x78, "LD A", 1)
+        public LDARegB(Bus bus) : base(bus, "LD A", 1)
         {
         }
 
@@ -46,9 +46,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDARegC : Instruction
     {
+        public static new byte OpCode => 0x79;
 
-
-        public LDARegC(Bus bus) : base(bus, 0x79, "LD A", 1)
+        public LDARegC(Bus bus) : base(bus, "LD A", 1)
         {
         }
 
@@ -66,9 +66,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDARegD : Instruction
     {
+        public static new byte OpCode => 0x7A;
 
-
-        public LDARegD(Bus bus) : base(bus, 0x7A, "LD A", 1)
+        public LDARegD(Bus bus) : base(bus, "LD A", 1)
         {
         }
 
@@ -86,9 +86,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDARegE : Instruction
     {
+        public static new byte OpCode => 0x7B;
 
-
-        public LDARegE(Bus bus) : base(bus, 0x7B, "LD A", 1)
+        public LDARegE(Bus bus) : base(bus, "LD A", 1)
         {
         }
 
@@ -106,9 +106,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDARegH : Instruction
     {
+        public static new byte OpCode => 0x7C;
 
-
-        public LDARegH(Bus bus) : base(bus, 0x7C, "LD A", 1)
+        public LDARegH(Bus bus) : base(bus, "LD A", 1)
         {
         }
 
@@ -126,9 +126,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDARegL : Instruction
     {
+        public static new byte OpCode => 0x7D;
 
-
-        public LDARegL(Bus bus) : base(bus, 0x7D, "LD A", 1)
+        public LDARegL(Bus bus) : base(bus, "LD A", 1)
         {
         }
 
@@ -146,9 +146,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDBRegA : Instruction
     {
+        public static new byte OpCode => 0x47;
 
-
-        public LDBRegA(Bus bus) : base(bus, 0x47, "LD B", 1)
+        public LDBRegA(Bus bus) : base(bus, "LD B", 1)
         {
         }
 
@@ -166,9 +166,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDBRegB : Instruction
     {
+        public static new byte OpCode => 0x40;
 
-
-        public LDBRegB(Bus bus) : base(bus, 0x40, "LD B", 1)
+        public LDBRegB(Bus bus) : base(bus, "LD B", 1)
         {
         }
 
@@ -186,9 +186,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDBRegC : Instruction
     {
+        public static new byte OpCode => 0x41;
 
-
-        public LDBRegC(Bus bus) : base(bus, 0x41, "LD B", 1)
+        public LDBRegC(Bus bus) : base(bus, "LD B", 1)
         {
         }
 
@@ -206,9 +206,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDBRegD : Instruction
     {
+        public static new byte OpCode => 0x42;
 
-
-        public LDBRegD(Bus bus) : base(bus, 0x41, "LD B", 1)
+        public LDBRegD(Bus bus) : base(bus, "LD B", 1)
         {
         }
 
@@ -226,9 +226,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDBRegE : Instruction
     {
+        public static new byte OpCode => 0x43;
 
-
-        public LDBRegE(Bus bus) : base(bus, 0x43, "LD B", 1)
+        public LDBRegE(Bus bus) : base(bus, "LD B", 1)
         {
         }
 
@@ -246,9 +246,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDBRegH : Instruction
     {
+        public static new byte OpCode => 0x44;
 
-
-        public LDBRegH(Bus bus) : base(bus, 0x44, "LD B", 1)
+        public LDBRegH(Bus bus) : base(bus, "LD B", 1)
         {
         }
 
@@ -266,9 +266,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDBRegL : Instruction
     {
+        public static new byte OpCode => 0x45;
 
-
-        public LDBRegL(Bus bus) : base(bus, 0x45, "LD B", 1)
+        public LDBRegL(Bus bus) : base(bus, "LD B", 1)
         {
         }
 
@@ -286,9 +286,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDCRegA : Instruction
     {
+        public static new byte OpCode => 0x4F;
 
-
-        public LDCRegA(Bus bus) : base(bus, 0x4F, "LD C", 1)
+        public LDCRegA(Bus bus) : base(bus, "LD C", 1)
         {
         }
 
@@ -306,9 +306,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDCRegB : Instruction
     {
+        public static new byte OpCode => 0x48;
 
-
-        public LDCRegB(Bus bus) : base(bus, 0x48, "LD C", 1)
+        public LDCRegB(Bus bus) : base(bus, "LD C", 1)
         {
         }
 
@@ -326,9 +326,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDCRegC : Instruction
     {
+        public static new byte OpCode => 0x49;
 
-
-        public LDCRegC(Bus bus) : base(bus, 0x49, "LD C", 1)
+        public LDCRegC(Bus bus) : base(bus, "LD C", 1)
         {
         }
 
@@ -346,9 +346,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDCRegD : Instruction
     {
+        public static new byte OpCode => 0x4A;
 
-
-        public LDCRegD(Bus bus) : base(bus, 0x4A, "LD C", 1)
+        public LDCRegD(Bus bus) : base(bus, "LD C", 1)
         {
         }
 
@@ -366,9 +366,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDCRegE : Instruction
     {
+        public static new byte OpCode => 0x4B;
 
-
-        public LDCRegE(Bus bus) : base(bus, 0x4B, "LD C", 1)
+        public LDCRegE(Bus bus) : base(bus, "LD C", 1)
         {
         }
 
@@ -386,9 +386,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDCRegH : Instruction
     {
+        public static new byte OpCode => 0x4C;
 
-
-        public LDCRegH(Bus bus) : base(bus, 0x4C, "LD C", 1)
+        public LDCRegH(Bus bus) : base(bus, "LD C", 1)
         {
         }
 
@@ -406,9 +406,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDCRegL : Instruction
     {
+        public static new byte OpCode => 0x4D;
 
-
-        public LDCRegL(Bus bus) : base(bus, 0x4D, "LD C", 1)
+        public LDCRegL(Bus bus) : base(bus, "LD C", 1)
         {
         }
 
@@ -426,9 +426,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDDRegA : Instruction
     {
+        public static new byte OpCode => 0x57;
 
-
-        public LDDRegA(Bus bus) : base(bus, 0x57, "LD D", 1)
+        public LDDRegA(Bus bus) : base(bus, "LD D", 1)
         {
         }
 
@@ -446,9 +446,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDDRegB : Instruction
     {
+        public static new byte OpCode => 0x50;
 
-
-        public LDDRegB(Bus bus) : base(bus, 0x50, "LD D", 1)
+        public LDDRegB(Bus bus) : base(bus, "LD D", 1)
         {
         }
 
@@ -466,9 +466,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDDRegC : Instruction
     {
+        public static new byte OpCode => 0x51;
 
-
-        public LDDRegC(Bus bus) : base(bus, 0x51, "LD D", 1)
+        public LDDRegC(Bus bus) : base(bus, "LD D", 1)
         {
         }
 
@@ -486,9 +486,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDDRegD : Instruction
     {
+        public static new byte OpCode => 0x52;
 
-
-        public LDDRegD(Bus bus) : base(bus, 0x51, "LD D", 1)
+        public LDDRegD(Bus bus) : base(bus, "LD D", 1)
         {
         }
 
@@ -506,9 +506,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDDRegE : Instruction
     {
+        public static new byte OpCode => 0x53;
 
-
-        public LDDRegE(Bus bus) : base(bus, 0x53, "LD D", 1)
+        public LDDRegE(Bus bus) : base(bus, "LD D", 1)
         {
         }
 
@@ -526,9 +526,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDDRegH : Instruction
     {
+        public static new byte OpCode => 0x54;
 
-
-        public LDDRegH(Bus bus) : base(bus, 0x54, "LD D", 1)
+        public LDDRegH(Bus bus) : base(bus, "LD D", 1)
         {
         }
 
@@ -546,9 +546,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDDRegL : Instruction
     {
+        public static new byte OpCode => 0x55;
 
-
-        public LDDRegL(Bus bus) : base(bus, 0x55, "LD D", 1)
+        public LDDRegL(Bus bus) : base(bus, "LD D", 1)
         {
         }
 
@@ -566,9 +566,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDERegA : Instruction
     {
+        public static new byte OpCode => 0x5F;
 
-
-        public LDERegA(Bus bus) : base(bus, 0x5F, "LD E", 1)
+        public LDERegA(Bus bus) : base(bus, "LD E", 1)
         {
         }
 
@@ -586,9 +586,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDERegB : Instruction
     {
+        public static new byte OpCode => 0x58;
 
-
-        public LDERegB(Bus bus) : base(bus, 0x58, "LD E", 1)
+        public LDERegB(Bus bus) : base(bus, "LD E", 1)
         {
         }
 
@@ -606,9 +606,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDERegC : Instruction
     {
+        public static new byte OpCode => 0x59;
 
-
-        public LDERegC(Bus bus) : base(bus, 0x59, "LD E", 1)
+        public LDERegC(Bus bus) : base(bus, "LD E", 1)
         {
         }
 
@@ -626,9 +626,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDERegD : Instruction
     {
+        public static new byte OpCode => 0x5A;
 
-
-        public LDERegD(Bus bus) : base(bus, 0x5A, "LD E", 1)
+        public LDERegD(Bus bus) : base(bus, "LD E", 1)
         {
         }
 
@@ -646,9 +646,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDERegE : Instruction
     {
+        public static new byte OpCode => 0x5B;
 
-
-        public LDERegE(Bus bus) : base(bus, 0x5B, "LD E", 1)
+        public LDERegE(Bus bus) : base(bus, "LD E", 1)
         {
         }
 
@@ -666,9 +666,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDERegH : Instruction
     {
+        public static new byte OpCode => 0x5C;
 
-
-        public LDERegH(Bus bus) : base(bus, 0x5C, "LD E", 1)
+        public LDERegH(Bus bus) : base(bus, "LD E", 1)
         {
         }
 
@@ -686,9 +686,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDERegL : Instruction
     {
+        public static new byte OpCode => 0x5D;
 
-
-        public LDERegL(Bus bus) : base(bus, 0x5D, "LD E", 1)
+        public LDERegL(Bus bus) : base(bus, "LD E", 1)
         {
         }
 
@@ -706,9 +706,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDHRegA : Instruction
     {
+        public static new byte OpCode => 0x67;
 
-
-        public LDHRegA(Bus bus) : base(bus, 0x67, "LD H", 1)
+        public LDHRegA(Bus bus) : base(bus, "LD H", 1)
         {
         }
 
@@ -726,9 +726,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDHRegB : Instruction
     {
+        public static new byte OpCode => 0x60;
 
-
-        public LDHRegB(Bus bus) : base(bus, 0x60, "LD H", 1)
+        public LDHRegB(Bus bus) : base(bus, "LD H", 1)
         {
         }
 
@@ -746,9 +746,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDHRegC : Instruction
     {
+        public static new byte OpCode => 0x61;
 
-
-        public LDHRegC(Bus bus) : base(bus, 0x61, "LD H", 1)
+        public LDHRegC(Bus bus) : base(bus, "LD H", 1)
         {
         }
 
@@ -766,9 +766,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDHRegD : Instruction
     {
+        public static new byte OpCode => 0x62;
 
-
-        public LDHRegD(Bus bus) : base(bus, 0x61, "LD H", 1)
+        public LDHRegD(Bus bus) : base(bus, "LD H", 1)
         {
         }
 
@@ -786,9 +786,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDHRegE : Instruction
     {
+        public static new byte OpCode => 0x63;
 
-
-        public LDHRegE(Bus bus) : base(bus, 0x63, "LD H", 1)
+        public LDHRegE(Bus bus) : base(bus, "LD H", 1)
         {
         }
 
@@ -806,9 +806,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDHRegH : Instruction
     {
+        public static new byte OpCode => 0x64;
 
-
-        public LDHRegH(Bus bus) : base(bus, 0x64, "LD H", 1)
+        public LDHRegH(Bus bus) : base(bus, "LD H", 1)
         {
         }
 
@@ -826,9 +826,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDHRegL : Instruction
     {
+        public static new byte OpCode => 0x65;
 
-
-        public LDHRegL(Bus bus) : base(bus, 0x65, "LD H", 1)
+        public LDHRegL(Bus bus) : base(bus, "LD H", 1)
         {
         }
 
@@ -846,9 +846,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDLRegA : Instruction
     {
+        public static new byte OpCode => 0x6F;
 
-
-        public LDLRegA(Bus bus) : base(bus, 0x6F, "LD L", 1)
+        public LDLRegA(Bus bus) : base(bus, "LD L", 1)
         {
         }
 
@@ -866,9 +866,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDLRegB : Instruction
     {
+        public static new byte OpCode => 0x68;
 
-
-        public LDLRegB(Bus bus) : base(bus, 0x68, "LD L", 1)
+        public LDLRegB(Bus bus) : base(bus, "LD L", 1)
         {
         }
 
@@ -886,9 +886,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDLRegC : Instruction
     {
+        public static new byte OpCode => 0x69;
 
-
-        public LDLRegC(Bus bus) : base(bus, 0x69, "LD L", 1)
+        public LDLRegC(Bus bus) : base(bus, "LD L", 1)
         {
         }
 
@@ -906,9 +906,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDLRegD : Instruction
     {
+        public static new byte OpCode => 0x6A;
 
-
-        public LDLRegD(Bus bus) : base(bus, 0x6A, "LD L", 1)
+        public LDLRegD(Bus bus) : base(bus, "LD L", 1)
         {
         }
 
@@ -926,9 +926,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDLRegE : Instruction
     {
+        public static new byte OpCode => 0x6B;
 
-
-        public LDLRegE(Bus bus) : base(bus, 0x6B, "LD L", 1)
+        public LDLRegE(Bus bus) : base(bus, "LD L", 1)
         {
         }
 
@@ -946,9 +946,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDLRegH : Instruction
     {
+        public static new byte OpCode => 0x6C;
 
-
-        public LDLRegH(Bus bus) : base(bus, 0x6C, "LD L", 1)
+        public LDLRegH(Bus bus) : base(bus, "LD L", 1)
         {
         }
 
@@ -966,9 +966,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDLRegL : Instruction
     {
+        public static new byte OpCode => 0x6D;
 
-
-        public LDLRegL(Bus bus) : base(bus, 0x6D, "LD L", 1)
+        public LDLRegL(Bus bus) : base(bus, "LD L", 1)
         {
         }
 

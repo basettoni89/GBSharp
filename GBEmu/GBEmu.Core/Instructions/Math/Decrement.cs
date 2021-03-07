@@ -6,7 +6,9 @@ namespace GBEmu.Core.Instructions.Math
 {
     public class DECA : SubInstruction
     {
-        public DECA(Bus bus) : base(bus, 0x3D, "DEC A", 1)
+        public static new byte OpCode => 0x3D;
+
+        public DECA(Bus bus) : base(bus, "DEC A", 1)
         {
         }
 
@@ -24,7 +26,9 @@ namespace GBEmu.Core.Instructions.Math
 
     public class DECB : SubInstruction
     {
-        public DECB(Bus bus) : base(bus, 0x05, "DEC B", 1)
+        public static new byte OpCode => 0x05;
+
+        public DECB(Bus bus) : base(bus, "DEC B", 1)
         {
         }
 
@@ -42,7 +46,9 @@ namespace GBEmu.Core.Instructions.Math
 
     public class DECC : SubInstruction
     {
-        public DECC(Bus bus) : base(bus, 0x0D, "DEC C", 1)
+        public static new byte OpCode => 0x0D;
+
+        public DECC(Bus bus) : base(bus, "DEC C", 1)
         {
         }
 
@@ -60,7 +66,9 @@ namespace GBEmu.Core.Instructions.Math
 
     public class DECD : SubInstruction
     {
-        public DECD(Bus bus) : base(bus, 0x15, "DEC D", 1)
+        public static new byte OpCode => 0x15;
+
+        public DECD(Bus bus) : base(bus, "DEC D", 1)
         {
         }
 
@@ -78,7 +86,9 @@ namespace GBEmu.Core.Instructions.Math
 
     public class DECE : SubInstruction
     {
-        public DECE(Bus bus) : base(bus, 0x1D, "DEC E", 1)
+        public static new byte OpCode => 0x1D;
+
+        public DECE(Bus bus) : base(bus, "DEC E", 1)
         {
         }
 
@@ -96,7 +106,9 @@ namespace GBEmu.Core.Instructions.Math
 
     public class DECH : SubInstruction
     {
-        public DECH(Bus bus) : base(bus, 0x2D, "DEC H", 1)
+        public static new byte OpCode => 0x25;
+
+        public DECH(Bus bus) : base(bus, "DEC H", 1)
         {
         }
 
@@ -114,7 +126,9 @@ namespace GBEmu.Core.Instructions.Math
 
     public class DECL : SubInstruction
     {
-        public DECL(Bus bus) : base(bus, 0x35, "DEC L", 1)
+        public static new byte OpCode => 0x2D;
+
+        public DECL(Bus bus) : base(bus, "DEC L", 1)
         {
         }
 
@@ -132,7 +146,9 @@ namespace GBEmu.Core.Instructions.Math
 
     public class DECAddrHL : SubInstruction
     {
-        public DECAddrHL(Bus bus) : base(bus, 0x35, "DEC (HL)", 3)
+        public static new byte OpCode => 0x35;
+
+        public DECAddrHL(Bus bus) : base(bus, "DEC (HL)", 3)
         {
         }
 

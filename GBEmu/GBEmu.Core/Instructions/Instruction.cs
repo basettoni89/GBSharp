@@ -6,20 +6,19 @@ namespace GBEmu.Core.Instructions
 {
     public abstract class Instruction
     {
+        public static byte OpCode => 0xFF;
+
         protected readonly Bus bus;
         protected int usedCycles;
-
-        public byte OpCode { get; }
 
         public string Name { get; }
 
         public byte Cycles { get; }
 
-        protected Instruction(Bus bus, byte opCode, string name, byte cycles)
+        protected Instruction(Bus bus, string name, byte cycles)
         {
             this.bus = bus;
 
-            OpCode = opCode;
             Name = name;
             Cycles = cycles;
 
@@ -38,7 +37,9 @@ namespace GBEmu.Core.Instructions
 
     public class NOP : Instruction
     {
-        public NOP(Bus bus) : base(bus, 0x00, "NOP", 1)
+        public static new byte OpCode => 0x00;
+
+        public NOP(Bus bus) : base(bus, "NOP", 1)
         {
         }
 

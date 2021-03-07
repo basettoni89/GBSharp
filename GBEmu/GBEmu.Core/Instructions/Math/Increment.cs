@@ -6,7 +6,9 @@ namespace GBEmu.Core.Instructions.Math
 {
     public class INCA : SumInstruction
     {
-        public INCA(Bus bus) : base(bus, 0x3C, "INC A", 1)
+        public static new byte OpCode => 0x3C;
+
+        public INCA(Bus bus) : base(bus, "INC A", 1)
         {
         }
 
@@ -25,7 +27,9 @@ namespace GBEmu.Core.Instructions.Math
 
     public class INCB : SumInstruction
     {
-        public INCB(Bus bus) : base(bus, 0x04, "INC B", 1)
+        public static new byte OpCode => 0x04;
+
+        public INCB(Bus bus) : base(bus, "INC B", 1)
         {
         }
 
@@ -43,7 +47,9 @@ namespace GBEmu.Core.Instructions.Math
 
     public class INCC : SumInstruction
     {
-        public INCC(Bus bus) : base(bus, 0x0C, "INC C", 1)
+        public static new byte OpCode => 0x0C;
+
+        public INCC(Bus bus) : base(bus, "INC C", 1)
         {
         }
 
@@ -61,7 +67,9 @@ namespace GBEmu.Core.Instructions.Math
 
     public class INCD : SumInstruction
     {
-        public INCD(Bus bus) : base(bus, 0x14, "INC D", 1)
+        public static new byte OpCode => 0x14;
+
+        public INCD(Bus bus) : base(bus, "INC D", 1)
         {
         }
 
@@ -79,7 +87,9 @@ namespace GBEmu.Core.Instructions.Math
 
     public class INCE : SumInstruction
     {
-        public INCE(Bus bus) : base(bus, 0x1C, "INC E", 1)
+        public static new byte OpCode => 0x1C;
+
+        public INCE(Bus bus) : base(bus, "INC E", 1)
         {
         }
 
@@ -97,7 +107,9 @@ namespace GBEmu.Core.Instructions.Math
 
     public class INCH : SumInstruction
     {
-        public INCH(Bus bus) : base(bus, 0x24, "INC H", 1)
+        public static new byte OpCode => 0x24;
+
+        public INCH(Bus bus) : base(bus, "INC H", 1)
         {
         }
 
@@ -115,7 +127,9 @@ namespace GBEmu.Core.Instructions.Math
 
     public class INCL : SumInstruction
     {
-        public INCL(Bus bus) : base(bus, 0x2C, "INC L", 1)
+        public static new byte OpCode => 0x2C;
+
+        public INCL(Bus bus) : base(bus, "INC L", 1)
         {
         }
 
@@ -133,7 +147,9 @@ namespace GBEmu.Core.Instructions.Math
 
     public class INCAddrHL : SumInstruction
     {
-        public INCAddrHL(Bus bus) : base(bus, 0x34, "INC (HL)", 3)
+        public static new byte OpCode => 0x34;
+
+        public INCAddrHL(Bus bus) : base(bus, "INC (HL)", 3)
         {
         }
 
@@ -155,7 +171,9 @@ namespace GBEmu.Core.Instructions.Math
 
     public class INCSP : Instruction
     {
-        public INCSP(Bus bus) : base(bus, 0x33, "INC SP", 2)
+        public static new byte OpCode => 0x33;
+
+        public INCSP(Bus bus) : base(bus, "INC SP", 2)
         {
         }
 
@@ -174,7 +192,9 @@ namespace GBEmu.Core.Instructions.Math
 
     public class INCBC : Instruction
     {
-        public INCBC(Bus bus) : base(bus, 0x03, "INC BC", 2)
+        public static new byte OpCode => 0x03;
+
+        public INCBC(Bus bus) : base(bus, "INC BC", 2)
         {
         }
 
@@ -196,7 +216,9 @@ namespace GBEmu.Core.Instructions.Math
 
     public class INCDE : Instruction
     {
-        public INCDE(Bus bus) : base(bus, 0x13, "INC DE", 2)
+        public static new byte OpCode => 0x13;
+
+        public INCDE(Bus bus) : base(bus, "INC DE", 2)
         {
         }
 
@@ -218,7 +240,9 @@ namespace GBEmu.Core.Instructions.Math
 
     public class INCHL : Instruction
     {
-        public INCHL(Bus bus) : base(bus, 0x23, "INC HL", 2)
+        public static new byte OpCode => 0x23;
+
+        public INCHL(Bus bus) : base(bus, "INC HL", 2)
         {
         }
 

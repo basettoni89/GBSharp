@@ -6,7 +6,7 @@ namespace GBEmu.Core.Instructions.Loads
 {
     public abstract class LDIndirect : Instruction
     {
-        public LDIndirect(Bus bus, byte opCode, string name) : base(bus, opCode, name, 2)
+        public LDIndirect(Bus bus, string name) : base(bus, name, 2)
         {
         }
 
@@ -25,7 +25,7 @@ namespace GBEmu.Core.Instructions.Loads
 
     public abstract class LDIndiretHL : LDIndirect
     {
-        public LDIndiretHL(Bus bus, byte opCode, string name) : base(bus, opCode, name)
+        public LDIndiretHL(Bus bus, string name) : base(bus, name)
         {
         }
 
@@ -42,7 +42,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDAIndHL : LDIndiretHL
     {
-        public LDAIndHL(Bus bus) : base(bus, 0x7E, "LD A")
+        public static new byte OpCode => 0x7E;
+
+        public LDAIndHL(Bus bus) : base(bus, "LD A")
         {
         }
 
@@ -54,7 +56,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDBIndHL : LDIndiretHL
     {
-        public LDBIndHL(Bus bus) : base(bus, 0x46, "LD B")
+        public static new byte OpCode => 0x46;
+
+        public LDBIndHL(Bus bus) : base(bus, "LD B")
         {
         }
 
@@ -66,7 +70,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDCIndHL : LDIndiretHL
     {
-        public LDCIndHL(Bus bus) : base(bus, 0x4E, "LD C")
+        public static new byte OpCode => 0x4E;
+
+        public LDCIndHL(Bus bus) : base(bus, "LD C")
         {
         }
 
@@ -78,7 +84,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDDIndHL : LDIndiretHL
     {
-        public LDDIndHL(Bus bus) : base(bus, 0x56, "LD D")
+        public static new byte OpCode => 0x56;
+
+        public LDDIndHL(Bus bus) : base(bus, "LD D")
         {
         }
 
@@ -90,7 +98,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDEIndHL : LDIndiretHL
     {
-        public LDEIndHL(Bus bus) : base(bus, 0x5E, "LD E")
+        public static new byte OpCode => 0x5E;
+
+        public LDEIndHL(Bus bus) : base(bus, "LD E")
         {
         }
 
@@ -102,7 +112,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDHIndHL : LDIndiretHL
     {
-        public LDHIndHL(Bus bus) : base(bus, 0x66, "LD H")
+        public static new byte OpCode => 0x66;
+
+        public LDHIndHL(Bus bus) : base(bus, "LD H")
         {
         }
 
@@ -114,7 +126,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDLIndHL : LDIndiretHL
     {
-        public LDLIndHL(Bus bus) : base(bus, 0x6E, "LD L")
+        public static new byte OpCode => 0x6E;
+
+        public LDLIndHL(Bus bus) : base(bus, "LD L")
         {
         }
 

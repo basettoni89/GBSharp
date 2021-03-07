@@ -8,7 +8,7 @@ namespace GBEmu.Core.Instructions.Loads
     {
         protected byte value = 0;
 
-        public LDImplied(Bus bus, byte opCode, string name) : base(bus, opCode, name, 2)
+        public LDImplied(Bus bus, string name) : base(bus, name, 2)
         {
         }
 
@@ -37,7 +37,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDAImpl : LDImplied
     {
-        public LDAImpl(Bus bus) : base(bus, 0x3E, "LD A")
+        public static new byte OpCode => 0x3E;
+
+        public LDAImpl(Bus bus) : base(bus, "LD A")
         {
         }
 
@@ -49,7 +51,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDBImpl : LDImplied
     {
-        public LDBImpl(Bus bus) : base(bus, 0x06, "LD B")
+        public static new byte OpCode => 0x06;
+
+        public LDBImpl(Bus bus) : base(bus, "LD B")
         {
         }
 
@@ -61,7 +65,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDCImpl : LDImplied
     {
-        public LDCImpl(Bus bus) : base(bus, 0x0E, "LD C")
+        public static new byte OpCode => 0x0E;
+
+        public LDCImpl(Bus bus) : base(bus, "LD C")
         {
         }
 
@@ -73,7 +79,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDDImpl : LDImplied
     {
-        public LDDImpl(Bus bus) : base(bus, 0x16, "LD D")
+        public static new byte OpCode => 0x16;
+
+        public LDDImpl(Bus bus) : base(bus, "LD D")
         {
         }
 
@@ -85,8 +93,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDEImpl : LDImplied
     {
+        public static new byte OpCode => 0x1E;
 
-        public LDEImpl(Bus bus) : base(bus, 0x1E, "LD E")
+        public LDEImpl(Bus bus) : base(bus, "LD E")
         {
         }
 
@@ -98,7 +107,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDHImpl : LDImplied
     {
-        public LDHImpl(Bus bus) : base(bus, 0x26, "LD H")
+        public static new byte OpCode => 0x26;
+
+        public LDHImpl(Bus bus) : base(bus, "LD H")
         {
         }
 
@@ -110,7 +121,9 @@ namespace GBEmu.Core.Instructions.Loads
 
     public class LDLImpl : LDImplied
     {
-        public LDLImpl(Bus bus) : base(bus, 0x1E, "LD L")
+        public static new byte OpCode => 0x2E;
+
+        public LDLImpl(Bus bus) : base(bus, "LD L")
         {
         }
 
