@@ -6,7 +6,7 @@ namespace GBEmu.Core.Instructions.Math
 {
     public abstract class SumInstruction : Instruction
     {
-        protected SumInstruction(Bus bus, string name, byte cycles) : base(bus, name, cycles)
+        public SumInstruction(Bus bus, string name, byte cycles) : base(bus, name, cycles)
         {
         }
 
@@ -24,6 +24,43 @@ namespace GBEmu.Core.Instructions.Math
                 bus.GetCPU().Flags.CY = (r & (1 << 8)) != 0;
 
             return (byte)r;
+        }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
+    }
+
+    public class SUMARegB : SumInstruction
+    {
+        public static new byte OpCode => 0x80;
+
+        public SUMARegB(Bus bus) : base(bus, "SUM A, B", 1)
+        {
+        }
+
+        public override int Execute()
+        {
+            bus.GetCPU().A = Sum(bus.GetCPU().A, bus.GetCPU().B, true, true);
+
+            return usedCycles;
+        }
+    }
+
+    public class SUMARegC : SumInstruction
+    {
+        public static new byte OpCode => 0x81;
+
+        public SUMARegC(Bus bus) : base(bus, "SUM A, C", 1)
+        {
+        }
+
+        public override int Execute()
+        {
+            bus.GetCPU().A = Sum(bus.GetCPU().A, bus.GetCPU().C, true, true);
+
+            return usedCycles;
         }
     }
 }
