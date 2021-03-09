@@ -122,8 +122,13 @@ namespace GBEmu.Core
                 {DECH.OpCode, new DECH(bus) },
                 {DECL.OpCode, new DECL(bus) },
                 {DECAddrHL.OpCode, new DECAddrHL(bus) },
+                {SUMARegA.OpCode, new SUMARegA(bus) },
                 {SUMARegB.OpCode, new SUMARegB(bus) },
                 {SUMARegC.OpCode, new SUMARegC(bus) },
+                {SUMARegD.OpCode, new SUMARegD(bus) },
+                {SUMARegE.OpCode, new SUMARegE(bus) },
+                {SUMARegH.OpCode, new SUMARegH(bus) },
+                {SUMARegL.OpCode, new SUMARegL(bus) },
             };
         }
 

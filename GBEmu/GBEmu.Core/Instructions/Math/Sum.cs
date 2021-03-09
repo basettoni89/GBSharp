@@ -32,6 +32,22 @@ namespace GBEmu.Core.Instructions.Math
         }
     }
 
+    public class SUMARegA : SumInstruction
+    {
+        public static new byte OpCode => 0x87;
+
+        public SUMARegA(Bus bus) : base(bus, "SUM A, A", 1)
+        {
+        }
+
+        public override int Execute()
+        {
+            bus.GetCPU().A = Sum(bus.GetCPU().A, bus.GetCPU().A, true, true);
+
+            return usedCycles;
+        }
+    }
+
     public class SUMARegB : SumInstruction
     {
         public static new byte OpCode => 0x80;
@@ -59,6 +75,70 @@ namespace GBEmu.Core.Instructions.Math
         public override int Execute()
         {
             bus.GetCPU().A = Sum(bus.GetCPU().A, bus.GetCPU().C, true, true);
+
+            return usedCycles;
+        }
+    }
+
+    public class SUMARegD : SumInstruction
+    {
+        public static new byte OpCode => 0x82;
+
+        public SUMARegD(Bus bus) : base(bus, "SUM A, D", 1)
+        {
+        }
+
+        public override int Execute()
+        {
+            bus.GetCPU().A = Sum(bus.GetCPU().A, bus.GetCPU().D, true, true);
+
+            return usedCycles;
+        }
+    }
+
+    public class SUMARegE : SumInstruction
+    {
+        public static new byte OpCode => 0x83;
+
+        public SUMARegE(Bus bus) : base(bus, "SUM A, E", 1)
+        {
+        }
+
+        public override int Execute()
+        {
+            bus.GetCPU().A = Sum(bus.GetCPU().A, bus.GetCPU().E, true, true);
+
+            return usedCycles;
+        }
+    }
+
+    public class SUMARegH : SumInstruction
+    {
+        public static new byte OpCode => 0x84;
+
+        public SUMARegH(Bus bus) : base(bus, "SUM A, H", 1)
+        {
+        }
+
+        public override int Execute()
+        {
+            bus.GetCPU().A = Sum(bus.GetCPU().A, bus.GetCPU().H, true, true);
+
+            return usedCycles;
+        }
+    }
+
+    public class SUMARegL : SumInstruction
+    {
+        public static new byte OpCode => 0x85;
+
+        public SUMARegL(Bus bus) : base(bus, "SUM A, L", 1)
+        {
+        }
+
+        public override int Execute()
+        {
+            bus.GetCPU().A = Sum(bus.GetCPU().A, bus.GetCPU().L, true, true);
 
             return usedCycles;
         }
