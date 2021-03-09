@@ -101,6 +101,19 @@ namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
 
         [Theory]
         [ClassData(typeof(Increment8bitTestData))]
+        public void INCL_LContainsIncrementValue(byte actual, byte expected,
+            bool zeroFlag, bool negative, bool halfCarry, bool carryFlag)
+        {
+            cpu.Reset();
+            cpu.L = actual;
+
+            Execute8bitTest(0x2C, zeroFlag, negative, halfCarry, carryFlag);
+
+            Assert.Equal(expected, cpu.L);
+        }
+
+        [Theory]
+        [ClassData(typeof(Increment8bitTestData))]
         public void INCAddrHL_HLAddressContainsIncrementValue(byte actual, byte expected,
             bool zeroFlag, bool negative, bool halfCarry, bool carryFlag)
         {
@@ -113,18 +126,6 @@ namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
             Execute8bitTest(0x34, zeroFlag, negative, halfCarry, carryFlag);
 
             Assert.Equal(expected, bus.GetMemory(0xCC01));
-        }
-        [Theory]
-        [ClassData(typeof(Increment8bitTestData))]
-        public void INCL_LContainsIncrementValue(byte actual, byte expected,
-            bool zeroFlag, bool negative, bool halfCarry, bool carryFlag)
-        {
-            cpu.Reset();
-            cpu.L = actual;
-
-            Execute8bitTest(0x2C, zeroFlag, negative, halfCarry, carryFlag);
-
-            Assert.Equal(expected, cpu.L);
         }
 
         [Theory]

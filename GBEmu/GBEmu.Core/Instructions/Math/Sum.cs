@@ -143,4 +143,23 @@ namespace GBEmu.Core.Instructions.Math
             return usedCycles;
         }
     }
+
+    public class SUMAAddrHL : SumInstruction
+    {
+        public static new byte OpCode => 0x86;
+
+        public SUMAAddrHL(Bus bus) : base(bus, "SUM A, (HL)", 2)
+        {
+        }
+
+        public override int Execute()
+        {
+            ushort address = CombineHILO(bus.GetCPU().H, bus.GetCPU().L);
+
+            bus.WriteMemory(Sum(bus.GetCPU().A, bus.ReadMemory(address), true, true), address);
+
+            usedCycles += 2;
+            return usedCycles;
+        }
+    }
 }

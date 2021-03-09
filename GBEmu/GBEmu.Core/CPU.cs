@@ -129,6 +129,7 @@ namespace GBEmu.Core
                 {SUMARegE.OpCode, new SUMARegE(bus) },
                 {SUMARegH.OpCode, new SUMARegH(bus) },
                 {SUMARegL.OpCode, new SUMARegL(bus) },
+                {SUMAAddrHL.OpCode, new SUMAAddrHL(bus) },
             };
         }
 

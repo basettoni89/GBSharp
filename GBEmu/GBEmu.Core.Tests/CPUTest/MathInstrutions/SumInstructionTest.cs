@@ -123,6 +123,23 @@ namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
             Assert.Equal(expected, cpu.A);
         }
 
+        [Theory]
+        [ClassData(typeof(Sum8bitTestData))]
+        public void INCAddrHL_HLAddressContainsIncrementValue(byte a, byte b, byte expected,
+            bool zeroFlag, bool negative, bool halfCarry, bool carryFlag)
+        {
+            cpu.Reset();
+            cpu.A = a;
+            cpu.H = 0xCC;
+            cpu.L = 0x01;
+
+            bus.SetMemory(b, 0xCC01);
+
+            Execute8bitTest(0x86, zeroFlag, negative, halfCarry, carryFlag);
+
+            Assert.Equal(expected, bus.GetMemory(0xCC01));
+        }
+
         private void Execute8bitTest(byte opCode, bool zeroFlag, bool negative, bool halfCarry, bool carryFlag)
         {
             cpu.PC = 0xC000;
