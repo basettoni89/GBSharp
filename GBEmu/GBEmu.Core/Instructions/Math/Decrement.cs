@@ -17,11 +17,6 @@ namespace GBEmu.Core.Instructions.Math
             bus.GetCPU().A = Sub(bus.GetCPU().A, 1, true, false);
             return usedCycles;
         }
-
-        public override string ToString()
-        {
-            return this.Name;
-        }
     }
 
     public class DECB : SubInstruction
@@ -36,11 +31,6 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().B = Sub(bus.GetCPU().B, 1, true, false);
             return usedCycles;
-        }
-
-        public override string ToString()
-        {
-            return this.Name;
         }
     }
 
@@ -57,11 +47,6 @@ namespace GBEmu.Core.Instructions.Math
             bus.GetCPU().C = Sub(bus.GetCPU().C, 1, true, false);
             return usedCycles;
         }
-
-        public override string ToString()
-        {
-            return this.Name;
-        }
     }
 
     public class DECD : SubInstruction
@@ -76,11 +61,6 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().D = Sub(bus.GetCPU().D, 1, true, false);
             return usedCycles;
-        }
-
-        public override string ToString()
-        {
-            return this.Name;
         }
     }
 
@@ -97,11 +77,6 @@ namespace GBEmu.Core.Instructions.Math
             bus.GetCPU().E = Sub(bus.GetCPU().E, 1, true, false);
             return usedCycles;
         }
-
-        public override string ToString()
-        {
-            return this.Name;
-        }
     }
 
     public class DECH : SubInstruction
@@ -117,11 +92,6 @@ namespace GBEmu.Core.Instructions.Math
             bus.GetCPU().H = Sub(bus.GetCPU().H, 1, true, false);
             return usedCycles;
         }
-
-        public override string ToString()
-        {
-            return this.Name;
-        }
     }
 
     public class DECL : SubInstruction
@@ -136,11 +106,6 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().L = Sub(bus.GetCPU().L, 1, true, false);
             return usedCycles;
-        }
-
-        public override string ToString()
-        {
-            return this.Name;
         }
     }
 
@@ -160,11 +125,6 @@ namespace GBEmu.Core.Instructions.Math
 
             usedCycles += 2;
             return usedCycles;
-        }
-
-        public override string ToString()
-        {
-            return this.Name;
         }
     }
 }

@@ -6,12 +6,12 @@ using Xunit;
 
 namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
 {
-    public class SumInstructionTest : IDisposable
+    public class SubtractionInstructionTest : IDisposable
     {
         readonly CPU cpu;
         readonly Bus bus;
 
-        public SumInstructionTest()
+        public SubtractionInstructionTest()
         {
             this.bus = new Bus();
             this.cpu = bus.GetCPU();
@@ -22,110 +22,108 @@ namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
         }
 
         [Theory]
-        [InlineData(0x00, 0x00, true, false, false, false)]
-        [InlineData(0x01, 0x02, false, false, false, false)]
-        [InlineData(0x03, 0x06, false, false, false, false)]
-        [InlineData(0x08, 0x10, false, false, true, false)]
-        [InlineData(0x88, 0x10, false, false, true, true)]
-        [InlineData(0x80, 0x00, true, false, false, true)]
-        public void SUMARegA_AContainsResultValue(byte a, byte expected,
+        [InlineData(0x00, 0x00, true, true, false, false)]
+        [InlineData(0x01, 0x00, true, true, false, false)]
+        [InlineData(0x32, 0x00, true, true, false, false)]
+        [InlineData(0xFF, 0x00, true, true, false, false)]
+        public void SUBARegA_AContainsResultValue(byte a, byte expected,
             bool zeroFlag, bool negative, bool halfCarry, bool carryFlag)
         {
             cpu.Reset();
             cpu.A = a;
 
-            Execute8bitTest(0x87, zeroFlag, negative, halfCarry, carryFlag);
+            Execute8bitTest(0x97, zeroFlag, negative, halfCarry, carryFlag);
 
             Assert.Equal(expected, cpu.A);
         }
 
         [Theory]
-        [ClassData(typeof(Sum8bitTestData))]
-        public void SUMARegB_AContainsResultValue(byte a, byte b, byte expected,
+        [ClassData(typeof(Subtraction8bitTestData))]
+        public void SUBARegB_AContainsResultValue(byte a, byte b, byte expected,
             bool zeroFlag, bool negative, bool halfCarry, bool carryFlag)
         {
             cpu.Reset();
             cpu.A = a;
             cpu.B = b;
 
-            Execute8bitTest(0x80, zeroFlag, negative, halfCarry, carryFlag);
+            Execute8bitTest(0x90, zeroFlag, negative, halfCarry, carryFlag);
 
             Assert.Equal(expected, cpu.A);
         }
 
         [Theory]
-        [ClassData(typeof(Sum8bitTestData))]
-        public void SUMARegC_AContainsResultValue(byte a, byte b, byte expected,
+        [ClassData(typeof(Subtraction8bitTestData))]
+        public void SUBARegC_AContainsResultValue(byte a, byte b, byte expected,
             bool zeroFlag, bool negative, bool halfCarry, bool carryFlag)
         {
             cpu.Reset();
             cpu.A = a;
             cpu.C = b;
 
-            Execute8bitTest(0x81, zeroFlag, negative, halfCarry, carryFlag);
+            Execute8bitTest(0x91, zeroFlag, negative, halfCarry, carryFlag);
 
             Assert.Equal(expected, cpu.A);
         }
 
         [Theory]
-        [ClassData(typeof(Sum8bitTestData))]
-        public void SUMARegD_AContainsResultValue(byte a, byte b, byte expected,
+        [ClassData(typeof(Subtraction8bitTestData))]
+        public void SUBARegD_AContainsResultValue(byte a, byte b, byte expected,
             bool zeroFlag, bool negative, bool halfCarry, bool carryFlag)
         {
             cpu.Reset();
             cpu.A = a;
             cpu.D = b;
 
-            Execute8bitTest(0x82, zeroFlag, negative, halfCarry, carryFlag);
+            Execute8bitTest(0x92, zeroFlag, negative, halfCarry, carryFlag);
 
             Assert.Equal(expected, cpu.A);
         }
 
         [Theory]
-        [ClassData(typeof(Sum8bitTestData))]
-        public void SUMARegE_AContainsResultValue(byte a, byte b, byte expected,
+        [ClassData(typeof(Subtraction8bitTestData))]
+        public void SUBARegE_AContainsResultValue(byte a, byte b, byte expected,
             bool zeroFlag, bool negative, bool halfCarry, bool carryFlag)
         {
             cpu.Reset();
             cpu.A = a;
             cpu.E = b;
 
-            Execute8bitTest(0x83, zeroFlag, negative, halfCarry, carryFlag);
+            Execute8bitTest(0x93, zeroFlag, negative, halfCarry, carryFlag);
 
             Assert.Equal(expected, cpu.A);
         }
 
         [Theory]
-        [ClassData(typeof(Sum8bitTestData))]
-        public void SUMARegH_AContainsResultValue(byte a, byte b, byte expected,
+        [ClassData(typeof(Subtraction8bitTestData))]
+        public void SUBARegH_AContainsResultValue(byte a, byte b, byte expected,
             bool zeroFlag, bool negative, bool halfCarry, bool carryFlag)
         {
             cpu.Reset();
             cpu.A = a;
             cpu.H = b;
 
-            Execute8bitTest(0x84, zeroFlag, negative, halfCarry, carryFlag);
+            Execute8bitTest(0x94, zeroFlag, negative, halfCarry, carryFlag);
 
             Assert.Equal(expected, cpu.A);
         }
 
         [Theory]
-        [ClassData(typeof(Sum8bitTestData))]
-        public void SUMARegL_AContainsResultValue(byte a, byte b, byte expected,
+        [ClassData(typeof(Subtraction8bitTestData))]
+        public void SUBARegL_AContainsResultValue(byte a, byte b, byte expected,
             bool zeroFlag, bool negative, bool halfCarry, bool carryFlag)
         {
             cpu.Reset();
             cpu.A = a;
             cpu.L = b;
 
-            Execute8bitTest(0x85, zeroFlag, negative, halfCarry, carryFlag);
+            Execute8bitTest(0x95, zeroFlag, negative, halfCarry, carryFlag);
 
             Assert.Equal(expected, cpu.A);
         }
 
         [Theory]
-        [ClassData(typeof(Sum8bitTestData))]
-        public void SUMAddrHL_HLAddressContainsIncrementValue(byte a, byte b, byte expected,
+        [ClassData(typeof(Subtraction8bitTestData))]
+        public void SUBAddrHL_HLAddressContainsIncrementValue(byte a, byte b, byte expected,
             bool zeroFlag, bool negative, bool halfCarry, bool carryFlag)
         {
             cpu.Reset();
@@ -135,7 +133,7 @@ namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
 
             bus.SetMemory(b, 0xCC01);
 
-            Execute8bitTest(0x86, zeroFlag, negative, halfCarry, carryFlag);
+            Execute8bitTest(0x96, zeroFlag, negative, halfCarry, carryFlag);
 
             Assert.Equal(expected, bus.GetMemory(0xCC01));
         }
@@ -161,18 +159,18 @@ namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
             Assert.Equal(carryFlag, cpu.Flags.CY);
         }
 
-        class Sum8bitTestData : IEnumerable<object[]>
+        class Subtraction8bitTestData : IEnumerable<object[]>
         {
             public IEnumerator<object[]> GetEnumerator()
             {
-                yield return new object[] { 0x00, 0x01, 0x01, false, false, false, false };
-                yield return new object[] { 0x00, 0x06, 0x06, false, false, false, false };
-                yield return new object[] { 0x03, 0x04, 0x07, false, false, false, false };
-                yield return new object[] { 0x09, 0x09, 0x12, false, false, true, false };
-                yield return new object[] { 0xFE, 0x03, 0x01, false, false, true, true };
-                yield return new object[] { 0xFF, 0x01, 0x00, true, false, true, true };
-                yield return new object[] { 0x80, 0x80, 0x00, true, false, false, true };
-                yield return new object[] { 0x88, 0x88, 0x10, false, false, true, true };
+                yield return new object[] { 0x02, 0x01, 0x01, false, true, false, false };
+                yield return new object[] { 0x01, 0x01, 0x00, true, true, false, false };
+                yield return new object[] { 0x07, 0x04, 0x03, false, true, false, false };
+                yield return new object[] { 0x11, 0x09, 0x08, false, true, true, false };
+                yield return new object[] { 0xF3, 0x0F, 0xE4, false, true, true, false };
+                yield return new object[] { 0xFF, 0x03, 0xFC, false, true, false, false };
+                yield return new object[] { 0x00, 0x01, 0xFF, false, true, true, true };
+                yield return new object[] { 0x80, 0x80, 0x00, true, true, false, false };
             }
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
