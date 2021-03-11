@@ -149,6 +149,15 @@ namespace GBEmu.Core
                 {ANDARegL.OpCode, new ANDARegL(bus) },
                 {ANDAAddrHL.OpCode, new ANDAAddrHL(bus) },
                 {ANDAImpl.OpCode, new ANDAImpl(bus) },
+                {ORARegA.OpCode, new ORARegA(bus) },
+                {ORARegB.OpCode, new ORARegB(bus) },
+                {ORARegC.OpCode, new ORARegC(bus) },
+                {ORARegD.OpCode, new ORARegD(bus) },
+                {ORARegE.OpCode, new ORARegE(bus) },
+                {ORARegH.OpCode, new ORARegH(bus) },
+                {ORARegL.OpCode, new ORARegL(bus) },
+                {ORAAddrHL.OpCode, new ORAAddrHL(bus) },
+                {ORAImpl.OpCode, new ORAImpl(bus) },
             };
         }
 
