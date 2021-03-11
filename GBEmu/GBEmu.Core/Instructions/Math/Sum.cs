@@ -162,4 +162,32 @@ namespace GBEmu.Core.Instructions.Math
             return usedCycles;
         }
     }
+
+    public class SUMAImpl : SumInstruction
+    {
+        public static new byte OpCode => 0xC6;
+
+        protected byte value = 0;
+
+        public SUMAImpl(Bus bus) : base(bus, "SUM A", 2)
+        {
+        }
+
+        public override int Execute()
+        {
+            byte data = bus.ReadMemory(bus.GetCPU().PC);
+            bus.GetCPU().PC++;
+            usedCycles++;
+
+            bus.GetCPU().A = Sum(bus.GetCPU().A, data, true, true);
+            usedCycles ++;
+
+            return usedCycles;
+        }
+
+        public override string ToString()
+        {
+            return $"{Name}, {value:X4}";
+        }
+    }
 }

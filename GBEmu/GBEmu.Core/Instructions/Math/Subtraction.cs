@@ -162,4 +162,32 @@ namespace GBEmu.Core.Instructions.Math
             return usedCycles;
         }
     }
+
+    public class SUBAImpl : SubInstruction
+    {
+        public static new byte OpCode => 0xD6;
+
+        protected byte value = 0;
+
+        public SUBAImpl(Bus bus) : base(bus, "SUB A", 2)
+        {
+        }
+
+        public override int Execute()
+        {
+            byte data = bus.ReadMemory(bus.GetCPU().PC);
+            bus.GetCPU().PC++;
+            usedCycles++;
+
+            bus.GetCPU().A = Sub(bus.GetCPU().A, data, true, true);
+            usedCycles++;
+
+            return usedCycles;
+        }
+
+        public override string ToString()
+        {
+            return $"{Name}, {value:X4}";
+        }
+    }
 }

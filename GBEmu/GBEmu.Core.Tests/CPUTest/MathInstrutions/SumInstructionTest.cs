@@ -140,7 +140,23 @@ namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
             Assert.Equal(expected, bus.GetMemory(0xCC01));
         }
 
-        private void Execute8bitTest(byte opCode, bool zeroFlag, bool negative, bool halfCarry, bool carryFlag)
+        [Theory]
+        [ClassData(typeof(Sum8bitTestData))]
+        public void SUMAImpl_AContainsIncrementValue(byte a, byte b, byte expected,
+            bool zeroFlag, bool negative, bool halfCarry, bool carryFlag)
+        {
+            cpu.Reset();
+            cpu.A = a;
+
+            bus.SetMemory(b, 0xC001);
+
+            Execute8bitTest(0xC6, zeroFlag, negative, halfCarry, carryFlag, 0xC002);
+
+            Assert.Equal(expected, bus.GetCPU().A);
+        }
+
+        private void Execute8bitTest(byte opCode, bool zeroFlag, bool negative, 
+            bool halfCarry, bool carryFlag, int pc = 0xC001)
         {
             cpu.PC = 0xC000;
 
@@ -153,7 +169,7 @@ namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
 
             cpu.Clock();
 
-            Assert.Equal(0xC001, cpu.PC);
+            Assert.Equal(pc, cpu.PC);
 
             Assert.Equal(zeroFlag, cpu.Flags.ZF);
             Assert.Equal(negative, cpu.Flags.N);
