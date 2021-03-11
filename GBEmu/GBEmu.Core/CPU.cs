@@ -158,6 +158,15 @@ namespace GBEmu.Core
                 {ORARegL.OpCode, new ORARegL(bus) },
                 {ORAAddrHL.OpCode, new ORAAddrHL(bus) },
                 {ORAImpl.OpCode, new ORAImpl(bus) },
+                {XORARegA.OpCode, new XORARegA(bus) },
+                {XORARegB.OpCode, new XORARegB(bus) },
+                {XORARegC.OpCode, new XORARegC(bus) },
+                {XORARegD.OpCode, new XORARegD(bus) },
+                {XORARegE.OpCode, new XORARegE(bus) },
+                {XORARegH.OpCode, new XORARegH(bus) },
+                {XORARegL.OpCode, new XORARegL(bus) },
+                {XORAAddrHL.OpCode, new XORAAddrHL(bus) },
+                {XORAImpl.OpCode, new XORAImpl(bus) },
             };
         }
 
