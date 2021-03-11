@@ -140,6 +140,15 @@ namespace GBEmu.Core
                 {SUBARegL.OpCode, new SUBARegL(bus) },
                 {SUBAAddrHL.OpCode, new SUBAAddrHL(bus) },
                 {SUBAImpl.OpCode, new SUBAImpl(bus) },
+                {ANDARegA.OpCode, new ANDARegA(bus) },
+                {ANDARegB.OpCode, new ANDARegB(bus) },
+                {ANDARegC.OpCode, new ANDARegC(bus) },
+                {ANDARegD.OpCode, new ANDARegD(bus) },
+                {ANDARegE.OpCode, new ANDARegE(bus) },
+                {ANDARegH.OpCode, new ANDARegH(bus) },
+                {ANDARegL.OpCode, new ANDARegL(bus) },
+                {ANDAAddrHL.OpCode, new ANDAAddrHL(bus) },
+                {ANDAImpl.OpCode, new ANDAImpl(bus) },
             };
         }
 

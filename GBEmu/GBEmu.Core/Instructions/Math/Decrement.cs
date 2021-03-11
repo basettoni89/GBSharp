@@ -121,7 +121,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             ushort address = CombineHILO(bus.GetCPU().H, bus.GetCPU().L);
 
-            bus.WriteMemory(Sub(bus.ReadMemory(address), 1, true, false), address);
+            bus.GetCPU().A = Sub(bus.ReadMemory(address), 1, true, false);
 
             usedCycles += 2;
             return usedCycles;

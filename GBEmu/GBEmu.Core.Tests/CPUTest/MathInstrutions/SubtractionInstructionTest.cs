@@ -135,7 +135,7 @@ namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
 
             Execute8bitTest(0x96, zeroFlag, negative, halfCarry, carryFlag);
 
-            Assert.Equal(expected, bus.GetMemory(0xCC01));
+            Assert.Equal(expected, bus.GetCPU().A);
         }
 
         [Theory]
