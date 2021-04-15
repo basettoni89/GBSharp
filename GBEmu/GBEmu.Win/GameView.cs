@@ -7,12 +7,13 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GBEmu.Win
 {
-    public partial class Form1 : Form
+    public partial class GameView : Form
     {
         private const int scaleFactor = 4;
 
@@ -50,6 +51,9 @@ namespace GBEmu.Win
 
         static byte[,,] pixels = new byte[gbHeight, gbWidth, 3];
 
+        static Task renderTask;
+        static CancellationTokenSource renderCancellationToken;
+
         [DllImport("user32.dll")]
         private static extern IntPtr SetWindowPos(
             IntPtr handle,
@@ -65,24 +69,14 @@ namespace GBEmu.Win
         [DllImport("user32.dll")]
         private static extern IntPtr ShowWindow(IntPtr handle, int command);
 
-        public Form1()
+        public GameView()
         {
             gamePanel = new Panel();
             gamePanel.Size = windowSize;
             gamePanel.Location = new Point(0, 0);
 
-            // Make the WinForms window
             ClientSize = windowSize;
             FormClosing += new FormClosingEventHandler(WindowClosing);
-
-            Button button = new Button();
-            button.Text = "Whatever";
-            button.Location = new Point(
-                gamePanel.Size.Width / 2 - button.Size.Width / 2, 
-                gamePanel.Size.Height - button.Size.Height - 10);
-
-            button.Click += new EventHandler(ClickedButton);
-            Controls.Add(button);
 
             Controls.Add(gamePanel);
 
@@ -104,18 +98,6 @@ namespace GBEmu.Win
                 (int)SDL.SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING,
                 gbWidth, gbHeight);
 
-            for (int y = 0; y < gbHeight; y++)
-            {
-                for (int x = 0; x < gbWidth; x++)
-                {
-                    pixels[y, x, 0] = (byte)(((float)x / gbWidth) * 255);
-                    pixels[y, x, 1] = (byte)(((float)x / gbWidth) * 255);
-                    pixels[y, x, 2] = (byte)(((float)x / gbWidth) * 255);
-                }
-            }
-
-            UpdateText("Hello World!\nHello World!");
-
             // Get the Win32 HWND from the SDL2 window
             SDL.SDL_SysWMinfo info = new SDL.SDL_SysWMinfo();
             SDL.SDL_GetWindowWMInfo(gameWindow, ref info);
@@ -134,9 +116,50 @@ namespace GBEmu.Win
             // Attach the SDL2 window to the panel
             SetParent(winHandle, gamePanel.Handle);
             ShowWindow(winHandle, 1); // SHOWNORMAL
+
+            //for (int y = 0; y < gbHeight; y++)
+            //{
+            //    for (int x = 0; x < gbWidth; x++)
+            //    {
+            //        pixels[y, x, 0] = (byte)(((float)x / gbWidth) * 255);
+            //        pixels[y, x, 1] = (byte)(((float)x / gbWidth) * 255);
+            //        pixels[y, x, 2] = (byte)(((float)x / gbWidth) * 255);
+            //    }
+            //}
+
+            //UpdateText("Hello World!\nHello World!");
+
+            renderCancellationToken = new CancellationTokenSource();
+
+            renderTask = Task.Factory.StartNew(async () =>
+            {
+                DateTime now = DateTime.Now;
+                DateTime lastExecution = now;
+
+                TimeSpan elapsedTime = TimeSpan.FromSeconds(0);
+                long count = 0;
+
+                while (true)
+                {
+                    now = DateTime.Now;
+                    elapsedTime = now - lastExecution;
+                    lastExecution = now;
+
+                    if(count % 10 == 1)
+                    {
+                        UpdateText("Elapsed: " + elapsedTime.TotalMilliseconds);
+                    }
+
+                    Render(elapsedTime.TotalMilliseconds);
+
+                    count++;
+
+                    await Task.Delay(30);
+                }
+            }, renderCancellationToken.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
         }
 
-        private void ClickedButton(object sender, EventArgs e)
+        private void Render(double elapsedTime)
         {
             GCHandle handle = GCHandle.Alloc(pixels, GCHandleType.Pinned);
             IntPtr pixelsPtr = handle.AddrOfPinnedObject();
@@ -188,6 +211,8 @@ namespace GBEmu.Win
 
         private void WindowClosing(object sender, FormClosingEventArgs e)
         {
+            renderCancellationToken.Cancel();
+
             SDL.SDL_DestroyTexture(textTexture);
             SDL.SDL_FreeSurface(textSurface);
 
