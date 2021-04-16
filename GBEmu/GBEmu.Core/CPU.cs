@@ -172,9 +172,9 @@ namespace GBEmu.Core
                 {CPC.OpCode, new CPC(bus) },
                 {CPD.OpCode, new CPD(bus) },
                 {CPE.OpCode, new CPE(bus) },
-                {CPF.OpCode, new CPF(bus) },
                 {CPH.OpCode, new CPH(bus) },
                 {CPL.OpCode, new CPL(bus) },
+                {CPAddrHL.OpCode, new CPAddrHL(bus) },
             };
         }
 

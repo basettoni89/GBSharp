@@ -99,21 +99,6 @@ namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
 
         [Theory]
         [ClassData(typeof(Compare8bitTestData))]
-        public void CPF_FlagsUpdated(byte a, byte b, bool zeroFlag,
-            bool negative, bool halfCarry, bool carryFlag)
-        {
-            cpu.Reset();
-            cpu.A = a;
-            cpu.F = b;
-
-            Execute8bitTest(0xBC, zeroFlag, negative, halfCarry, carryFlag);
-
-            Assert.Equal(a, cpu.A);
-            Assert.Equal(b, cpu.F);
-        }
-
-        [Theory]
-        [ClassData(typeof(Compare8bitTestData))]
         public void CPH_FlagsUpdated(byte a, byte b, bool zeroFlag,
             bool negative, bool halfCarry, bool carryFlag)
         {
@@ -121,7 +106,7 @@ namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
             cpu.A = a;
             cpu.H = b;
 
-            Execute8bitTest(0xBD, zeroFlag, negative, halfCarry, carryFlag);
+            Execute8bitTest(0xBC, zeroFlag, negative, halfCarry, carryFlag);
 
             Assert.Equal(a, cpu.A);
             Assert.Equal(b, cpu.H);
@@ -136,10 +121,27 @@ namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
             cpu.A = a;
             cpu.L = b;
 
-            Execute8bitTest(0xBE, zeroFlag, negative, halfCarry, carryFlag);
+            Execute8bitTest(0xBD, zeroFlag, negative, halfCarry, carryFlag);
 
             Assert.Equal(a, cpu.A);
             Assert.Equal(b, cpu.L);
+        }
+
+        [Theory]
+        [ClassData(typeof(Compare8bitTestData))]
+        public void CPAddrHL_FlagsUpdated(byte a, byte b, bool zeroFlag,
+            bool negative, bool halfCarry, bool carryFlag)
+        {
+            cpu.Reset();
+            cpu.A = a;
+            cpu.H = 0xCC;
+            cpu.L = 0x01;
+
+            bus.SetMemory(b, 0xCC01);
+
+            Execute8bitTest(0xBE, zeroFlag, negative, halfCarry, carryFlag);
+
+            Assert.Equal(a, cpu.A);
         }
 
         private void Execute8bitTest(byte opCode, bool zeroFlag, bool negative,

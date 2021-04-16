@@ -74,25 +74,11 @@ namespace GBEmu.Core.Instructions.Math
             return usedCycles;
         }
     }
-    public class CPF : SubInstruction
+    public class CPH : SubInstruction
     {
         public static new byte OpCode => 0xBC;
 
-        public CPF(Bus bus) : base(bus, "CP F", 1)
-        {
-        }
-
-        public override int Execute()
-        {
-            Sub(bus.GetCPU().A, bus.GetCPU().F, true, true);
-            return usedCycles;
-        }
-    }
-    public class CPH : SubInstruction
-    {
-        public static new byte OpCode => 0xBD;
-
-        public CPH(Bus bus) : base(bus, "CP B", 1)
+        public CPH(Bus bus) : base(bus, "CP H", 1)
         {
         }
 
@@ -104,7 +90,7 @@ namespace GBEmu.Core.Instructions.Math
     }
     public class CPL : SubInstruction
     {
-        public static new byte OpCode => 0xBE;
+        public static new byte OpCode => 0xBD;
 
         public CPL(Bus bus) : base(bus, "CP L", 1)
         {
@@ -114,6 +100,22 @@ namespace GBEmu.Core.Instructions.Math
         {
             Sub(bus.GetCPU().A, bus.GetCPU().L, true, true);
             return usedCycles;
+        }
+    }
+    public class CPAddrHL : SubInstruction
+    {
+        public static new byte OpCode => 0xBE;
+
+        public CPAddrHL(Bus bus) : base(bus, "CP (HL)", 2)
+        {
+        }
+
+        public override int Execute()
+        {
+            ushort address = CombineHILO(bus.GetCPU().H, bus.GetCPU().L);
+
+            Sub(bus.GetCPU().A, bus.ReadMemory(address), true, true);
+            return usedCycles += 2;
         }
     }
 }
