@@ -180,7 +180,7 @@ namespace GBEmu.Core
 
         public void Clock()
         {
-            if(cycles == 0)
+            if(!Complete())
             {
                 current = Fetch();
 
@@ -189,6 +189,11 @@ namespace GBEmu.Core
             }
 
             cycles--;
+        }
+
+        public bool Complete()
+        {
+            return cycles != 0;
         }
 
         public Instruction Fetch()

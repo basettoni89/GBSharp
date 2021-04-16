@@ -105,6 +105,23 @@ namespace GBEmu.Core
                     return 0;
             }
         }
+        /// <summary>
+        /// Utility to dump WRAM
+        /// </summary>
+        /// <returns></returns>
+        public byte[] DumpVRAM()
+        {
+            return VRAM;
+        }
+
+        /// <summary>
+        /// Utility to dump WRAM
+        /// </summary>
+        /// <returns></returns>
+        public byte[] DumpWRAM()
+        {
+            return WRAM;
+        }
 
         /// <summary>
         /// Utility function for receiving CPU object

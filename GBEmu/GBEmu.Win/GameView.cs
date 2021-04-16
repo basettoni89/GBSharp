@@ -1,4 +1,5 @@
-﻿using SDL2;
+﻿using GBEmu.Core;
+using SDL2;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -46,13 +47,30 @@ namespace GBEmu.Win
             h = screenHeight
         };
 
-        static SDL.SDL_Rect textSrcRect;
-        static SDL.SDL_Rect textDestRect;
+        static SDL.SDL_Rect textSrcRect = new SDL.SDL_Rect()
+        {
+            x = 0,
+            y = 0,
+            w = 0,
+            h = 0
+        };
+        
+        static SDL.SDL_Rect textDestRect = new SDL.SDL_Rect()
+        {
+            x = screenWidth,
+            y = 0,
+            w = textWidth,
+            h = screenHeight
+        };
 
         static byte[,,] pixels = new byte[gbHeight, gbWidth, 3];
 
         static Task renderTask;
         static CancellationTokenSource renderCancellationToken;
+
+        private static Bus bus = new Bus();
+
+        private static bool play = false;
 
         [DllImport("user32.dll")]
         private static extern IntPtr SetWindowPos(
@@ -91,7 +109,7 @@ namespace GBEmu.Win
                 SDL.SDL_WindowFlags.SDL_WINDOW_BORDERLESS | SDL.SDL_WindowFlags.SDL_WINDOW_OPENGL);
 
             glRenderer = SDL.SDL_CreateRenderer(gameWindow, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
-            glFont = SDL_ttf.TTF_OpenFont("assets/arial.ttf", 15);
+            glFont = SDL_ttf.TTF_OpenFont("assets/arial.ttf", 12);
 
             glTexture = SDL.SDL_CreateTexture(glRenderer,
                 SDL.SDL_PIXELFORMAT_RGB24,
@@ -129,8 +147,9 @@ namespace GBEmu.Win
 
             //UpdateText("Hello World!\nHello World!");
 
-            renderCancellationToken = new CancellationTokenSource();
+            SetDebugMemory();
 
+            renderCancellationToken = new CancellationTokenSource();
             renderTask = Task.Factory.StartNew(async () =>
             {
                 DateTime now = DateTime.Now;
@@ -139,15 +158,44 @@ namespace GBEmu.Win
                 TimeSpan elapsedTime = TimeSpan.FromSeconds(0);
                 long count = 0;
 
+                SDL.SDL_Event e;
+
                 while (true)
                 {
                     now = DateTime.Now;
                     elapsedTime = now - lastExecution;
                     lastExecution = now;
 
-                    if(count % 10 == 1)
+                    PrintCPU();
+
+                    while(SDL.SDL_PollEvent(out e) != 0)
                     {
-                        UpdateText("Elapsed: " + elapsedTime.TotalMilliseconds);
+                         switch (e.type)
+                        {
+                            case SDL.SDL_EventType.SDL_KEYDOWN:
+                                switch (e.key.keysym.sym)
+                                {
+                                    case SDL.SDL_Keycode.SDLK_SPACE:
+                                        if (play) break;
+                                        do
+                                        {
+                                            bus.GetCPU().Clock();
+                                        } while (bus.GetCPU().Complete());
+                                        break;
+                                    case SDL.SDL_Keycode.SDLK_p:
+                                        play = !play;
+                                        break;
+                                }
+                                break;
+                        }
+                    }
+
+                    if(play)
+                    {
+                        do
+                        {
+                            bus.GetCPU().Clock();
+                        } while (bus.GetCPU().Complete());
                     }
 
                     Render(elapsedTime.TotalMilliseconds);
@@ -175,7 +223,7 @@ namespace GBEmu.Win
             handle.Free();
         }
 
-        private void UpdateText(string text)
+        private void DrawText(string text)
         {
             SDL.SDL_Color color = new SDL.SDL_Color()
             {
@@ -186,27 +234,73 @@ namespace GBEmu.Win
             };
 
             textSurface = SDL_ttf.TTF_RenderText_Blended_Wrapped(glFont, text, color, textWidth);
+            
+            var sur = Marshal.PtrToStructure<SDL.SDL_Surface>(textSurface);
+            textSrcRect.w = textDestRect.w = sur.w;
+            textSrcRect.h = textDestRect.h = sur.h;
+
             textTexture = SDL.SDL_CreateTextureFromSurface(glRenderer, textSurface);
+        }
 
-            SDL_ttf.TTF_SizeText(glFont, text, out int actualWidth, out int actualHeight);
+        private void PrintCPU()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append("STATUS")
+                .AppendLine();
 
-            actualHeight *= text.Count(x => x == '\n') + 1;
+            CPU cpu = bus.GetCPU();
 
-            textSrcRect = new SDL.SDL_Rect()
+            builder.Append($"Z: {cpu.Flags.ZF}")
+                .AppendLine();
+            builder.Append($"N: {cpu.Flags.N}")
+                .AppendLine();
+            builder.Append($"H: {cpu.Flags.H}")
+                .AppendLine();
+            builder.Append($"C: {cpu.Flags.CY}")
+                .AppendLine();
+
+            builder.Append($"A: {cpu.A:X2}")
+                .Append("  ")
+                .Append($"B: {cpu.B:X2}")
+                .AppendLine();
+
+            builder.Append($"C: {cpu.C:X2}")
+                .Append("  ")
+                .Append($"D: {cpu.D:X2}")
+                .AppendLine();
+
+            builder.Append($"E: {cpu.E:X2}")
+                .Append("  ")
+                .Append($"F: {cpu.F:X2}")
+                .AppendLine();
+
+            builder.Append($"H: {cpu.H:X2}")
+                .Append("  ")
+                .Append($"L: {cpu.L:X2}")
+                .AppendLine();
+
+            DrawText(builder.ToString());
+        }
+
+        private void PrintMemory()
+        {
+            //$C000-$CFFF Internal RAM - Bank 0 (fixed)
+            byte[] wram = bus.DumpWRAM();
+
+            StringBuilder builder = new StringBuilder();
+
+            for (int i = 0; i < 0x100; i++)
             {
-                x = 0,
-                y = 0,
-                w = actualWidth,
-                h = actualHeight
-            };
+                if (i > 0 && i % 8 == 0)
+                {
+                    builder.AppendLine();
+                }
 
-            textDestRect = new SDL.SDL_Rect()
-            {
-                x = screenWidth,
-                y = 0,
-                w = actualWidth,
-                h = actualHeight
-            };
+                byte b = wram[i];
+                builder.Append($"{b:X2} ");
+            }
+
+            DrawText(builder.ToString());
         }
 
         private void WindowClosing(object sender, FormClosingEventArgs e)
@@ -223,6 +317,15 @@ namespace GBEmu.Win
 
             SDL_ttf.TTF_Quit();
             SDL.SDL_Quit();
+        }
+
+        private void SetDebugMemory()
+        {
+            bus.GetCPU().PC = 0xC000;
+
+            bus.SetMemory(0x3C, 0xC000);
+            bus.SetMemory(0x3C, 0xC001);
+            bus.SetMemory(0x3C, 0xC002);
         }
     }
 }

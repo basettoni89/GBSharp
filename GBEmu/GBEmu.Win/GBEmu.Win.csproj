@@ -16,6 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GBEmu.Core\GBEmu.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="assets\arial.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
