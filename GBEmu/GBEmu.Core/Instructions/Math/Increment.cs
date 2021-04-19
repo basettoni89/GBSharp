@@ -8,7 +8,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x3C;
 
-        public INCA(Bus bus) : base(bus, "INC A", 1)
+        public INCA(Bus bus) : base(bus, "INC A")
         {
         }
 
@@ -16,7 +16,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = Sum(bus.GetCPU().A, 1, true, false);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -24,14 +24,14 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x04;
 
-        public INCB(Bus bus) : base(bus, "INC B", 1)
+        public INCB(Bus bus) : base(bus, "INC B")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().B = Sum(bus.GetCPU().B, 1, true, false);
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -39,14 +39,14 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x0C;
 
-        public INCC(Bus bus) : base(bus, "INC C", 1)
+        public INCC(Bus bus) : base(bus, "INC C")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().C = Sum(bus.GetCPU().C, 1, true, false);
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -54,14 +54,14 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x14;
 
-        public INCD(Bus bus) : base(bus, "INC D", 1)
+        public INCD(Bus bus) : base(bus, "INC D")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().D = Sum(bus.GetCPU().D, 1, true, false);
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -69,14 +69,14 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x1C;
 
-        public INCE(Bus bus) : base(bus, "INC E", 1)
+        public INCE(Bus bus) : base(bus, "INC E")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().E = Sum(bus.GetCPU().E, 1, true, false);
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -84,14 +84,14 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x24;
 
-        public INCH(Bus bus) : base(bus, "INC H", 1)
+        public INCH(Bus bus) : base(bus, "INC H")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().H = Sum(bus.GetCPU().H, 1, true, false);
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -99,14 +99,14 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x2C;
 
-        public INCL(Bus bus) : base(bus, "INC L", 1)
+        public INCL(Bus bus) : base(bus, "INC L")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().L = Sum(bus.GetCPU().L, 1, true, false);
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -114,7 +114,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x34;
 
-        public INCAddrHL(Bus bus) : base(bus, "INC (HL)", 3)
+        public INCAddrHL(Bus bus) : base(bus, "INC (HL)")
         {
         }
 
@@ -124,8 +124,7 @@ namespace GBEmu.Core.Instructions.Math
 
             bus.GetCPU().A = Sum(bus.ReadMemory(address), 1, true, false);
 
-            usedCycles += 2;
-            return usedCycles;
+            return 3;
         }
     }
 
@@ -133,7 +132,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x33;
 
-        public INCSP(Bus bus) : base(bus, "INC SP", 2)
+        public INCSP(Bus bus) : base(bus, "INC SP", 0)
         {
         }
 
@@ -141,7 +140,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().SP++;
 
-            return usedCycles++;
+            return 2;
         }
 
         public override string ToString()
@@ -154,7 +153,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x03;
 
-        public INCBC(Bus bus) : base(bus, "INC BC", 2)
+        public INCBC(Bus bus) : base(bus, "INC BC", 0)
         {
         }
 
@@ -165,7 +164,7 @@ namespace GBEmu.Core.Instructions.Math
             bus.GetCPU().B = (byte)(value >> 8);
             bus.GetCPU().C = (byte)value;
 
-            return usedCycles++;
+            return 2;
         }
 
         public override string ToString()
@@ -178,7 +177,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x13;
 
-        public INCDE(Bus bus) : base(bus, "INC DE", 2)
+        public INCDE(Bus bus) : base(bus, "INC DE", 0)
         {
         }
 
@@ -189,7 +188,7 @@ namespace GBEmu.Core.Instructions.Math
             bus.GetCPU().D = (byte)(value >> 8);
             bus.GetCPU().E = (byte)value;
 
-            return usedCycles++;
+            return 2;
         }
 
         public override string ToString()
@@ -202,7 +201,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x23;
 
-        public INCHL(Bus bus) : base(bus, "INC HL", 2)
+        public INCHL(Bus bus) : base(bus, "INC HL", 0)
         {
         }
 
@@ -213,7 +212,7 @@ namespace GBEmu.Core.Instructions.Math
             bus.GetCPU().H = (byte)(value >> 8);
             bus.GetCPU().L = (byte)value;
 
-            return usedCycles++;
+            return 2;
         }
 
         public override string ToString()

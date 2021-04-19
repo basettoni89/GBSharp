@@ -28,8 +28,9 @@ namespace GBEmu.Core
 
         public FlagsClass Flags { get; private set; }
 
-        private Instruction current;
         private int cycles = 0;
+
+        public bool Complete => cycles != 0;
 
         public CPU(Bus bus)
         {
@@ -192,20 +193,14 @@ namespace GBEmu.Core
 
         public void Clock()
         {
-            if(!Complete())
+            if(!Complete)
             {
-                current = FetchInstruction();
+                Instruction current = FetchInstruction();
 
-                cycles = current.Cycles;
-                cycles -= current.Execute();
+                cycles = current.Execute();
             }
 
             cycles--;
-        }
-
-        public bool Complete()
-        {
-            return cycles != 0;
         }
 
         public byte Fetch()

@@ -6,7 +6,7 @@ namespace GBEmu.Core.Instructions.Math
 {
     public abstract class SumInstruction : Instruction
     {
-        public SumInstruction(Bus bus, string name, byte cycles) : base(bus, name, cycles)
+        public SumInstruction(Bus bus, string name) : base(bus, name, 0)
         {
         }
 
@@ -36,7 +36,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x87;
 
-        public SUMARegA(Bus bus) : base(bus, "SUM A, A", 1)
+        public SUMARegA(Bus bus) : base(bus, "SUM A, A")
         {
         }
 
@@ -44,7 +44,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = Sum(bus.GetCPU().A, bus.GetCPU().A, true, true);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -52,7 +52,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x80;
 
-        public SUMARegB(Bus bus) : base(bus, "SUM A, B", 1)
+        public SUMARegB(Bus bus) : base(bus, "SUM A, B")
         {
         }
 
@@ -60,7 +60,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = Sum(bus.GetCPU().A, bus.GetCPU().B, true, true);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -68,7 +68,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x81;
 
-        public SUMARegC(Bus bus) : base(bus, "SUM A, C", 1)
+        public SUMARegC(Bus bus) : base(bus, "SUM A, C")
         {
         }
 
@@ -76,7 +76,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = Sum(bus.GetCPU().A, bus.GetCPU().C, true, true);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -84,7 +84,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x82;
 
-        public SUMARegD(Bus bus) : base(bus, "SUM A, D", 1)
+        public SUMARegD(Bus bus) : base(bus, "SUM A, D")
         {
         }
 
@@ -92,7 +92,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = Sum(bus.GetCPU().A, bus.GetCPU().D, true, true);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -100,7 +100,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x83;
 
-        public SUMARegE(Bus bus) : base(bus, "SUM A, E", 1)
+        public SUMARegE(Bus bus) : base(bus, "SUM A, E")
         {
         }
 
@@ -108,7 +108,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = Sum(bus.GetCPU().A, bus.GetCPU().E, true, true);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -116,7 +116,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x84;
 
-        public SUMARegH(Bus bus) : base(bus, "SUM A, H", 1)
+        public SUMARegH(Bus bus) : base(bus, "SUM A, H")
         {
         }
 
@@ -124,7 +124,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = Sum(bus.GetCPU().A, bus.GetCPU().H, true, true);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -132,7 +132,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x85;
 
-        public SUMARegL(Bus bus) : base(bus, "SUM A, L", 1)
+        public SUMARegL(Bus bus) : base(bus, "SUM A, L")
         {
         }
 
@@ -140,7 +140,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = Sum(bus.GetCPU().A, bus.GetCPU().L, true, true);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -148,7 +148,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x86;
 
-        public SUMAAddrHL(Bus bus) : base(bus, "SUM A, (HL)", 2)
+        public SUMAAddrHL(Bus bus) : base(bus, "SUM A, (HL)")
         {
         }
 
@@ -158,8 +158,7 @@ namespace GBEmu.Core.Instructions.Math
 
             bus.GetCPU().A = Sum(bus.GetCPU().A, bus.ReadMemory(address), true, true);
 
-            usedCycles += 2;
-            return usedCycles;
+            return 2;
         }
     }
 
@@ -169,7 +168,7 @@ namespace GBEmu.Core.Instructions.Math
 
         protected byte value = 0;
 
-        public SUMAImpl(Bus bus) : base(bus, "SUM A", 2)
+        public SUMAImpl(Bus bus) : base(bus, "SUM A")
         {
         }
 
@@ -177,12 +176,10 @@ namespace GBEmu.Core.Instructions.Math
         {
             byte data = bus.ReadMemory(bus.GetCPU().PC);
             bus.GetCPU().PC++;
-            usedCycles++;
 
             bus.GetCPU().A = Sum(bus.GetCPU().A, data, true, true);
-            usedCycles ++;
 
-            return usedCycles;
+            return 2;
         }
 
         public override string ToString()

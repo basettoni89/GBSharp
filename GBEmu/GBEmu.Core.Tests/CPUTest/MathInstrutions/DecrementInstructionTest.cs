@@ -29,7 +29,7 @@ namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
             cpu.Reset();
             cpu.A = actual;
 
-            Execute8bitTest(0x3D, zeroFlag, negative, halfCarry, carryFlag);
+            Execute8bitTest(0x3D, zeroFlag, negative, halfCarry, carryFlag, 1);
 
             Assert.Equal(expected, cpu.A);
         }
@@ -42,7 +42,7 @@ namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
             cpu.Reset();
             cpu.B = actual;
 
-            Execute8bitTest(0x05, zeroFlag, negative, halfCarry, carryFlag);
+            Execute8bitTest(0x05, zeroFlag, negative, halfCarry, carryFlag, 1);
 
             Assert.Equal(expected, cpu.B);
         }
@@ -55,7 +55,7 @@ namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
             cpu.Reset();
             cpu.C = actual;
 
-            Execute8bitTest(0x0D, zeroFlag, negative, halfCarry, carryFlag);
+            Execute8bitTest(0x0D, zeroFlag, negative, halfCarry, carryFlag, 1);
 
             Assert.Equal(expected, cpu.C);
         }
@@ -68,7 +68,7 @@ namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
             cpu.Reset();
             cpu.D = actual;
 
-            Execute8bitTest(0x15, zeroFlag, negative, halfCarry, carryFlag);
+            Execute8bitTest(0x15, zeroFlag, negative, halfCarry, carryFlag, 1);
 
             Assert.Equal(expected, cpu.D);
         }
@@ -81,7 +81,7 @@ namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
             cpu.Reset();
             cpu.E = actual;
 
-            Execute8bitTest(0x1D, zeroFlag, negative, halfCarry, carryFlag);
+            Execute8bitTest(0x1D, zeroFlag, negative, halfCarry, carryFlag, 1);
 
             Assert.Equal(expected, cpu.E);
         }
@@ -94,7 +94,7 @@ namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
             cpu.Reset();
             cpu.H = actual;
 
-            Execute8bitTest(0x25, zeroFlag, negative, halfCarry, carryFlag);
+            Execute8bitTest(0x25, zeroFlag, negative, halfCarry, carryFlag, 1);
 
             Assert.Equal(expected, cpu.H);
         }
@@ -110,7 +110,7 @@ namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
 
             bus.SetMemory(actual, 0xCC01);
 
-            Execute8bitTest(0x35, zeroFlag, negative, halfCarry, carryFlag);
+            Execute8bitTest(0x35, zeroFlag, negative, halfCarry, carryFlag, 3);
 
             Assert.Equal(expected, bus.GetCPU().A);
         }
@@ -122,12 +122,12 @@ namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
             cpu.Reset();
             cpu.L = actual;
 
-            Execute8bitTest(0x2D, zeroFlag, negative, halfCarry, carryFlag);
+            Execute8bitTest(0x2D, zeroFlag, negative, halfCarry, carryFlag, 1);
 
             Assert.Equal(expected, cpu.L);
         }
 
-        private void Execute8bitTest(byte opCode, bool zeroFlag, bool negative, bool halfCarry, bool carryFlag)
+        private void Execute8bitTest(byte opCode, bool zeroFlag, bool negative, bool halfCarry, bool carryFlag, int expectedCycles)
         {
             cpu.PC = 0xC000;
 
@@ -138,7 +138,17 @@ namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
 
             bus.SetMemory(opCode, 0xC000);
 
-            cpu.Clock();
+            int cycles = 0;
+
+            do
+            {
+                cpu.Clock();
+                cycles++;
+                if (cycles > 100)
+                    break;
+            } while (cpu.Complete);
+
+            Assert.Equal(expectedCycles, cycles);
 
             Assert.Equal(0xC001, cpu.PC);
 

@@ -6,7 +6,7 @@ namespace GBEmu.Core.Instructions.Math
 {
     public abstract class SubInstruction : Instruction
     {
-        protected SubInstruction(Bus bus, string name, byte cycles) : base(bus, name, cycles)
+        protected SubInstruction(Bus bus, string name) : base(bus, name, 0)
         {
         }
 
@@ -36,7 +36,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x97;
 
-        public SUBARegA(Bus bus) : base(bus, "SUB A, A", 1)
+        public SUBARegA(Bus bus) : base(bus, "SUB A, A")
         {
         }
 
@@ -44,7 +44,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = Sub(bus.GetCPU().A, bus.GetCPU().A, true, true);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -52,7 +52,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x90;
 
-        public SUBARegB(Bus bus) : base(bus, "SUB A, B", 1)
+        public SUBARegB(Bus bus) : base(bus, "SUB A, B")
         {
         }
 
@@ -60,7 +60,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = Sub(bus.GetCPU().A, bus.GetCPU().B, true, true);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -68,7 +68,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x91;
 
-        public SUBARegC(Bus bus) : base(bus, "SUB A, C", 1)
+        public SUBARegC(Bus bus) : base(bus, "SUB A, C")
         {
         }
 
@@ -76,7 +76,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = Sub(bus.GetCPU().A, bus.GetCPU().C, true, true);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -84,7 +84,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x92;
 
-        public SUBARegD(Bus bus) : base(bus, "SUB A, D", 1)
+        public SUBARegD(Bus bus) : base(bus, "SUB A, D")
         {
         }
 
@@ -92,7 +92,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = Sub(bus.GetCPU().A, bus.GetCPU().D, true, true);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -100,7 +100,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x93;
 
-        public SUBARegE(Bus bus) : base(bus, "SUB A, E", 1)
+        public SUBARegE(Bus bus) : base(bus, "SUB A, E")
         {
         }
 
@@ -108,7 +108,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = Sub(bus.GetCPU().A, bus.GetCPU().E, true, true);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -116,7 +116,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x94;
 
-        public SUBARegH(Bus bus) : base(bus, "SUB A, H", 1)
+        public SUBARegH(Bus bus) : base(bus, "SUB A, H")
         {
         }
 
@@ -124,7 +124,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = Sub(bus.GetCPU().A, bus.GetCPU().H, true, true);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -132,7 +132,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x95;
 
-        public SUBARegL(Bus bus) : base(bus, "SUB A, L", 1)
+        public SUBARegL(Bus bus) : base(bus, "SUB A, L")
         {
         }
 
@@ -140,7 +140,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = Sub(bus.GetCPU().A, bus.GetCPU().L, true, true);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -148,7 +148,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x96;
 
-        public SUBAAddrHL(Bus bus) : base(bus, "SUB A, (HL)", 2)
+        public SUBAAddrHL(Bus bus) : base(bus, "SUB A, (HL)")
         {
         }
 
@@ -158,8 +158,7 @@ namespace GBEmu.Core.Instructions.Math
 
             bus.GetCPU().A = Sub(bus.GetCPU().A, bus.ReadMemory(address), true, true);
 
-            usedCycles += 2;
-            return usedCycles;
+            return 2;
         }
     }
 
@@ -169,7 +168,7 @@ namespace GBEmu.Core.Instructions.Math
 
         protected byte value = 0;
 
-        public SUBAImpl(Bus bus) : base(bus, "SUB A", 2)
+        public SUBAImpl(Bus bus) : base(bus, "SUB A")
         {
         }
 
@@ -177,12 +176,10 @@ namespace GBEmu.Core.Instructions.Math
         {
             byte data = bus.ReadMemory(bus.GetCPU().PC);
             bus.GetCPU().PC++;
-            usedCycles++;
 
             bus.GetCPU().A = Sub(bus.GetCPU().A, data, true, true);
-            usedCycles++;
 
-            return usedCycles;
+            return 2;
         }
 
         public override string ToString()

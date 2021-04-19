@@ -180,7 +180,7 @@ namespace GBEmu.Win
                                         do
                                         {
                                             bus.GetCPU().Clock();
-                                        } while (bus.GetCPU().Complete());
+                                        } while (bus.GetCPU().Complete);
                                         break;
                                     case SDL.SDL_Keycode.SDLK_p:
                                         play = !play;
@@ -195,7 +195,7 @@ namespace GBEmu.Win
                         do
                         {
                             bus.GetCPU().Clock();
-                        } while (bus.GetCPU().Complete());
+                        } while (bus.GetCPU().Complete);
                     }
 
                     Render(elapsedTime.TotalMilliseconds);

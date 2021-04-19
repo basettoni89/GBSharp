@@ -8,14 +8,14 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x3D;
 
-        public DECA(Bus bus) : base(bus, "DEC A", 1)
+        public DECA(Bus bus) : base(bus, "DEC A")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().A = Sub(bus.GetCPU().A, 1, true, false);
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -23,14 +23,14 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x05;
 
-        public DECB(Bus bus) : base(bus, "DEC B", 1)
+        public DECB(Bus bus) : base(bus, "DEC B")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().B = Sub(bus.GetCPU().B, 1, true, false);
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -38,14 +38,14 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x0D;
 
-        public DECC(Bus bus) : base(bus, "DEC C", 1)
+        public DECC(Bus bus) : base(bus, "DEC C")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().C = Sub(bus.GetCPU().C, 1, true, false);
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -53,14 +53,14 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x15;
 
-        public DECD(Bus bus) : base(bus, "DEC D", 1)
+        public DECD(Bus bus) : base(bus, "DEC D")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().D = Sub(bus.GetCPU().D, 1, true, false);
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -68,14 +68,14 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x1D;
 
-        public DECE(Bus bus) : base(bus, "DEC E", 1)
+        public DECE(Bus bus) : base(bus, "DEC E")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().E = Sub(bus.GetCPU().E, 1, true, false);
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -83,14 +83,14 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x25;
 
-        public DECH(Bus bus) : base(bus, "DEC H", 1)
+        public DECH(Bus bus) : base(bus, "DEC H")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().H = Sub(bus.GetCPU().H, 1, true, false);
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -98,14 +98,14 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x2D;
 
-        public DECL(Bus bus) : base(bus, "DEC L", 1)
+        public DECL(Bus bus) : base(bus, "DEC L")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().L = Sub(bus.GetCPU().L, 1, true, false);
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -113,7 +113,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x35;
 
-        public DECAddrHL(Bus bus) : base(bus, "DEC (HL)", 3)
+        public DECAddrHL(Bus bus) : base(bus, "DEC (HL)")
         {
         }
 
@@ -123,8 +123,7 @@ namespace GBEmu.Core.Instructions.Math
 
             bus.GetCPU().A = Sub(bus.ReadMemory(address), 1, true, false);
 
-            usedCycles += 2;
-            return usedCycles;
+            return 3;
         }
     }
 }
