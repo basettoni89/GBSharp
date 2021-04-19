@@ -1,4 +1,5 @@
 ﻿using GBEmu.Core.Instructions;
+using GBEmu.Core.Instructions.Branch;
 using GBEmu.Core.Instructions.Loads;
 using GBEmu.Core.Instructions.Math;
 using System;
@@ -175,6 +176,9 @@ namespace GBEmu.Core
                 {CPH.OpCode, new CPH(bus) },
                 {CPL.OpCode, new CPL(bus) },
                 {CPAddrHL.OpCode, new CPAddrHL(bus) },
+                {JPImpl.OpCode, new JPImpl(bus) },
+                {JPZImpl.OpCode, new JPZImpl(bus) },
+                {JRImpl.OpCode, new JRImpl(bus) },
             };
         }
 
@@ -190,7 +194,7 @@ namespace GBEmu.Core
         {
             if(!Complete())
             {
-                current = Fetch();
+                current = FetchInstruction();
 
                 cycles = current.Cycles;
                 cycles -= current.Execute();
@@ -204,7 +208,14 @@ namespace GBEmu.Core
             return cycles != 0;
         }
 
-        public Instruction Fetch()
+        public byte Fetch()
+        {
+            byte data = bus.ReadMemory(PC);
+            PC++;
+            return data;
+        }
+
+        public Instruction FetchInstruction()
         {
             byte opCode = bus.ReadMemory(PC);
             PC++;
