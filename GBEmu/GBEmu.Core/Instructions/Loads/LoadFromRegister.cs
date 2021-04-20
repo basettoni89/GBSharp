@@ -8,14 +8,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x7F;
 
-        public LDARegA(Bus bus) : base(bus, "LD A", 1)
+        public LDARegA(Bus bus) : base(bus, "LD A")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().A = bus.GetCPU().A;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -28,14 +28,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x78;
 
-        public LDARegB(Bus bus) : base(bus, "LD A", 1)
+        public LDARegB(Bus bus) : base(bus, "LD A")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().A = bus.GetCPU().B;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -48,14 +48,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x79;
 
-        public LDARegC(Bus bus) : base(bus, "LD A", 1)
+        public LDARegC(Bus bus) : base(bus, "LD A")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().A = bus.GetCPU().C;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -68,14 +68,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x7A;
 
-        public LDARegD(Bus bus) : base(bus, "LD A", 1)
+        public LDARegD(Bus bus) : base(bus, "LD A")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().A = bus.GetCPU().D;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -88,14 +88,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x7B;
 
-        public LDARegE(Bus bus) : base(bus, "LD A", 1)
+        public LDARegE(Bus bus) : base(bus, "LD A")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().A = bus.GetCPU().E;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -108,14 +108,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x7C;
 
-        public LDARegH(Bus bus) : base(bus, "LD A", 1)
+        public LDARegH(Bus bus) : base(bus, "LD A")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().A = bus.GetCPU().H;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -128,14 +128,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x7D;
 
-        public LDARegL(Bus bus) : base(bus, "LD A", 1)
+        public LDARegL(Bus bus) : base(bus, "LD A")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().A = bus.GetCPU().L;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -148,14 +148,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x47;
 
-        public LDBRegA(Bus bus) : base(bus, "LD B", 1)
+        public LDBRegA(Bus bus) : base(bus, "LD B")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().B = bus.GetCPU().A;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -168,14 +168,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x40;
 
-        public LDBRegB(Bus bus) : base(bus, "LD B", 1)
+        public LDBRegB(Bus bus) : base(bus, "LD B")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().B = bus.GetCPU().B;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -188,14 +188,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x41;
 
-        public LDBRegC(Bus bus) : base(bus, "LD B", 1)
+        public LDBRegC(Bus bus) : base(bus, "LD B")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().B = bus.GetCPU().C;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -208,14 +208,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x42;
 
-        public LDBRegD(Bus bus) : base(bus, "LD B", 1)
+        public LDBRegD(Bus bus) : base(bus, "LD B")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().B = bus.GetCPU().D;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -228,14 +228,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x43;
 
-        public LDBRegE(Bus bus) : base(bus, "LD B", 1)
+        public LDBRegE(Bus bus) : base(bus, "LD B")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().B = bus.GetCPU().E;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -248,14 +248,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x44;
 
-        public LDBRegH(Bus bus) : base(bus, "LD B", 1)
+        public LDBRegH(Bus bus) : base(bus, "LD B")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().B = bus.GetCPU().H;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -268,14 +268,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x45;
 
-        public LDBRegL(Bus bus) : base(bus, "LD B", 1)
+        public LDBRegL(Bus bus) : base(bus, "LD B")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().B = bus.GetCPU().L;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -288,14 +288,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x4F;
 
-        public LDCRegA(Bus bus) : base(bus, "LD C", 1)
+        public LDCRegA(Bus bus) : base(bus, "LD C")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().C = bus.GetCPU().A;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -308,14 +308,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x48;
 
-        public LDCRegB(Bus bus) : base(bus, "LD C", 1)
+        public LDCRegB(Bus bus) : base(bus, "LD C")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().C = bus.GetCPU().B;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -328,14 +328,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x49;
 
-        public LDCRegC(Bus bus) : base(bus, "LD C", 1)
+        public LDCRegC(Bus bus) : base(bus, "LD C")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().C = bus.GetCPU().C;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -348,14 +348,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x4A;
 
-        public LDCRegD(Bus bus) : base(bus, "LD C", 1)
+        public LDCRegD(Bus bus) : base(bus, "LD C")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().C = bus.GetCPU().D;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -368,14 +368,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x4B;
 
-        public LDCRegE(Bus bus) : base(bus, "LD C", 1)
+        public LDCRegE(Bus bus) : base(bus, "LD C")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().C = bus.GetCPU().E;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -388,14 +388,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x4C;
 
-        public LDCRegH(Bus bus) : base(bus, "LD C", 1)
+        public LDCRegH(Bus bus) : base(bus, "LD C")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().C = bus.GetCPU().H;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -408,14 +408,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x4D;
 
-        public LDCRegL(Bus bus) : base(bus, "LD C", 1)
+        public LDCRegL(Bus bus) : base(bus, "LD C")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().C = bus.GetCPU().L;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -428,14 +428,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x57;
 
-        public LDDRegA(Bus bus) : base(bus, "LD D", 1)
+        public LDDRegA(Bus bus) : base(bus, "LD D")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().D = bus.GetCPU().A;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -448,14 +448,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x50;
 
-        public LDDRegB(Bus bus) : base(bus, "LD D", 1)
+        public LDDRegB(Bus bus) : base(bus, "LD D")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().D = bus.GetCPU().B;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -468,14 +468,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x51;
 
-        public LDDRegC(Bus bus) : base(bus, "LD D", 1)
+        public LDDRegC(Bus bus) : base(bus, "LD D")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().D = bus.GetCPU().C;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -488,14 +488,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x52;
 
-        public LDDRegD(Bus bus) : base(bus, "LD D", 1)
+        public LDDRegD(Bus bus) : base(bus, "LD D")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().D = bus.GetCPU().D;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -508,14 +508,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x53;
 
-        public LDDRegE(Bus bus) : base(bus, "LD D", 1)
+        public LDDRegE(Bus bus) : base(bus, "LD D")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().D = bus.GetCPU().E;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -528,14 +528,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x54;
 
-        public LDDRegH(Bus bus) : base(bus, "LD D", 1)
+        public LDDRegH(Bus bus) : base(bus, "LD D")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().D = bus.GetCPU().H;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -548,14 +548,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x55;
 
-        public LDDRegL(Bus bus) : base(bus, "LD D", 1)
+        public LDDRegL(Bus bus) : base(bus, "LD D")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().D = bus.GetCPU().L;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -568,14 +568,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x5F;
 
-        public LDERegA(Bus bus) : base(bus, "LD E", 1)
+        public LDERegA(Bus bus) : base(bus, "LD E")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().E = bus.GetCPU().A;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -588,14 +588,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x58;
 
-        public LDERegB(Bus bus) : base(bus, "LD E", 1)
+        public LDERegB(Bus bus) : base(bus, "LD E")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().E = bus.GetCPU().B;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -608,14 +608,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x59;
 
-        public LDERegC(Bus bus) : base(bus, "LD E", 1)
+        public LDERegC(Bus bus) : base(bus, "LD E")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().E = bus.GetCPU().C;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -628,14 +628,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x5A;
 
-        public LDERegD(Bus bus) : base(bus, "LD E", 1)
+        public LDERegD(Bus bus) : base(bus, "LD E")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().E = bus.GetCPU().D;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -648,14 +648,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x5B;
 
-        public LDERegE(Bus bus) : base(bus, "LD E", 1)
+        public LDERegE(Bus bus) : base(bus, "LD E")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().E = bus.GetCPU().E;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -668,14 +668,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x5C;
 
-        public LDERegH(Bus bus) : base(bus, "LD E", 1)
+        public LDERegH(Bus bus) : base(bus, "LD E")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().E = bus.GetCPU().H;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -688,14 +688,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x5D;
 
-        public LDERegL(Bus bus) : base(bus, "LD E", 1)
+        public LDERegL(Bus bus) : base(bus, "LD E")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().E = bus.GetCPU().L;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -708,14 +708,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x67;
 
-        public LDHRegA(Bus bus) : base(bus, "LD H", 1)
+        public LDHRegA(Bus bus) : base(bus, "LD H")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().H = bus.GetCPU().A;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -728,14 +728,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x60;
 
-        public LDHRegB(Bus bus) : base(bus, "LD H", 1)
+        public LDHRegB(Bus bus) : base(bus, "LD H")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().H = bus.GetCPU().B;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -748,14 +748,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x61;
 
-        public LDHRegC(Bus bus) : base(bus, "LD H", 1)
+        public LDHRegC(Bus bus) : base(bus, "LD H")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().H = bus.GetCPU().C;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -768,14 +768,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x62;
 
-        public LDHRegD(Bus bus) : base(bus, "LD H", 1)
+        public LDHRegD(Bus bus) : base(bus, "LD H")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().H = bus.GetCPU().D;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -788,14 +788,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x63;
 
-        public LDHRegE(Bus bus) : base(bus, "LD H", 1)
+        public LDHRegE(Bus bus) : base(bus, "LD H")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().H = bus.GetCPU().E;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -808,14 +808,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x64;
 
-        public LDHRegH(Bus bus) : base(bus, "LD H", 1)
+        public LDHRegH(Bus bus) : base(bus, "LD H")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().E = bus.GetCPU().H;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -828,14 +828,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x65;
 
-        public LDHRegL(Bus bus) : base(bus, "LD H", 1)
+        public LDHRegL(Bus bus) : base(bus, "LD H")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().H = bus.GetCPU().L;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -848,14 +848,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x6F;
 
-        public LDLRegA(Bus bus) : base(bus, "LD L", 1)
+        public LDLRegA(Bus bus) : base(bus, "LD L")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().L = bus.GetCPU().A;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -868,14 +868,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x68;
 
-        public LDLRegB(Bus bus) : base(bus, "LD L", 1)
+        public LDLRegB(Bus bus) : base(bus, "LD L")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().L = bus.GetCPU().B;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -888,14 +888,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x69;
 
-        public LDLRegC(Bus bus) : base(bus, "LD L", 1)
+        public LDLRegC(Bus bus) : base(bus, "LD L")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().L = bus.GetCPU().C;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -908,14 +908,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x6A;
 
-        public LDLRegD(Bus bus) : base(bus, "LD L", 1)
+        public LDLRegD(Bus bus) : base(bus, "LD L")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().L = bus.GetCPU().D;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -928,14 +928,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x6B;
 
-        public LDLRegE(Bus bus) : base(bus, "LD L", 1)
+        public LDLRegE(Bus bus) : base(bus, "LD L")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().L = bus.GetCPU().E;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -948,14 +948,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x6C;
 
-        public LDLRegH(Bus bus) : base(bus, "LD L", 1)
+        public LDLRegH(Bus bus) : base(bus, "LD L")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().L = bus.GetCPU().H;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()
@@ -968,14 +968,14 @@ namespace GBEmu.Core.Instructions.Loads
     {
         public static new byte OpCode => 0x6D;
 
-        public LDLRegL(Bus bus) : base(bus, "LD L", 1)
+        public LDLRegL(Bus bus) : base(bus, "LD L")
         {
         }
 
         public override int Execute()
         {
             bus.GetCPU().L = bus.GetCPU().L;
-            return usedCycles;
+            return 1;
         }
 
         public override string ToString()

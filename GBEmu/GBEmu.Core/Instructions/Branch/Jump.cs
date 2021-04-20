@@ -6,7 +6,7 @@ namespace GBEmu.Core.Instructions.Branch
 {
     public abstract class JumpInstruction : Instruction
     {
-        protected JumpInstruction(Bus bus, string name, byte cycles) : base(bus, name, cycles)
+        protected JumpInstruction(Bus bus, string name) : base(bus, name)
         {
         }
 
@@ -27,23 +27,20 @@ namespace GBEmu.Core.Instructions.Branch
 
         public static new byte OpCode => 0xC3;
 
-        public JPImpl(Bus bus) : base(bus, "JP", 4)
+        public JPImpl(Bus bus) : base(bus, "JP")
         {
         }
 
         public override int Execute()
         {
             byte lo = bus.GetCPU().Fetch();
-            usedCycles++;
             byte hi = bus.GetCPU().Fetch();
-            usedCycles++;
 
             value = CombineHILO(hi, lo);
 
             JumpTo(value);
-            usedCycles++;
 
-            return usedCycles;
+            return 4;
         }
 
         public override string ToString()
@@ -58,26 +55,24 @@ namespace GBEmu.Core.Instructions.Branch
 
         public static new byte OpCode => 0xCA;
 
-        public JPZImpl(Bus bus) : base(bus, "JP Z", 4)
+        public JPZImpl(Bus bus) : base(bus, "JP Z")
         {
         }
 
         public override int Execute()
         {
             byte lo = bus.GetCPU().Fetch();
-            usedCycles++;
             byte hi = bus.GetCPU().Fetch();
-            usedCycles++;
 
             value = CombineHILO(hi, lo);
 
             if (bus.GetCPU().Flags.ZF)
             {
                 JumpTo(value);
-                usedCycles++;
+                return 4;
             }
 
-            return usedCycles;
+            return 3;
         }
 
         public override string ToString()
@@ -92,19 +87,17 @@ namespace GBEmu.Core.Instructions.Branch
 
         public static new byte OpCode => 0x18;
 
-        public JRImpl(Bus bus) : base(bus, "JR", 3)
+        public JRImpl(Bus bus) : base(bus, "JR")
         {
         }
 
         public override int Execute()
         {
             value = bus.GetCPU().Fetch();
-            usedCycles++;
 
             JumpRelative(value, 2);
-            usedCycles++;
 
-            return usedCycles;
+            return 3;
         }
 
         public override string ToString()

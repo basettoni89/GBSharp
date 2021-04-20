@@ -6,7 +6,7 @@ namespace GBEmu.Core.Instructions.Math
 {
     public abstract class OrInstruction : Instruction
     {
-        public OrInstruction(Bus bus, string name, byte cycles) : base(bus, name, cycles)
+        public OrInstruction(Bus bus, string name) : base(bus, name)
         {
         }
 
@@ -33,7 +33,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0xB7;
 
-        public ORARegA(Bus bus) : base(bus, "OR A, A", 1)
+        public ORARegA(Bus bus) : base(bus, "OR A, A")
         {
         }
 
@@ -41,7 +41,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = Or(bus.GetCPU().A, bus.GetCPU().A);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -49,7 +49,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0xB0;
 
-        public ORARegB(Bus bus) : base(bus, "OR A, B", 1)
+        public ORARegB(Bus bus) : base(bus, "OR A, B")
         {
         }
 
@@ -57,7 +57,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = Or(bus.GetCPU().A, bus.GetCPU().B);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -65,7 +65,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0xB1;
 
-        public ORARegC(Bus bus) : base(bus, "OR A, C", 1)
+        public ORARegC(Bus bus) : base(bus, "OR A, C")
         {
         }
 
@@ -73,7 +73,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = Or(bus.GetCPU().A, bus.GetCPU().C);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -81,7 +81,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0xB2;
 
-        public ORARegD(Bus bus) : base(bus, "OR A, D", 1)
+        public ORARegD(Bus bus) : base(bus, "OR A, D")
         {
         }
 
@@ -89,7 +89,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = Or(bus.GetCPU().A, bus.GetCPU().D);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -97,7 +97,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0xB3;
 
-        public ORARegE(Bus bus) : base(bus, "OR A, E", 1)
+        public ORARegE(Bus bus) : base(bus, "OR A, E")
         {
         }
 
@@ -105,7 +105,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = Or(bus.GetCPU().A, bus.GetCPU().E);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -113,7 +113,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0xB4;
 
-        public ORARegH(Bus bus) : base(bus, "OR A, H", 1)
+        public ORARegH(Bus bus) : base(bus, "OR A, H")
         {
         }
 
@@ -121,7 +121,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = Or(bus.GetCPU().A, bus.GetCPU().H);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -129,7 +129,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0xB5;
 
-        public ORARegL(Bus bus) : base(bus, "OR A, L", 1)
+        public ORARegL(Bus bus) : base(bus, "OR A, L")
         {
         }
 
@@ -137,7 +137,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = Or(bus.GetCPU().A, bus.GetCPU().L);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -145,7 +145,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0xB6;
 
-        public ORAAddrHL(Bus bus) : base(bus, "OR A, (HL)", 2)
+        public ORAAddrHL(Bus bus) : base(bus, "OR A, (HL)")
         {
         }
 
@@ -155,8 +155,7 @@ namespace GBEmu.Core.Instructions.Math
 
             bus.GetCPU().A = Or(bus.GetCPU().A, bus.ReadMemory(address));
 
-            usedCycles += 2;
-            return usedCycles;
+            return 2;
         }
     }
 
@@ -166,7 +165,7 @@ namespace GBEmu.Core.Instructions.Math
 
         protected byte value = 0;
 
-        public ORAImpl(Bus bus) : base(bus, "OR A", 2)
+        public ORAImpl(Bus bus) : base(bus, "OR A")
         {
         }
 
@@ -174,12 +173,10 @@ namespace GBEmu.Core.Instructions.Math
         {
             byte data = bus.ReadMemory(bus.GetCPU().PC);
             bus.GetCPU().PC++;
-            usedCycles++;
 
             bus.GetCPU().A = Or(bus.GetCPU().A, data);
-            usedCycles++;
 
-            return usedCycles;
+            return 2;
         }
 
         public override string ToString()

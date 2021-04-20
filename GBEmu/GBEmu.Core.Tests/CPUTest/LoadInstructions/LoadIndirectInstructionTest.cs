@@ -21,137 +21,163 @@ namespace GBEmu.Core.Tests.CPUTest.LoadInstructions
         {
         }
 
-        [Fact]
-        public void LDAHL_AContanisHLIndirectValue()
+        [Theory]
+        [InlineData(0xCC01, 0x00)]
+        [InlineData(0xCC01, 0x01)]
+        [InlineData(0xCC01, 0x20)]
+        [InlineData(0xCC01, 0xFF)]
+        [InlineData(0xC001, 0x00)]
+        [InlineData(0xC001, 0x01)]
+        [InlineData(0xC001, 0x20)]
+        [InlineData(0xC001, 0xFF)]
+        [InlineData(0xCCFF, 0x00)]
+        [InlineData(0xCCFF, 0x01)]
+        [InlineData(0xCCFF, 0x20)]
+        [InlineData(0xCCFF, 0xFF)]
+        public void LDAHL_AContanisHLIndirectValue(ushort addr, byte value)
         {
-            cpu.Reset();
-
-            cpu.PC = 0xC000;
-            cpu.H = 0xCC;
-            cpu.L = 0x01;
-
-            bus.SetMemory(0x7E, 0xC000);
-            bus.SetMemory(0x42, 0xCC01);
-
-
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x42, cpu.A);
+            Execute8bitTest(0x7E, addr, value, 2);
+            Assert.Equal(value, cpu.A);
         }
 
-        [Fact]
-        public void LDBHL_BContanisHLIndirectValue()
+        [Theory]
+        [InlineData(0xCC01, 0x00)]
+        [InlineData(0xCC01, 0x01)]
+        [InlineData(0xCC01, 0x20)]
+        [InlineData(0xCC01, 0xFF)]
+        [InlineData(0xC001, 0x00)]
+        [InlineData(0xC001, 0x01)]
+        [InlineData(0xC001, 0x20)]
+        [InlineData(0xC001, 0xFF)]
+        [InlineData(0xCCFF, 0x00)]
+        [InlineData(0xCCFF, 0x01)]
+        [InlineData(0xCCFF, 0x20)]
+        [InlineData(0xCCFF, 0xFF)]
+        public void LDBHL_BContanisHLIndirectValue(ushort addr, byte value)
         {
-            cpu.Reset();
-
-            cpu.PC = 0xC000;
-            cpu.H = 0xCC;
-            cpu.L = 0x01;
-
-            bus.SetMemory(0x46, 0xC000);
-            bus.SetMemory(0x42, 0xCC01);
-
-
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x42, cpu.B);
+            Execute8bitTest(0x46, addr, value, 2);
+            Assert.Equal(value, cpu.B);
         }
 
-        [Fact]
-        public void LDCHL_CContanisHLIndirectValue()
+        [Theory]
+        [InlineData(0xCC01, 0x00)]
+        [InlineData(0xCC01, 0x01)]
+        [InlineData(0xCC01, 0x20)]
+        [InlineData(0xCC01, 0xFF)]
+        [InlineData(0xC001, 0x00)]
+        [InlineData(0xC001, 0x01)]
+        [InlineData(0xC001, 0x20)]
+        [InlineData(0xC001, 0xFF)]
+        [InlineData(0xCCFF, 0x00)]
+        [InlineData(0xCCFF, 0x01)]
+        [InlineData(0xCCFF, 0x20)]
+        [InlineData(0xCCFF, 0xFF)]
+        public void LDCHL_CContanisHLIndirectValue(ushort addr, byte value)
         {
-            cpu.Reset();
-
-            cpu.PC = 0xC000;
-            cpu.H = 0xCC;
-            cpu.L = 0x01;
-
-            bus.SetMemory(0x4E, 0xC000);
-            bus.SetMemory(0x42, 0xCC01);
-
-
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x42, cpu.C);
+            Execute8bitTest(0x4E, addr, value, 2);
+            Assert.Equal(value, cpu.C);
         }
 
-        [Fact]
-        public void LDDHL_DContanisHLIndirectValue()
+        [Theory]
+        [InlineData(0xCC01, 0x00)]
+        [InlineData(0xCC01, 0x01)]
+        [InlineData(0xCC01, 0x20)]
+        [InlineData(0xCC01, 0xFF)]
+        [InlineData(0xC001, 0x00)]
+        [InlineData(0xC001, 0x01)]
+        [InlineData(0xC001, 0x20)]
+        [InlineData(0xC001, 0xFF)]
+        [InlineData(0xCCFF, 0x00)]
+        [InlineData(0xCCFF, 0x01)]
+        [InlineData(0xCCFF, 0x20)]
+        [InlineData(0xCCFF, 0xFF)]
+        public void LDDHL_DContanisHLIndirectValue(ushort addr, byte value)
         {
-            cpu.Reset();
-
-            cpu.PC = 0xC000;
-            cpu.H = 0xCC;
-            cpu.L = 0x01;
-
-            bus.SetMemory(0x56, 0xC000);
-            bus.SetMemory(0x42, 0xCC01);
-
-
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x42, cpu.D);
+            Execute8bitTest(0x56, addr, value, 2);
+            Assert.Equal(value, cpu.D);
         }
 
-        [Fact]
-        public void LDEHL_EContanisHLIndirectValue()
+        [Theory]
+        [InlineData(0xCC01, 0x00)]
+        [InlineData(0xCC01, 0x01)]
+        [InlineData(0xCC01, 0x20)]
+        [InlineData(0xCC01, 0xFF)]
+        [InlineData(0xC001, 0x00)]
+        [InlineData(0xC001, 0x01)]
+        [InlineData(0xC001, 0x20)]
+        [InlineData(0xC001, 0xFF)]
+        [InlineData(0xCCFF, 0x00)]
+        [InlineData(0xCCFF, 0x01)]
+        [InlineData(0xCCFF, 0x20)]
+        [InlineData(0xCCFF, 0xFF)]
+        public void LDEHL_EContanisHLIndirectValue(ushort addr, byte value)
         {
-            cpu.Reset();
-
-            cpu.PC = 0xC000;
-            cpu.H = 0xCC;
-            cpu.L = 0x01;
-
-            bus.SetMemory(0x5E, 0xC000);
-            bus.SetMemory(0x42, 0xCC01);
-
-
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x42, cpu.E);
+            Execute8bitTest(0x5E, addr, value, 2);
+            Assert.Equal(value, cpu.E);
         }
 
-        [Fact]
-        public void LDHHL_HContanisHLIndirectValue()
+        [Theory]
+        [InlineData(0xCC01, 0x00)]
+        [InlineData(0xCC01, 0x01)]
+        [InlineData(0xCC01, 0x20)]
+        [InlineData(0xCC01, 0xFF)]
+        [InlineData(0xC001, 0x00)]
+        [InlineData(0xC001, 0x01)]
+        [InlineData(0xC001, 0x20)]
+        [InlineData(0xC001, 0xFF)]
+        [InlineData(0xCCFF, 0x00)]
+        [InlineData(0xCCFF, 0x01)]
+        [InlineData(0xCCFF, 0x20)]
+        [InlineData(0xCCFF, 0xFF)]
+        public void LDHHL_HContanisHLIndirectValue(ushort addr, byte value)
         {
-            cpu.Reset();
-
-            cpu.PC = 0xC000;
-            cpu.H = 0xCC;
-            cpu.L = 0x01;
-
-            bus.SetMemory(0x66, 0xC000);
-            bus.SetMemory(0x42, 0xCC01);
-
-
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x42, cpu.H);
+            Execute8bitTest(0x66, addr, value, 2);
+            Assert.Equal(value, cpu.H);
         }
 
-        [Fact]
-        public void LDLHL_LContanisHLIndirectValue()
+        [Theory]
+        [InlineData(0xCC01, 0x00)]
+        [InlineData(0xCC01, 0x01)]
+        [InlineData(0xCC01, 0x20)]
+        [InlineData(0xCC01, 0xFF)]
+        [InlineData(0xC001, 0x00)]
+        [InlineData(0xC001, 0x01)]
+        [InlineData(0xC001, 0x20)]
+        [InlineData(0xC001, 0xFF)]
+        [InlineData(0xCCFF, 0x00)]
+        [InlineData(0xCCFF, 0x01)]
+        [InlineData(0xCCFF, 0x20)]
+        [InlineData(0xCCFF, 0xFF)]
+        public void LDLHL_LContanisHLIndirectValue(ushort addr, byte value)
+        {
+            Execute8bitTest(0x6E, addr, value, 2);
+            Assert.Equal(value, cpu.L);
+        }
+
+        private void Execute8bitTest(byte opcode, ushort addr, byte value, int expectedCycles)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.H = 0xCC;
-            cpu.L = 0x01;
+            cpu.H = (byte)(addr >> 8);
+            cpu.L = (byte)addr;
 
-            bus.SetMemory(0x6E, 0xC000);
-            bus.SetMemory(0x42, 0xCC01);
+            bus.SetMemory(opcode, 0xC000);
+            bus.SetMemory(value, addr);
 
+            int cycles = 0;
 
-            cpu.Clock();
+            do
+            {
+                cpu.Clock();
+                cycles++;
+                if (cycles > 100)
+                    break;
+            } while (cpu.Complete);
+
+            Assert.Equal(expectedCycles, cycles);
 
             Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x42, cpu.L);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace GBEmu.Core.Instructions.Loads
     {
         protected byte value = 0;
 
-        public LDImplied(Bus bus, string name) : base(bus, name, 2)
+        public LDImplied(Bus bus, string name) : base(bus, name)
         {
         }
 
@@ -16,7 +16,8 @@ namespace GBEmu.Core.Instructions.Loads
         {
             value = LoadImmediate();
             Load(value);
-            return usedCycles;
+
+            return 2;
         }
 
         public override string ToString()
@@ -26,9 +27,7 @@ namespace GBEmu.Core.Instructions.Loads
 
         protected byte LoadImmediate()
         {
-            byte data = bus.ReadMemory(bus.GetCPU().PC);
-            bus.GetCPU().PC++;
-            usedCycles++;
+            byte data = bus.GetCPU().Fetch();
             return data;
         }
 

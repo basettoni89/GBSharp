@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
@@ -21,788 +22,724 @@ namespace GBEmu.Core.Tests.CPUTest.LoadInstructions
         {
         }
 
-        [Fact]
-        public void LDARegisterA_AContanisRegisterAValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDARegisterA_AContanisRegisterAValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.A = 0x12;
+            cpu.A = value;
 
-            bus.SetMemory(0x7F, 0xC000);
+            Execute8bitTest(0x7F, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.A);
+            Assert.Equal(value, cpu.A);
         }
 
-        [Fact]
-        public void LDARegisterB_AContanisRegisterBValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDARegisterB_AContanisRegisterBValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.B = 0x12;
+            cpu.B = value;
 
-            bus.SetMemory(0x78, 0xC000);
+            Execute8bitTest(0x78, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.A);
+            Assert.Equal(value, cpu.A);
         }
 
-        [Fact]
-        public void LDARegisterC_AContanisRegisterCValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDARegisterC_AContanisRegisterCValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.C = 0x12;
+            cpu.C = value;
 
-            bus.SetMemory(0x79, 0xC000);
+            Execute8bitTest(0x79, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.A);
+            Assert.Equal(value, cpu.A);
         }
 
-        [Fact]
-        public void LDARegisterD_AContanisRegisterDValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDARegisterD_AContanisRegisterDValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.D = 0x12;
+            cpu.D = value;
 
-            bus.SetMemory(0x7A, 0xC000);
+            Execute8bitTest(0x7A, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.A);
+            Assert.Equal(value, cpu.A);
         }
 
-        [Fact]
-        public void LDARegisterE_AContanisRegisterEValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDARegisterE_AContanisRegisterEValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.E = 0x12;
+            cpu.E = value;
 
-            bus.SetMemory(0x7B, 0xC000);
+            Execute8bitTest(0x7B, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.A);
+            Assert.Equal(value, cpu.A);
         }
 
-        [Fact]
-        public void LDARegisterH_AContanisRegisterHValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDARegisterH_AContanisRegisterHValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.H = 0x12;
+            cpu.H = value;
 
-            bus.SetMemory(0x7C, 0xC000);
+            Execute8bitTest(0x7C, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.A);
+            Assert.Equal(value, cpu.A);
         }
 
-        [Fact]
-        public void LDARegisterL_AContanisRegisterLValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDARegisterL_AContanisRegisterLValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.L = 0x12;
+            cpu.L = value;
 
-            bus.SetMemory(0x7D, 0xC000);
+            Execute8bitTest(0x7D, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.A);
+            Assert.Equal(value, cpu.A);
         }
 
-        [Fact]
-        public void LDBRegisterA_BContanisRegisterAValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDBRegisterA_BContanisRegisterAValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.A = 0x12;
+            cpu.A = value;
 
-            bus.SetMemory(0x47, 0xC000);
+            Execute8bitTest(0x47, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.B);
+            Assert.Equal(value, cpu.B);
         }
 
-        [Fact]
-        public void LDBRegisterB_BContanisRegisterBValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDBRegisterB_BContanisRegisterBValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.B = 0x12;
+            cpu.B = value;
 
-            bus.SetMemory(0x40, 0xC000);
+            Execute8bitTest(0x40, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.B);
+            Assert.Equal(value, cpu.B);
         }
 
-        [Fact]
-        public void LDBRegisterC_BContanisRegisterCValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDBRegisterC_BContanisRegisterCValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.C = 0x12;
+            cpu.C = value;
 
-            bus.SetMemory(0x41, 0xC000);
+            Execute8bitTest(0x41, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.B);
+            Assert.Equal(value, cpu.B);
         }
 
-        [Fact]
-        public void LDBRegisterD_BContanisRegisterDValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDBRegisterD_BContanisRegisterDValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.D = 0x12;
+            cpu.D = value;
 
-            bus.SetMemory(0x42, 0xC000);
+            Execute8bitTest(0x42, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.B);
+            Assert.Equal(value, cpu.B);
         }
 
-        [Fact]
-        public void LDBRegisterE_BContanisRegisterEValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDBRegisterE_BContanisRegisterEValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.E = 0x12;
+            cpu.E = value;
 
-            bus.SetMemory(0x43, 0xC000);
+            Execute8bitTest(0x43, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.B);
+            Assert.Equal(value, cpu.B);
         }
 
-        [Fact]
-        public void LDBRegisterH_BContanisRegisterHValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDBRegisterH_BContanisRegisterHValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.H = 0x12;
+            cpu.H = value;
 
-            bus.SetMemory(0x44, 0xC000);
+            Execute8bitTest(0x44, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.B);
+            Assert.Equal(value, cpu.B);
         }
 
-        [Fact]
-        public void LDBRegisterL_BContanisRegisterLValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDBRegisterL_BContanisRegisterLValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.L = 0x12;
+            cpu.L = value;
 
-            bus.SetMemory(0x45, 0xC000);
+            Execute8bitTest(0x45, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.B);
+            Assert.Equal(value, cpu.B);
         }
 
-        [Fact]
-        public void LDCRegisterA_CContanisRegisterAValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDCRegisterA_CContanisRegisterAValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.A = 0x12;
+            cpu.A = value;
 
-            bus.SetMemory(0x4F, 0xC000);
+            Execute8bitTest(0x4F, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.C);
+            Assert.Equal(value, cpu.C);
         }
 
-        [Fact]
-        public void LDCRegisterB_CContanisRegisterBValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDCRegisterB_CContanisRegisterBValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.B = 0x12;
+            cpu.B = value;
 
-            bus.SetMemory(0x48, 0xC000);
+            Execute8bitTest(0x48, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.C);
+            Assert.Equal(value, cpu.C);
         }
 
-        [Fact]
-        public void LDCRegisterC_CContanisRegisterCValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDCRegisterC_CContanisRegisterCValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.C = 0x12;
+            cpu.C = value;
 
-            bus.SetMemory(0x49, 0xC000);
+            Execute8bitTest(0x49, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.C);
+            Assert.Equal(value, cpu.C);
         }
 
-        [Fact]
-        public void LDCRegisterD_CContanisRegisterDValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDCRegisterD_CContanisRegisterDValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.D = 0x12;
+            cpu.D = value;
 
-            bus.SetMemory(0x4A, 0xC000);
+            Execute8bitTest(0x4A, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.C);
+            Assert.Equal(value, cpu.C);
         }
 
-        [Fact]
-        public void LDCRegisterE_CContanisRegisterEValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDCRegisterE_CContanisRegisterEValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.E = 0x12;
+            cpu.E = value;
 
-            bus.SetMemory(0x4B, 0xC000);
+            Execute8bitTest(0x4B, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.C);
+            Assert.Equal(value, cpu.C);
         }
 
-        [Fact]
-        public void LDCRegisterH_CContanisRegisterHValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDCRegisterH_CContanisRegisterHValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.H = 0x12;
+            cpu.H = value;
 
-            bus.SetMemory(0x4C, 0xC000);
+            Execute8bitTest(0x4C, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.C);
+            Assert.Equal(value, cpu.C);
         }
 
-        [Fact]
-        public void LDCRegisterL_CContanisRegisterLValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDCRegisterL_CContanisRegisterLValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.L = 0x12;
+            cpu.L = value;
 
-            bus.SetMemory(0x4D, 0xC000);
+            Execute8bitTest(0x4D, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.C);
+            Assert.Equal(value, cpu.C);
         }
 
-        [Fact]
-        public void LDDRegisterA_DContanisRegisterAValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDDRegisterA_DContanisRegisterAValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.A = 0x12;
+            cpu.A = value;
 
-            bus.SetMemory(0x57, 0xC000);
+            Execute8bitTest(0x57, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.D);
+            Assert.Equal(value, cpu.D);
         }
 
-        [Fact]
-        public void LDDRegisterB_DContanisRegisterBValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDDRegisterB_DContanisRegisterBValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.B = 0x12;
+            cpu.B = value;
 
-            bus.SetMemory(0x50, 0xC000);
+            Execute8bitTest(0x50, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.D);
+            Assert.Equal(value, cpu.D);
         }
 
-        [Fact]
-        public void LDDRegisterC_DContanisRegisterCValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDDRegisterC_DContanisRegisterCValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.C = 0x12;
+            cpu.C = value;
 
-            bus.SetMemory(0x51, 0xC000);
+            Execute8bitTest(0x51, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.D);
+            Assert.Equal(value, cpu.D);
         }
 
-        [Fact]
-        public void LDDRegisterD_DContanisRegisterDValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDDRegisterD_DContanisRegisterDValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.D = 0x12;
+            cpu.D = value;
 
-            bus.SetMemory(0x52, 0xC000);
+            Execute8bitTest(0x52, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.D);
+            Assert.Equal(value, cpu.D);
         }
 
-        [Fact]
-        public void LDDRegisterE_DContanisRegisterEValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDDRegisterE_DContanisRegisterEValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.E = 0x12;
+            cpu.E = value;
 
-            bus.SetMemory(0x53, 0xC000);
+            Execute8bitTest(0x53, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.D);
+            Assert.Equal(value, cpu.D);
         }
 
-        [Fact]
-        public void LDDRegisterH_DContanisRegisterHValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDDRegisterH_DContanisRegisterHValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.H = 0x12;
+            cpu.H = value;
 
-            bus.SetMemory(0x54, 0xC000);
+            Execute8bitTest(0x54, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.D);
+            Assert.Equal(value, cpu.D);
         }
 
-        [Fact]
-        public void LDDRegisterL_DContanisRegisterLValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDDRegisterL_DContanisRegisterLValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.L = 0x12;
+            cpu.L = value;
 
-            bus.SetMemory(0x55, 0xC000);
+            Execute8bitTest(0x55, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.D);
+            Assert.Equal(value, cpu.D);
         }
 
-        [Fact]
-        public void LDERegisterA_EContanisRegisterAValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDERegisterA_EContanisRegisterAValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.A = 0x12;
+            cpu.A = value;
 
-            bus.SetMemory(0x5F, 0xC000);
+            Execute8bitTest(0x5F, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.E);
+            Assert.Equal(value, cpu.E);
         }
 
-        [Fact]
-        public void LDERegisterB_EContanisRegisterBValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDERegisterB_EContanisRegisterBValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.B = 0x12;
+            cpu.B = value;
 
-            bus.SetMemory(0x58, 0xC000);
+            Execute8bitTest(0x58, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.E);
+            Assert.Equal(value, cpu.E);
         }
 
-        [Fact]
-        public void LDERegisterC_EContanisRegisterCValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDERegisterC_EContanisRegisterCValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.C = 0x12;
+            cpu.C = value;
 
-            bus.SetMemory(0x59, 0xC000);
+            Execute8bitTest(0x59, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.E);
+            Assert.Equal(value, cpu.E);
         }
 
-        [Fact]
-        public void LDERegisterD_EContanisRegisterDValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDERegisterD_EContanisRegisterDValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.D = 0x12;
+            cpu.D = value;
 
-            bus.SetMemory(0x5A, 0xC000);
+            Execute8bitTest(0x5A, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.D);
+            Assert.Equal(value, cpu.D);
         }
 
-        [Fact]
-        public void LDERegisterE_EContanisRegisterEValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDERegisterE_EContanisRegisterEValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.E = 0x12;
+            cpu.E = value;
 
-            bus.SetMemory(0x5B, 0xC000);
+            Execute8bitTest(0x5B, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.E);
+            Assert.Equal(value, cpu.E);
         }
 
-        [Fact]
-        public void LDERegisterH_EContanisRegisterHValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDERegisterH_EContanisRegisterHValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.H = 0x12;
+            cpu.H = value;
 
-            bus.SetMemory(0x5C, 0xC000);
+            Execute8bitTest(0x5C, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.E);
+            Assert.Equal(value, cpu.E);
         }
 
-        [Fact]
-        public void LDERegisterL_EContanisRegisterLValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDERegisterL_EContanisRegisterLValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.L = 0x12;
+            cpu.L = value;
 
-            bus.SetMemory(0x5D, 0xC000);
+            Execute8bitTest(0x5D, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.E);
+            Assert.Equal(value, cpu.E);
         }
 
-        [Fact]
-        public void LDHRegisterA_HContanisRegisterAValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDHRegisterA_HContanisRegisterAValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.A = 0x12;
+            cpu.A = value;
 
-            bus.SetMemory(0x67, 0xC000);
+            Execute8bitTest(0x67, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.H);
+            Assert.Equal(value, cpu.H);
         }
 
-        [Fact]
-        public void LDHRegisterB_HContanisRegisterBValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDHRegisterB_HContanisRegisterBValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.B = 0x12;
+            cpu.B = value;
 
-            bus.SetMemory(0x60, 0xC000);
+            Execute8bitTest(0x60, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.H);
+            Assert.Equal(value, cpu.H);
         }
 
-        [Fact]
-        public void LDHRegisterC_HContanisRegisterCValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDHRegisterC_HContanisRegisterCValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.C = 0x12;
+            cpu.C = value;
 
-            bus.SetMemory(0x61, 0xC000);
+            Execute8bitTest(0x61, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.H);
+            Assert.Equal(value, cpu.H);
         }
 
-        [Fact]
-        public void LHRegisterD_HContanisRegisterDValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LHRegisterD_HContanisRegisterDValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.D = 0x12;
+            cpu.D = value;
 
-            bus.SetMemory(0x62, 0xC000);
+            Execute8bitTest(0x62, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.H);
+            Assert.Equal(value, cpu.H);
         }
 
-        [Fact]
-        public void LDHRegisterE_HContanisRegisterEValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDHRegisterE_HContanisRegisterEValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.E = 0x12;
+            cpu.E = value;
 
-            bus.SetMemory(0x63, 0xC000);
+            Execute8bitTest(0x63, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.H);
+            Assert.Equal(value, cpu.H);
         }
 
-        [Fact]
-        public void LDHRegisterH_HContanisRegisterHValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDHRegisterH_HContanisRegisterHValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.H = 0x12;
+            cpu.H = value;
 
-            bus.SetMemory(0x64, 0xC000);
+            Execute8bitTest(0x64, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.H);
+            Assert.Equal(value, cpu.H);
         }
 
-        [Fact]
-        public void LDHRegisterL_HContanisRegisterLValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDHRegisterL_HContanisRegisterLValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.L = 0x12;
+            cpu.L = value;
 
-            bus.SetMemory(0x65, 0xC000);
+            Execute8bitTest(0x65, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.H);
+            Assert.Equal(value, cpu.H);
         }
 
-        [Fact]
-        public void LDLRegisterA_LContanisRegisterAValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDLRegisterA_LContanisRegisterAValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.A = 0x12;
+            cpu.A = value;
 
-            bus.SetMemory(0x6F, 0xC000);
+            Execute8bitTest(0x6F, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.L);
+            Assert.Equal(value, cpu.L);
         }
 
-        [Fact]
-        public void LDLRegisterB_LContanisRegisterBValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDLRegisterB_LContanisRegisterBValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.B = 0x12;
+            cpu.B = value;
 
-            bus.SetMemory(0x68, 0xC000);
+            Execute8bitTest(0x68, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.L);
+            Assert.Equal(value, cpu.L);
         }
 
-        [Fact]
-        public void LDLRegisterC_LContanisRegisterCValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDLRegisterC_LContanisRegisterCValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.C = 0x12;
+            cpu.C = value;
 
-            bus.SetMemory(0x69, 0xC000);
+            Execute8bitTest(0x69, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.L);
+            Assert.Equal(value, cpu.L);
         }
 
-        [Fact]
-        public void LLRegisterD_LContanisRegisterDValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LLRegisterD_LContanisRegisterDValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.D = 0x12;
+            cpu.D = value;
 
-            bus.SetMemory(0x6A, 0xC000);
+            Execute8bitTest(0x6A, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.L);
+            Assert.Equal(value, cpu.L);
         }
 
-        [Fact]
-        public void LDLRegisterE_LContanisRegisterEValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDLRegisterE_LContanisRegisterEValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.E = 0x12;
+            cpu.E = value;
 
-            bus.SetMemory(0x6B, 0xC000);
+            Execute8bitTest(0x6B, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.L);
+            Assert.Equal(value, cpu.L);
         }
 
-        [Fact]
-        public void LDLRegisterH_LContanisRegisterHValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDLRegisterH_LContanisRegisterHValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.H = 0x12;
+            cpu.H = value;
 
-            bus.SetMemory(0x6C, 0xC000);
+            Execute8bitTest(0x6C, 1);
 
-            cpu.Clock();
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.L);
+            Assert.Equal(value, cpu.L);
         }
 
-        [Fact]
-        public void LDLRegisterL_LContanisRegisterLValue()
+        [Theory]
+        [ClassData(typeof(LoadRegisterTestData))]
+        public void LDLRegisterL_LContanisRegisterLValue(byte value)
         {
             cpu.Reset();
 
             cpu.PC = 0xC000;
-            cpu.L = 0x12;
+            cpu.L = value;
 
-            bus.SetMemory(0x6D, 0xC000);
+            Execute8bitTest(0x6D, 1);
 
-            cpu.Clock();
+            Assert.Equal(value, cpu.L);
+        }
+
+        private void Execute8bitTest(byte opcode, int expectedCycles)
+        {
+            bus.SetMemory(opcode, 0xC000);
+
+            int cycles = 0;
+
+            do
+            {
+                cpu.Clock();
+                cycles++;
+                if (cycles > 100)
+                    break;
+            } while (cpu.Complete);
+
+            Assert.Equal(expectedCycles, cycles);
 
             Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0x12, cpu.L);
+        }
+
+        class LoadRegisterTestData : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return new object[] { 0x00 };
+                yield return new object[] { 0x01 };
+                yield return new object[] { 0x0F };
+                yield return new object[] { 0x22 };
+                yield return new object[] { 0x42 };
+                yield return new object[] { 0xFF };
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
     }
 }

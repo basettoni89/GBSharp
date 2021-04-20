@@ -28,6 +28,8 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
         [InlineData(0xCC00)]
         public void JPImpl_PCContainsNewAddress(ushort address)
         {
+            int expectedCycles = 4;
+
             cpu.Reset();
 
             bus.SetMemory(0xC3, 0xC000);
@@ -36,22 +38,32 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
 
             cpu.PC = 0xC000;
 
-            cpu.Clock();
+            int cycles = 0;
+
+            do
+            {
+                cpu.Clock();
+                cycles++;
+                if (cycles > 100)
+                    break;
+            } while (cpu.Complete);
+
+            Assert.Equal(expectedCycles, cycles);
 
             Assert.Equal(address, cpu.PC);
         }
 
         [Theory]
-        [InlineData(0xC000, 0x0100, true, 0x0100)]
-        [InlineData(0xC000, 0x0100, false, 0xC003)]
-        [InlineData(0xC000, 0x0109, true, 0x0109)]
-        [InlineData(0xC000, 0x0109, false, 0xC003)]
-        [InlineData(0xC000, 0xC00F, true, 0xC00F)]
-        [InlineData(0xC000, 0xC00F, false, 0xC003)]
-        [InlineData(0xC000, 0xCC00, true, 0xCC00)]
-        [InlineData(0xC000, 0xCC00, false, 0xC003)]
+        [InlineData(0xC000, 0x0100, true, 0x0100, 4)]
+        [InlineData(0xC000, 0x0100, false, 0xC003, 3)]
+        [InlineData(0xC000, 0x0109, true, 0x0109, 4)]
+        [InlineData(0xC000, 0x0109, false, 0xC003, 3)]
+        [InlineData(0xC000, 0xC00F, true, 0xC00F, 4)]
+        [InlineData(0xC000, 0xC00F, false, 0xC003, 3)]
+        [InlineData(0xC000, 0xCC00, true, 0xCC00, 4)]
+        [InlineData(0xC000, 0xCC00, false, 0xC003, 3)]
         public void JPZImpl_PCContainsNewAddress(ushort startAddress, ushort address, 
-            bool zeroFlag, ushort expected)
+            bool zeroFlag, ushort expectedPC, int expectedCycles)
         {
             cpu.Reset();
 
@@ -63,9 +75,19 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
 
             cpu.PC = startAddress;
 
-            cpu.Clock();
+            int cycles = 0;
 
-            Assert.Equal(expected, cpu.PC);
+            do
+            {
+                cpu.Clock();
+                cycles++;
+                if (cycles > 100)
+                    break;
+            } while (cpu.Complete);
+
+            Assert.Equal(expectedCycles, cycles);
+
+            Assert.Equal(expectedPC, cpu.PC);
         }
 
         [Theory]
@@ -77,6 +99,8 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
         public void JRImpl_PCContainsNewAddress(byte offset)
         {
             ushort startAddress = 0xC000;
+            int expectedCycles = 3;
+
             cpu.Reset();
 
             bus.SetMemory(0x18, startAddress);
@@ -84,7 +108,17 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
 
             cpu.PC = startAddress;
 
-            cpu.Clock();
+            int cycles = 0;
+
+            do
+            {
+                cpu.Clock();
+                cycles++;
+                if (cycles > 100)
+                    break;
+            } while (cpu.Complete);
+
+            Assert.Equal(expectedCycles, cycles);
 
             Assert.Equal(startAddress + offset, cpu.PC);
         }

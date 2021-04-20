@@ -6,7 +6,7 @@ namespace GBEmu.Core.Instructions.Loads
 {
     public abstract class LDIndirect : Instruction
     {
-        public LDIndirect(Bus bus, string name) : base(bus, name, 2)
+        public LDIndirect(Bus bus, string name) : base(bus, name)
         {
         }
 
@@ -15,7 +15,8 @@ namespace GBEmu.Core.Instructions.Loads
             UInt16 address = GetAddress();
             byte value = bus.ReadMemory(address);
             Load(value);
-            return usedCycles;
+
+            return 2;
         }
 
         protected abstract UInt16 GetAddress();

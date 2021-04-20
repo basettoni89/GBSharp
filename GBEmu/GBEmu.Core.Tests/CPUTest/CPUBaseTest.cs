@@ -42,7 +42,17 @@ namespace GBEmu.Core.Tests.CPUTest
 
             bus.SetMemory(0x00, 0xC000);
 
-            cpu.Clock();
+            int cycles = 0;
+
+            do
+            {
+                cpu.Clock();
+                cycles++;
+                if (cycles > 100)
+                    break;
+            } while (cpu.Complete);
+
+            Assert.Equal(1, cycles);
 
             Assert.Equal(0xC001, cpu.PC);
             Assert.Equal(0xFFFE, cpu.SP);

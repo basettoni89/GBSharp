@@ -6,7 +6,7 @@ namespace GBEmu.Core.Instructions.Math
 {
     public abstract class SumInstruction : Instruction
     {
-        public SumInstruction(Bus bus, string name) : base(bus, name, 0)
+        public SumInstruction(Bus bus, string name) : base(bus, name)
         {
         }
 

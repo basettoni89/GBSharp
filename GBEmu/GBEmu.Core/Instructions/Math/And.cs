@@ -6,7 +6,7 @@ namespace GBEmu.Core.Instructions.Math
 {
     public abstract class AndInstruction : Instruction
     {
-        public AndInstruction(Bus bus, string name, byte cycles) : base(bus, name, cycles)
+        public AndInstruction(Bus bus, string name) : base(bus, name)
         {
         }
 
@@ -33,7 +33,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0xA7;
 
-        public ANDARegA(Bus bus) : base(bus, "AND A, A", 1)
+        public ANDARegA(Bus bus) : base(bus, "AND A, A")
         {
         }
 
@@ -41,7 +41,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = And(bus.GetCPU().A, bus.GetCPU().A);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -49,7 +49,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0xA0;
 
-        public ANDARegB(Bus bus) : base(bus, "AND A, B", 1)
+        public ANDARegB(Bus bus) : base(bus, "AND A, B")
         {
         }
 
@@ -57,7 +57,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = And(bus.GetCPU().A, bus.GetCPU().B);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -65,7 +65,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0xA1;
 
-        public ANDARegC(Bus bus) : base(bus, "AND A, C", 1)
+        public ANDARegC(Bus bus) : base(bus, "AND A, C")
         {
         }
 
@@ -73,7 +73,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = And(bus.GetCPU().A, bus.GetCPU().C);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -81,7 +81,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0xA2;
 
-        public ANDARegD(Bus bus) : base(bus, "AND A, D", 1)
+        public ANDARegD(Bus bus) : base(bus, "AND A, D")
         {
         }
 
@@ -89,7 +89,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = And(bus.GetCPU().A, bus.GetCPU().D);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -97,7 +97,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0xA3;
 
-        public ANDARegE(Bus bus) : base(bus, "AND A, E", 1)
+        public ANDARegE(Bus bus) : base(bus, "AND A, E")
         {
         }
 
@@ -105,7 +105,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = And(bus.GetCPU().A, bus.GetCPU().E);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -113,7 +113,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0xA4;
 
-        public ANDARegH(Bus bus) : base(bus, "AND A, H", 1)
+        public ANDARegH(Bus bus) : base(bus, "AND A, H")
         {
         }
 
@@ -121,7 +121,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = And(bus.GetCPU().A, bus.GetCPU().H);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -129,7 +129,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0xA5;
 
-        public ANDARegL(Bus bus) : base(bus, "AND A, L", 1)
+        public ANDARegL(Bus bus) : base(bus, "AND A, L")
         {
         }
 
@@ -137,7 +137,7 @@ namespace GBEmu.Core.Instructions.Math
         {
             bus.GetCPU().A = And(bus.GetCPU().A, bus.GetCPU().L);
 
-            return usedCycles;
+            return 1;
         }
     }
 
@@ -145,7 +145,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0xA6;
 
-        public ANDAAddrHL(Bus bus) : base(bus, "AND A, (HL)", 2)
+        public ANDAAddrHL(Bus bus) : base(bus, "AND A, (HL)")
         {
         }
 
@@ -155,8 +155,7 @@ namespace GBEmu.Core.Instructions.Math
 
             bus.GetCPU().A = And(bus.GetCPU().A, bus.ReadMemory(address));
 
-            usedCycles += 2;
-            return usedCycles;
+            return 2;
         }
     }
 
@@ -166,7 +165,7 @@ namespace GBEmu.Core.Instructions.Math
 
         protected byte value = 0;
 
-        public ANDAImpl(Bus bus) : base(bus, "AND A", 2)
+        public ANDAImpl(Bus bus) : base(bus, "AND A")
         {
         }
 
@@ -174,12 +173,10 @@ namespace GBEmu.Core.Instructions.Math
         {
             byte data = bus.ReadMemory(bus.GetCPU().PC);
             bus.GetCPU().PC++;
-            usedCycles++;
 
             bus.GetCPU().A = And(bus.GetCPU().A, data);
-            usedCycles++;
 
-            return usedCycles;
+            return 2;
         }
 
         public override string ToString()

@@ -132,7 +132,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x33;
 
-        public INCSP(Bus bus) : base(bus, "INC SP", 0)
+        public INCSP(Bus bus) : base(bus, "INC SP")
         {
         }
 
@@ -153,7 +153,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x03;
 
-        public INCBC(Bus bus) : base(bus, "INC BC", 0)
+        public INCBC(Bus bus) : base(bus, "INC BC")
         {
         }
 
@@ -177,7 +177,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x13;
 
-        public INCDE(Bus bus) : base(bus, "INC DE", 0)
+        public INCDE(Bus bus) : base(bus, "INC DE")
         {
         }
 
@@ -201,7 +201,7 @@ namespace GBEmu.Core.Instructions.Math
     {
         public static new byte OpCode => 0x23;
 
-        public INCHL(Bus bus) : base(bus, "INC HL", 0)
+        public INCHL(Bus bus) : base(bus, "INC HL")
         {
         }
 

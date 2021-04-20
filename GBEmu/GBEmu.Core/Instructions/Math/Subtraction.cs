@@ -6,7 +6,7 @@ namespace GBEmu.Core.Instructions.Math
 {
     public abstract class SubInstruction : Instruction
     {
-        protected SubInstruction(Bus bus, string name) : base(bus, name, 0)
+        protected SubInstruction(Bus bus, string name) : base(bus, name)
         {
         }
 
