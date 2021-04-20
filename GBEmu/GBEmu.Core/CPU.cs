@@ -179,7 +179,10 @@ namespace GBEmu.Core
                 {CPAddrHL.OpCode, new CPAddrHL(bus) },
                 {JPImpl.OpCode, new JPImpl(bus) },
                 {JPZImpl.OpCode, new JPZImpl(bus) },
+                {JPCImpl.OpCode, new JPCImpl(bus) },
                 {JRImpl.OpCode, new JRImpl(bus) },
+                {JRZImpl.OpCode, new JRZImpl(bus) },
+                {JRCImpl.OpCode, new JRCImpl(bus) },
             };
         }
 
