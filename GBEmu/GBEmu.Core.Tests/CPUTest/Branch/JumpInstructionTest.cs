@@ -54,6 +54,40 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
         }
 
         [Theory]
+        [InlineData(0x0100)]
+        [InlineData(0x0109)]
+        [InlineData(0xC000)]
+        [InlineData(0xC00F)]
+        [InlineData(0xCC00)]
+        public void JPHLImpl_PCContainsNewAddress(ushort address)
+        {
+            int expectedCycles = 1;
+
+            cpu.Reset();
+
+            bus.SetMemory(0xE9, 0xC000);
+
+            bus.GetCPU().L = (byte)address;
+            bus.GetCPU().H = (byte)(address >> 8);
+
+            cpu.PC = 0xC000;
+
+            int cycles = 0;
+
+            do
+            {
+                cpu.Clock();
+                cycles++;
+                if (cycles > 100)
+                    break;
+            } while (cpu.Complete);
+
+            Assert.Equal(expectedCycles, cycles);
+
+            Assert.Equal(address, cpu.PC);
+        }
+
+        [Theory]
         [InlineData(0xC000, 0x0100, true, 0x0100, 4)]
         [InlineData(0xC000, 0x0100, false, 0xC003, 3)]
         [InlineData(0xC000, 0x0109, true, 0x0109, 4)]
@@ -107,6 +141,80 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
             cpu.Flags.CY = carryFlag;
 
             bus.SetMemory(0xDA, startAddress);
+            bus.SetMemory((byte)address, (uint)(startAddress + 1));
+            bus.SetMemory((byte)(address >> 8), (uint)(startAddress + 2));
+
+            cpu.PC = startAddress;
+
+            int cycles = 0;
+
+            do
+            {
+                cpu.Clock();
+                cycles++;
+                if (cycles > 100)
+                    break;
+            } while (cpu.Complete);
+
+            Assert.Equal(expectedCycles, cycles);
+
+            Assert.Equal(expectedPC, cpu.PC);
+        }
+
+        [Theory]
+        [InlineData(0xC000, 0x0100, false, 0x0100, 4)]
+        [InlineData(0xC000, 0x0100, true, 0xC003, 3)]
+        [InlineData(0xC000, 0x0109, false, 0x0109, 4)]
+        [InlineData(0xC000, 0x0109, true, 0xC003, 3)]
+        [InlineData(0xC000, 0xC00F, false, 0xC00F, 4)]
+        [InlineData(0xC000, 0xC00F, true, 0xC003, 3)]
+        [InlineData(0xC000, 0xCC00, false, 0xCC00, 4)]
+        [InlineData(0xC000, 0xCC00, true, 0xC003, 3)]
+        public void JPNZImpl_PCContainsNewAddress(ushort startAddress, ushort address,
+            bool zeroFlag, ushort expectedPC, int expectedCycles)
+        {
+            cpu.Reset();
+
+            cpu.Flags.ZF = zeroFlag;
+
+            bus.SetMemory(0xC2, startAddress);
+            bus.SetMemory((byte)address, (uint)(startAddress + 1));
+            bus.SetMemory((byte)(address >> 8), (uint)(startAddress + 2));
+
+            cpu.PC = startAddress;
+
+            int cycles = 0;
+
+            do
+            {
+                cpu.Clock();
+                cycles++;
+                if (cycles > 100)
+                    break;
+            } while (cpu.Complete);
+
+            Assert.Equal(expectedCycles, cycles);
+
+            Assert.Equal(expectedPC, cpu.PC);
+        }
+
+        [Theory]
+        [InlineData(0xC000, 0x0100, false, 0x0100, 4)]
+        [InlineData(0xC000, 0x0100, true, 0xC003, 3)]
+        [InlineData(0xC000, 0x0109, false, 0x0109, 4)]
+        [InlineData(0xC000, 0x0109, true, 0xC003, 3)]
+        [InlineData(0xC000, 0xC00F, false, 0xC00F, 4)]
+        [InlineData(0xC000, 0xC00F, true, 0xC003, 3)]
+        [InlineData(0xC000, 0xCC00, false, 0xCC00, 4)]
+        [InlineData(0xC000, 0xCC00, true, 0xC003, 3)]
+        public void JPNCImpl_PCContainsNewAddress(ushort startAddress, ushort address,
+            bool carryFlag, ushort expectedPC, int expectedCycles)
+        {
+            cpu.Reset();
+
+            cpu.Flags.CY = carryFlag;
+
+            bus.SetMemory(0xD2, startAddress);
             bus.SetMemory((byte)address, (uint)(startAddress + 1));
             bus.SetMemory((byte)(address >> 8), (uint)(startAddress + 2));
 
@@ -217,6 +325,82 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
             cpu.Flags.CY = carryFlag;
 
             bus.SetMemory(0x38, startAddress);
+            bus.SetMemory(offset, (uint)(startAddress + 1));
+
+            cpu.PC = startAddress;
+
+            int cycles = 0;
+
+            do
+            {
+                cpu.Clock();
+                cycles++;
+                if (cycles > 100)
+                    break;
+            } while (cpu.Complete);
+
+            Assert.Equal(expectedCycles, cycles);
+
+            Assert.Equal(expectedPC, cpu.PC);
+        }
+
+        [Theory]
+        [InlineData(0xC000, 0x00, false, 0xC000, 3)]
+        [InlineData(0xC000, 0x00, true, 0xC002, 2)]
+        [InlineData(0xC000, 0x09, false, 0xC009, 3)]
+        [InlineData(0xC000, 0x09, true, 0xC002, 2)]
+        [InlineData(0xC000, 0x10, false, 0xC010, 3)]
+        [InlineData(0xC000, 0x10, true, 0xC002, 2)]
+        [InlineData(0xC000, 0x0F, false, 0xC00F, 3)]
+        [InlineData(0xC000, 0x0F, true, 0xC002, 2)]
+        [InlineData(0xC000, 0xFF, false, 0xC0FF, 3)]
+        [InlineData(0xC000, 0xFF, true, 0xC002, 2)]
+        public void JRNZImpl_PCContainsNewAddress(ushort startAddress, byte offset,
+            bool zeroFlag, ushort expectedPC, int expectedCycles)
+        {
+            cpu.Reset();
+
+            cpu.Flags.ZF = zeroFlag;
+
+            bus.SetMemory(0x20, startAddress);
+            bus.SetMemory(offset, (uint)(startAddress + 1));
+
+            cpu.PC = startAddress;
+
+            int cycles = 0;
+
+            do
+            {
+                cpu.Clock();
+                cycles++;
+                if (cycles > 100)
+                    break;
+            } while (cpu.Complete);
+
+            Assert.Equal(expectedCycles, cycles);
+
+            Assert.Equal(expectedPC, cpu.PC);
+        }
+
+        [Theory]
+        [InlineData(0xC000, 0x00, false, 0xC000, 3)]
+        [InlineData(0xC000, 0x00, true, 0xC002, 2)]
+        [InlineData(0xC000, 0x09, false, 0xC009, 3)]
+        [InlineData(0xC000, 0x09, true, 0xC002, 2)]
+        [InlineData(0xC000, 0x10, false, 0xC010, 3)]
+        [InlineData(0xC000, 0x10, true, 0xC002, 2)]
+        [InlineData(0xC000, 0x0F, false, 0xC00F, 3)]
+        [InlineData(0xC000, 0x0F, true, 0xC002, 2)]
+        [InlineData(0xC000, 0xFF, false, 0xC0FF, 3)]
+        [InlineData(0xC000, 0xFF, true, 0xC002, 2)]
+        public void JRNCImpl_PCContainsNewAddress(ushort startAddress, byte offset,
+            bool carryFlag, ushort expectedPC, int expectedCycles)
+        {
+            cpu.Reset();
+
+            cpu.Flags.CY = carryFlag;
+
+            bus.SetMemory(0x30, startAddress);
             bus.SetMemory(offset, (uint)(startAddress + 1));
 
             cpu.PC = startAddress;
