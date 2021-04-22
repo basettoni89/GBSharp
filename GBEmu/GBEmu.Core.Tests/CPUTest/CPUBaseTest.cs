@@ -57,5 +57,20 @@ namespace GBEmu.Core.Tests.CPUTest
             Assert.Equal(0xC001, cpu.PC);
             Assert.Equal(0xFFFE, cpu.SP);
         }
+
+        [Fact]
+        public void FetchData_GetMemoryValue()
+        {
+            cpu.Reset();
+
+            cpu.PC = 0xC000;
+
+            bus.SetMemory(0x42, 0xC000);
+
+            byte value = cpu.Fetch();
+
+            Assert.Equal(0xC001, cpu.PC);
+            Assert.Equal(0x42, value);
+        }
     }
 }

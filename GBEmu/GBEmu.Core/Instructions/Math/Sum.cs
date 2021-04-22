@@ -174,8 +174,7 @@ namespace GBEmu.Core.Instructions.Math
 
         public override int Execute()
         {
-            byte data = bus.ReadMemory(bus.GetCPU().PC);
-            bus.GetCPU().PC++;
+            byte data = bus.GetCPU().Fetch();
 
             bus.GetCPU().A = Sum(bus.GetCPU().A, data, true, true);
 
