@@ -189,6 +189,10 @@ namespace GBEmu.Core
                 {JRNZImpl.OpCode, new JRNZImpl(bus) },
                 {JRNCImpl.OpCode, new JRNCImpl(bus) },
                 {CALLImpl.OpCode, new CALLImpl(bus) },
+                {CALLZImpl.OpCode, new CALLZImpl(bus) },
+                {CALLCImpl.OpCode, new CALLCImpl(bus) },
+                {CALLNZImpl.OpCode, new CALLNZImpl(bus) },
+                {CALLNCImpl.OpCode, new CALLNCImpl(bus) },
             };
         }
 
