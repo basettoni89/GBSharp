@@ -193,6 +193,11 @@ namespace GBEmu.Core
                 {CALLCImpl.OpCode, new CALLCImpl(bus) },
                 {CALLNZImpl.OpCode, new CALLNZImpl(bus) },
                 {CALLNCImpl.OpCode, new CALLNCImpl(bus) },
+                {RET.OpCode, new RET(bus) },
+                {RETZ.OpCode, new RETZ(bus) },
+                {RETC.OpCode, new RETC(bus) },
+                {RETNZ.OpCode, new RETNZ(bus) },
+                {RETNC.OpCode, new RETNC(bus) },
             };
         }
 

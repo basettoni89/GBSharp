@@ -6,6 +6,8 @@ namespace GBEmu.Core.Instructions.Branch
 {
     public abstract class CallInstruction : JumpInstruction
     {
+        protected ushort value;
+
         protected CallInstruction(Bus bus, string name) : base(bus, name)
         {
         }
@@ -14,12 +16,15 @@ namespace GBEmu.Core.Instructions.Branch
             bus.GetCPU().Push(bus.GetCPU().PC);
             JumpTo(address);
         }
+
+        public override string ToString()
+        {
+            return $"{Name}, {value:X8}";
+        }
     }
 
     public class CALLImpl : CallInstruction
     {
-        private ushort value;
-
         public static new byte OpCode => 0xCD;
 
         public CALLImpl(Bus bus) : base(bus, "CALL")
@@ -37,17 +42,10 @@ namespace GBEmu.Core.Instructions.Branch
 
             return 6;
         }
-
-        public override string ToString()
-        {
-            return $"{Name}, {value:X8}";
-        }
     }
 
     public class CALLZImpl : CallInstruction
     {
-        private ushort value;
-
         public static new byte OpCode => 0xCC;
 
         public CALLZImpl(Bus bus) : base(bus, "CALL Z")
@@ -69,17 +67,10 @@ namespace GBEmu.Core.Instructions.Branch
 
             return 3;
         }
-
-        public override string ToString()
-        {
-            return $"{Name}, {value:X8}";
-        }
     }
 
     public class CALLCImpl : CallInstruction
     {
-        private ushort value;
-
         public static new byte OpCode => 0xDC;
 
         public CALLCImpl(Bus bus) : base(bus, "CALL C")
@@ -101,17 +92,10 @@ namespace GBEmu.Core.Instructions.Branch
 
             return 3;
         }
-
-        public override string ToString()
-        {
-            return $"{Name}, {value:X8}";
-        }
     }
 
     public class CALLNZImpl : CallInstruction
     {
-        private ushort value;
-
         public static new byte OpCode => 0xC4;
 
         public CALLNZImpl(Bus bus) : base(bus, "CALL NZ")
@@ -133,17 +117,10 @@ namespace GBEmu.Core.Instructions.Branch
 
             return 3;
         }
-
-        public override string ToString()
-        {
-            return $"{Name}, {value:X8}";
-        }
     }
 
     public class CALLNCImpl : CallInstruction
     {
-        private ushort value;
-
         public static new byte OpCode => 0xD4;
 
         public CALLNCImpl(Bus bus) : base(bus, "CALL NC")
@@ -164,11 +141,6 @@ namespace GBEmu.Core.Instructions.Branch
             }
 
             return 3;
-        }
-
-        public override string ToString()
-        {
-            return $"{Name}, {value:X8}";
         }
     }
 }
