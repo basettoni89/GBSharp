@@ -242,6 +242,13 @@ namespace GBEmu.Core
             Push((byte)value);
         }
 
+        public byte Pop()
+        {
+            byte value = bus.ReadMemory(SP);
+            SP++;
+            return value;
+        }
+
         /// <summary>
         /// Debug function to retrieve actual instruction lookup table
         /// </summary>

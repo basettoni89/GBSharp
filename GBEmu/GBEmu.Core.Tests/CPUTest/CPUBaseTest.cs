@@ -120,5 +120,52 @@ namespace GBEmu.Core.Tests.CPUTest
 
             Assert.Equal(0xFFF8, cpu.SP);
         }
+
+
+        [Theory]
+        [InlineData(0x42)]
+        [InlineData(0x68)]
+        [InlineData(0xFF)]
+        [InlineData(0x00)]
+        public void PopValueFromStack_ReadValue(byte value)
+        {
+            cpu.Reset();
+
+            cpu.SP = 0xFFFD;
+
+            bus.SetMemory(value, 0xFFFD);
+
+            byte readValue = cpu.Pop();
+
+            Assert.Equal(value, readValue);
+
+            Assert.Equal(0xFFFE, cpu.SP);
+        }
+
+        [Fact]
+        public void PopValueOntoStack_MultipleValues()
+        {
+            cpu.Reset();
+
+            cpu.SP = 0xFFFB;
+
+            bus.SetMemory(0x42, 0xFFFB);
+            bus.SetMemory(0x35, 0xFFFC);
+            bus.SetMemory(0xFF, 0xFFFD);
+
+            byte readValue = 0;
+
+            readValue = cpu.Pop();
+            Assert.Equal(0x42, readValue);
+            Assert.Equal(0xFFFC, cpu.SP);
+
+            readValue = cpu.Pop();
+            Assert.Equal(0x35, readValue);
+            Assert.Equal(0xFFFD, cpu.SP);
+
+            readValue = cpu.Pop();
+            Assert.Equal(0xFF, readValue);
+            Assert.Equal(0xFFFE, cpu.SP);
+        }
     }
 }
