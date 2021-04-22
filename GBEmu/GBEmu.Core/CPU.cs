@@ -188,6 +188,7 @@ namespace GBEmu.Core
                 {JRCImpl.OpCode, new JRCImpl(bus) },
                 {JRNZImpl.OpCode, new JRNZImpl(bus) },
                 {JRNCImpl.OpCode, new JRNCImpl(bus) },
+                {CALLImpl.OpCode, new CALLImpl(bus) },
             };
         }
 
@@ -223,6 +224,18 @@ namespace GBEmu.Core
             byte opCode = bus.ReadMemory(PC);
             PC++;
             return lookup[opCode];
+        }
+
+        public void Push(byte value)
+        {
+            SP--;
+            bus.WriteMemory(value, SP);
+        }
+
+        public void Push(ushort value)
+        {
+            Push((byte)(value >> 8));
+            Push((byte)value);
         }
 
         /// <summary>
