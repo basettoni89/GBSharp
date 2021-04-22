@@ -6,21 +6,8 @@ using Xunit;
 
 namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
 {
-    public class IncrementInstructionTest : IDisposable
+    public class IncrementInstructionTest : AbstractInstructionTest
     {
-        readonly CPU cpu;
-        readonly Bus bus;
-
-        public IncrementInstructionTest()
-        {
-            this.bus = new Bus();
-            this.cpu = bus.GetCPU();
-        }
-
-        public void Dispose()
-        {
-        }
-
         [Theory]
         [ClassData(typeof(Increment8bitTestData))]
         public void INCA_AContainsIncrementValue(byte actual, byte expected, 
@@ -192,17 +179,7 @@ namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
 
             bus.SetMemory(opCode, 0xC000);
 
-            int cycles = 0;
-
-            do
-            {
-                cpu.Clock();
-                cycles++;
-                if (cycles > 100)
-                    break;
-            } while (cpu.Complete);
-
-            Assert.Equal(expectedCycles, cycles);
+            TestExecution(expectedCycles);
 
             Assert.Equal(0xC001, cpu.PC);
 
@@ -223,17 +200,7 @@ namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
 
             bus.SetMemory(opCode, 0xC000);
 
-            int cycles = 0;
-
-            do
-            {
-                cpu.Clock();
-                cycles++;
-                if (cycles > 100)
-                    break;
-            } while (cpu.Complete);
-
-            Assert.Equal(expectedCycles, cycles);
+            TestExecution(expectedCycles);
 
             Assert.Equal(0xC001, cpu.PC);
 

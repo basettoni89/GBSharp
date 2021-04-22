@@ -6,21 +6,8 @@ using Xunit;
 
 namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
 {
-    public class AndInstructionTest : IDisposable
+    public class AndInstructionTest : AbstractInstructionTest
     {
-        readonly CPU cpu;
-        readonly Bus bus;
-
-        public AndInstructionTest()
-        {
-            this.bus = new Bus();
-            this.cpu = bus.GetCPU();
-        }
-
-        public void Dispose()
-        {
-        }
-
         [Theory]
         [InlineData(0b00000000, 0b00000000, true, false, true, false)]
         [InlineData(0b00000001, 0b00000001, false, false, true, false)]
@@ -165,17 +152,7 @@ namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
 
             bus.SetMemory(opCode, 0xC000);
 
-            int cycles = 0;
-
-            do
-            {
-                cpu.Clock();
-                cycles++;
-                if (cycles > 100)
-                    break;
-            } while (cpu.Complete);
-
-            Assert.Equal(expectedCycles, cycles);
+            TestExecution(expectedCycles);
 
             Assert.Equal(pc, cpu.PC);
 

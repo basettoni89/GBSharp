@@ -5,12 +5,12 @@ using Xunit;
 
 namespace GBEmu.Core.Tests.CPUTest
 {
-    public class CPUInstructionAbstractTest : IDisposable
+    public class AbstractInstructionTest : IDisposable
     {
         protected readonly CPU cpu;
         protected readonly Bus bus;
 
-        public CPUInstructionAbstractTest()
+        public AbstractInstructionTest()
         {
             this.bus = new Bus();
             this.cpu = bus.GetCPU();

@@ -5,22 +5,8 @@ using Xunit;
 
 namespace GBEmu.Core.Tests.CPUTest.LoadInstructions
 {
-    public class LoadIndirectInstructionTest : IDisposable
+    public class LoadIndirectInstructionTest : AbstractInstructionTest
     {
-
-        readonly CPU cpu;
-        readonly Bus bus;
-
-        public LoadIndirectInstructionTest()
-        {
-            this.bus = new Bus();
-            this.cpu = bus.GetCPU();
-        }
-
-        public void Dispose()
-        {
-        }
-
         [Theory]
         [InlineData(0xCC01, 0x00)]
         [InlineData(0xCC01, 0x01)]
@@ -165,17 +151,7 @@ namespace GBEmu.Core.Tests.CPUTest.LoadInstructions
             bus.SetMemory(opcode, 0xC000);
             bus.SetMemory(value, addr);
 
-            int cycles = 0;
-
-            do
-            {
-                cpu.Clock();
-                cycles++;
-                if (cycles > 100)
-                    break;
-            } while (cpu.Complete);
-
-            Assert.Equal(expectedCycles, cycles);
+            TestExecution(expectedCycles);
 
             Assert.Equal(0xC001, cpu.PC);
         }

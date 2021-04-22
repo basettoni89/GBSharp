@@ -6,21 +6,8 @@ using Xunit;
 
 namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
 {
-    public class DecrementInstructionTest : IDisposable
+    public class DecrementInstructionTest : AbstractInstructionTest
     {
-        readonly CPU cpu;
-        readonly Bus bus;
-
-        public DecrementInstructionTest()
-        {
-            this.bus = new Bus();
-            this.cpu = bus.GetCPU();
-        }
-
-        public void Dispose()
-        {
-        }
-
         [Theory]
         [ClassData(typeof(Decrement8bitTestData))]
         public void DECA_AContainsDecrementValue(byte actual, byte expected, 
@@ -138,17 +125,7 @@ namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
 
             bus.SetMemory(opCode, 0xC000);
 
-            int cycles = 0;
-
-            do
-            {
-                cpu.Clock();
-                cycles++;
-                if (cycles > 100)
-                    break;
-            } while (cpu.Complete);
-
-            Assert.Equal(expectedCycles, cycles);
+            TestExecution(expectedCycles);
 
             Assert.Equal(0xC001, cpu.PC);
 

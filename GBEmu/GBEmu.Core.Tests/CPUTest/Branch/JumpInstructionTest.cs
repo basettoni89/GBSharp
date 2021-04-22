@@ -5,21 +5,8 @@ using Xunit;
 
 namespace GBEmu.Core.Tests.CPUTest.Branch
 {
-    public class JumpInstructionTest : IDisposable
+    public class JumpInstructionTest : AbstractInstructionTest
     {
-        readonly CPU cpu;
-        readonly Bus bus;
-
-        public JumpInstructionTest()
-        {
-            this.bus = new Bus();
-            this.cpu = bus.GetCPU();
-        }
-
-        public void Dispose()
-        {
-        }
-
         [Theory]
         [InlineData(0x0100)]
         [InlineData(0x0109)]
@@ -28,8 +15,6 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
         [InlineData(0xCC00)]
         public void JPImpl_PCContainsNewAddress(ushort address)
         {
-            int expectedCycles = 4;
-
             cpu.Reset();
 
             bus.SetMemory(0xC3, 0xC000);
@@ -38,17 +23,7 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
 
             cpu.PC = 0xC000;
 
-            int cycles = 0;
-
-            do
-            {
-                cpu.Clock();
-                cycles++;
-                if (cycles > 100)
-                    break;
-            } while (cpu.Complete);
-
-            Assert.Equal(expectedCycles, cycles);
+            TestExecution(4);
 
             Assert.Equal(address, cpu.PC);
         }
@@ -61,8 +36,6 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
         [InlineData(0xCC00)]
         public void JPHLImpl_PCContainsNewAddress(ushort address)
         {
-            int expectedCycles = 1;
-
             cpu.Reset();
 
             bus.SetMemory(0xE9, 0xC000);
@@ -72,17 +45,7 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
 
             cpu.PC = 0xC000;
 
-            int cycles = 0;
-
-            do
-            {
-                cpu.Clock();
-                cycles++;
-                if (cycles > 100)
-                    break;
-            } while (cpu.Complete);
-
-            Assert.Equal(expectedCycles, cycles);
+            TestExecution(1);
 
             Assert.Equal(address, cpu.PC);
         }
@@ -109,17 +72,7 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
 
             cpu.PC = startAddress;
 
-            int cycles = 0;
-
-            do
-            {
-                cpu.Clock();
-                cycles++;
-                if (cycles > 100)
-                    break;
-            } while (cpu.Complete);
-
-            Assert.Equal(expectedCycles, cycles);
+            TestExecution(expectedCycles);
 
             Assert.Equal(expectedPC, cpu.PC);
         }
@@ -146,17 +99,7 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
 
             cpu.PC = startAddress;
 
-            int cycles = 0;
-
-            do
-            {
-                cpu.Clock();
-                cycles++;
-                if (cycles > 100)
-                    break;
-            } while (cpu.Complete);
-
-            Assert.Equal(expectedCycles, cycles);
+            TestExecution(expectedCycles);
 
             Assert.Equal(expectedPC, cpu.PC);
         }
@@ -183,17 +126,7 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
 
             cpu.PC = startAddress;
 
-            int cycles = 0;
-
-            do
-            {
-                cpu.Clock();
-                cycles++;
-                if (cycles > 100)
-                    break;
-            } while (cpu.Complete);
-
-            Assert.Equal(expectedCycles, cycles);
+            TestExecution(expectedCycles);
 
             Assert.Equal(expectedPC, cpu.PC);
         }
@@ -220,17 +153,7 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
 
             cpu.PC = startAddress;
 
-            int cycles = 0;
-
-            do
-            {
-                cpu.Clock();
-                cycles++;
-                if (cycles > 100)
-                    break;
-            } while (cpu.Complete);
-
-            Assert.Equal(expectedCycles, cycles);
+            TestExecution(expectedCycles);
 
             Assert.Equal(expectedPC, cpu.PC);
         }
@@ -253,17 +176,7 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
 
             cpu.PC = startAddress;
 
-            int cycles = 0;
-
-            do
-            {
-                cpu.Clock();
-                cycles++;
-                if (cycles > 100)
-                    break;
-            } while (cpu.Complete);
-
-            Assert.Equal(expectedCycles, cycles);
+            TestExecution(expectedCycles);
 
             Assert.Equal(startAddress + offset, cpu.PC);
         }
@@ -291,17 +204,7 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
 
             cpu.PC = startAddress;
 
-            int cycles = 0;
-
-            do
-            {
-                cpu.Clock();
-                cycles++;
-                if (cycles > 100)
-                    break;
-            } while (cpu.Complete);
-
-            Assert.Equal(expectedCycles, cycles);
+            TestExecution(expectedCycles);
 
             Assert.Equal(expectedPC, cpu.PC);
         }
@@ -329,17 +232,7 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
 
             cpu.PC = startAddress;
 
-            int cycles = 0;
-
-            do
-            {
-                cpu.Clock();
-                cycles++;
-                if (cycles > 100)
-                    break;
-            } while (cpu.Complete);
-
-            Assert.Equal(expectedCycles, cycles);
+            TestExecution(expectedCycles);
 
             Assert.Equal(expectedPC, cpu.PC);
         }
@@ -367,17 +260,7 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
 
             cpu.PC = startAddress;
 
-            int cycles = 0;
-
-            do
-            {
-                cpu.Clock();
-                cycles++;
-                if (cycles > 100)
-                    break;
-            } while (cpu.Complete);
-
-            Assert.Equal(expectedCycles, cycles);
+            TestExecution(expectedCycles);
 
             Assert.Equal(expectedPC, cpu.PC);
         }
@@ -405,17 +288,7 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
 
             cpu.PC = startAddress;
 
-            int cycles = 0;
-
-            do
-            {
-                cpu.Clock();
-                cycles++;
-                if (cycles > 100)
-                    break;
-            } while (cpu.Complete);
-
-            Assert.Equal(expectedCycles, cycles);
+            TestExecution(expectedCycles);
 
             Assert.Equal(expectedPC, cpu.PC);
         }

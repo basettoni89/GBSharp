@@ -5,7 +5,7 @@ using Xunit;
 
 namespace GBEmu.Core.Tests.CPUTest.Branch
 {
-    public class CallInstructionTest : CPUInstructionAbstractTest
+    public class CallInstructionTest : AbstractInstructionTest
     {
         [Theory]
         [InlineData(0x0100)]

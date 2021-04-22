@@ -6,22 +6,8 @@ using Xunit;
 
 namespace GBEmu.Core.Tests.CPUTest.LoadInstructions
 {
-    public class LoadRegisterInstructionTest : IDisposable
+    public class LoadRegisterInstructionTest : AbstractInstructionTest
     {
-
-        readonly CPU cpu;
-        readonly Bus bus;
-
-        public LoadRegisterInstructionTest()
-        {
-            this.bus = new Bus();
-            this.cpu = bus.GetCPU();
-        }
-
-        public void Dispose()
-        {
-        }
-
         [Theory]
         [ClassData(typeof(LoadRegisterTestData))]
         public void LDARegisterA_AContanisRegisterAValue(byte value)
@@ -712,17 +698,7 @@ namespace GBEmu.Core.Tests.CPUTest.LoadInstructions
         {
             bus.SetMemory(opcode, 0xC000);
 
-            int cycles = 0;
-
-            do
-            {
-                cpu.Clock();
-                cycles++;
-                if (cycles > 100)
-                    break;
-            } while (cpu.Complete);
-
-            Assert.Equal(expectedCycles, cycles);
+            TestExecution(expectedCycles);
 
             Assert.Equal(0xC001, cpu.PC);
         }

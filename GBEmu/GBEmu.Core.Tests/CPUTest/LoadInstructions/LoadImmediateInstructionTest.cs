@@ -6,22 +6,8 @@ using Xunit;
 
 namespace GBEmu.Core.Tests.CPUTest.LoadInstructions
 {
-    public class LoadImmediateInstructionTest : IDisposable
+    public class LoadImmediateInstructionTest : AbstractInstructionTest
     {
-
-        readonly CPU cpu;
-        readonly Bus bus;
-
-        public LoadImmediateInstructionTest()
-        {
-            this.bus = new Bus();
-            this.cpu = bus.GetCPU();
-        }
-
-        public void Dispose()
-        {
-        }
-
         [Theory]
         [ClassData(typeof(LoadImmediateTestData))]
         public void LDA_AContanisAValue(byte value)
@@ -87,17 +73,7 @@ namespace GBEmu.Core.Tests.CPUTest.LoadInstructions
             bus.SetMemory(opcode, 0xC000);
             bus.SetMemory(value, 0xC001);
 
-            int cycles = 0;
-
-            do
-            {
-                cpu.Clock();
-                cycles++;
-                if (cycles > 100)
-                    break;
-            } while (cpu.Complete);
-
-            Assert.Equal(expectedCycles, cycles);
+            TestExecution(expectedCycles);
 
             Assert.Equal(0xC002, cpu.PC);
         }

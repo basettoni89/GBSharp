@@ -34,31 +34,6 @@ namespace GBEmu.Core.Tests.CPUTest
         }
 
         [Fact]
-        public void NOOP_PCNextInstructionTest()
-        {
-            cpu.Reset();
-
-            cpu.PC = 0xC000;
-
-            bus.SetMemory(0x00, 0xC000);
-
-            int cycles = 0;
-
-            do
-            {
-                cpu.Clock();
-                cycles++;
-                if (cycles > 100)
-                    break;
-            } while (cpu.Complete);
-
-            Assert.Equal(1, cycles);
-
-            Assert.Equal(0xC001, cpu.PC);
-            Assert.Equal(0xFFFE, cpu.SP);
-        }
-
-        [Fact]
         public void FetchData_GetMemoryValue()
         {
             cpu.Reset();
