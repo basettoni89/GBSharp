@@ -19,9 +19,19 @@ namespace GBEmu.Core
         public byte C;
         public byte D;
         public byte E;
-        public byte F;
+
         public byte H;
         public byte L;
+
+        public byte F
+        {
+            get { return (byte)(
+                    ((Flags.ZF ? 1 : 0) << 7)
+                    | ((Flags.N ? 1 : 0) << 6)
+                    | ((Flags.H ? 1 : 0) << 5)
+                    | ((Flags.CY ? 1 : 0) << 4)
+                    ); }
+        }
 
         public UInt16 SP;
         public UInt16 PC;
@@ -198,12 +208,16 @@ namespace GBEmu.Core
                 {RETC.OpCode, new RETC(bus) },
                 {RETNZ.OpCode, new RETNZ(bus) },
                 {RETNC.OpCode, new RETNC(bus) },
+                {PUSHBC.OpCode, new PUSHBC(bus) },
+                {PUSHDE.OpCode, new PUSHDE(bus) },
+                {PUSHHL.OpCode, new PUSHHL(bus) },
+                {PUSHAF.OpCode, new PUSHAF(bus) },
             };
         }
 
         public void Reset()
         {
-            A = B = C = D = E = F = H = L = 0;
+            A = B = C = D = E = H = L = 0;
             SP = 0xFFFE;
             PC = 0x0100;
             Flags = new FlagsClass();

@@ -33,6 +33,27 @@ namespace GBEmu.Core.Tests.CPUTest
             Assert.Equal(0xFFFE, cpu.SP);
         }
 
+        [Theory]
+        [InlineData(true, false, false, false, 0b10000000)]
+        [InlineData(false, true, false, false, 0b01000000)]
+        [InlineData(false, false, true, false, 0b00100000)]
+        [InlineData(false, false, false, true, 0b00010000)]
+        [InlineData(false, false, false, false, 0b00000000)]
+        [InlineData(true, false, true, false, 0b10100000)]
+        [InlineData(true, true, true, true, 0b11110000)]
+        public void GetFRegister(bool zeroFlag, bool subFlag, 
+            bool halfFlag, bool carryFlag, byte value)
+        {
+            cpu.Reset();
+
+            cpu.Flags.ZF = zeroFlag;
+            cpu.Flags.N = subFlag;
+            cpu.Flags.H = halfFlag;
+            cpu.Flags.CY = carryFlag;
+
+            Assert.Equal(value, cpu.F);
+        }
+
         [Fact]
         public void FetchData_GetMemoryValue()
         {
