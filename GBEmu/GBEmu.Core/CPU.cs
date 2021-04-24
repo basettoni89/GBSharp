@@ -25,12 +25,23 @@ namespace GBEmu.Core
 
         public byte F
         {
-            get { return (byte)(
+            get 
+            { 
+                return (byte)(
                     ((Flags.ZF ? 1 : 0) << 7)
                     | ((Flags.N ? 1 : 0) << 6)
                     | ((Flags.H ? 1 : 0) << 5)
                     | ((Flags.CY ? 1 : 0) << 4)
-                    ); }
+                    ); 
+            }
+
+            set
+            {
+                Flags.ZF = (value & (1 << 7)) != 0;
+                Flags.N = (value & (1 << 6)) != 0;
+                Flags.H = (value & (1 << 5)) != 0;
+                Flags.CY = (value & (1 << 4)) != 0;
+            }
         }
 
         public UInt16 SP;
@@ -212,6 +223,10 @@ namespace GBEmu.Core
                 {PUSHDE.OpCode, new PUSHDE(bus) },
                 {PUSHHL.OpCode, new PUSHHL(bus) },
                 {PUSHAF.OpCode, new PUSHAF(bus) },
+                {POPBC.OpCode, new POPBC(bus) },
+                {POPDE.OpCode, new POPDE(bus) },
+                {POPHL.OpCode, new POPHL(bus) },
+                {POPAF.OpCode, new POPAF(bus) },
             };
         }
 
