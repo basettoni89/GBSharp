@@ -17,4 +17,13 @@
     <ProjectReference Include="..\GBEmu.Core\GBEmu.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Assets\Roms\Empty.gb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Roms\Sum.gb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -19,9 +19,31 @@ namespace GBEmu.Core
         //$C000-$CFFF Internal RAM - Bank 0 (fixed)
         private readonly byte[] WRAM = new byte[0x2000];
 
+        //Cartridge
+        //$0000-$3FFF ROM Bank 00
+        //$4000-$7FFF ROM Bank 01..NN 
+        private readonly byte[,] ROM = new byte[2,0x4000];
+        
         public Bus()
         {
             this.cpu = new CPU(this);
+        }
+
+        public bool LoadRomBank(int bank, byte[] data)
+        {
+
+            if (bank < 0 || bank >= 2)
+                return false;
+
+            if (data.Length < ROM.GetLength(1))
+                return false;
+
+            for(int i=0;i < data.Length; i++)
+            {
+                ROM[bank, i] = data[i];
+            }
+
+            return true;
         }
 
         public byte ReadMemory(UInt32 address)
@@ -32,10 +54,14 @@ namespace GBEmu.Core
                     return ZPRAM[address - 0xFF80];
                 case UInt32 a when (a <= 0xFE9F && a >= 0xFE00):
                     return OAM[address - 0xFE00];
-                case UInt32 a when (a <= 0x9FFF && a >= 0x8000):
-                    return VRAM[address - 0x8000];
                 case UInt32 a when (a <= 0xDFFF && a >= 0xC000):
                     return WRAM[address - 0xC000];
+                case UInt32 a when (a <= 0x9FFF && a >= 0x8000):
+                    return VRAM[address - 0x8000];
+                case UInt32 a when (a <= 0x7FFF && a >= 0x4000):
+                    return ROM[1, address - 0x4000];
+                case UInt32 a when (a <= 0x3FFF):
+                    return ROM[0, address];
                 default:
                     return 0;
             }
@@ -81,6 +107,12 @@ namespace GBEmu.Core
                 case UInt32 a when (a <= 0xDFFF && a >= 0xC000):
                     WRAM[address - 0xC000] = value;
                     break;
+                case UInt32 a when (a <= 0x7FFF && a >= 0x4000):
+                    ROM[1, address - 0x4000] = value;
+                    break;
+                case UInt32 a when (a <= 0x3FFF):
+                    ROM[0, address] = value;
+                    break;
             }
         }
 
@@ -97,10 +129,14 @@ namespace GBEmu.Core
                     return ZPRAM[address - 0xFF80];
                 case UInt32 a when (a <= 0xFE9F && a >= 0xFE00):
                     return OAM[address - 0xFE00];
-                case UInt32 a when (a <= 0x9FFF && a >= 0x8000):
-                    return VRAM[address - 0x8000];
                 case UInt32 a when (a <= 0xDFFF && a >= 0xC000):
                     return WRAM[address - 0xC000];
+                case UInt32 a when (a <= 0x9FFF && a >= 0x8000):
+                    return VRAM[address - 0x8000];
+                case UInt32 a when (a <= 0x7FFF && a >= 0x4000):
+                    return ROM[1, address - 0x4000];
+                case UInt32 a when (a <= 0x3FFF):
+                    return ROM[0, address];
                 default:
                     return 0;
             }

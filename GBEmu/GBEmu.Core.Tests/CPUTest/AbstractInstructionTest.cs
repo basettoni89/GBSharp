@@ -5,7 +5,7 @@ using Xunit;
 
 namespace GBEmu.Core.Tests.CPUTest
 {
-    public class AbstractInstructionTest : IDisposable
+    public abstract class AbstractInstructionTest : IDisposable
     {
         protected readonly CPU cpu;
         protected readonly Bus bus;
