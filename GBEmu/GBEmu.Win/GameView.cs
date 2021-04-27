@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -135,20 +136,6 @@ namespace GBEmu.Win
             SetParent(winHandle, gamePanel.Handle);
             ShowWindow(winHandle, 1); // SHOWNORMAL
 
-            //for (int y = 0; y < gbHeight; y++)
-            //{
-            //    for (int x = 0; x < gbWidth; x++)
-            //    {
-            //        pixels[y, x, 0] = (byte)(((float)x / gbWidth) * 255);
-            //        pixels[y, x, 1] = (byte)(((float)x / gbWidth) * 255);
-            //        pixels[y, x, 2] = (byte)(((float)x / gbWidth) * 255);
-            //    }
-            //}
-
-            //UpdateText("Hello World!\nHello World!");
-
-            SetDebugMemory();
-
             renderCancellationToken = new CancellationTokenSource();
             renderTask = Task.Factory.StartNew(async () =>
             {
@@ -156,7 +143,6 @@ namespace GBEmu.Win
                 DateTime lastExecution = now;
 
                 TimeSpan elapsedTime = TimeSpan.FromSeconds(0);
-                long count = 0;
 
                 SDL.SDL_Event e;
 
@@ -185,6 +171,9 @@ namespace GBEmu.Win
                                     case SDL.SDL_Keycode.SDLK_p:
                                         play = !play;
                                         break;
+                                    case SDL.SDL_Keycode.SDLK_l:
+                                        LoadROM();
+                                        break;
                                 }
                                 break;
                         }
@@ -199,8 +188,6 @@ namespace GBEmu.Win
                     }
 
                     Render(elapsedTime.TotalMilliseconds);
-
-                    count++;
 
                     await Task.Delay(30);
                 }
@@ -257,6 +244,12 @@ namespace GBEmu.Win
             builder.Append($"H: {cpu.Flags.H}")
                 .AppendLine();
             builder.Append($"C: {cpu.Flags.CY}")
+                .AppendLine();
+
+            builder.Append($"PC: {cpu.PC:X4}")
+                .AppendLine();
+
+            builder.Append($"SP: {cpu.SP:X4}")
                 .AppendLine();
 
             builder.Append($"A: {cpu.A:X2}")
@@ -326,6 +319,52 @@ namespace GBEmu.Win
             bus.SetMemory(0x3C, 0xC000);
             bus.SetMemory(0x3C, 0xC001);
             bus.SetMemory(0x3C, 0xC002);
+        }
+
+        private void LoadROM()
+        {
+            MethodInvoker methodInvokerDelegate = delegate ()
+            {
+
+                var openFileDialog = new OpenFileDialog()
+                {
+                    Filter = "ROM files (*.gb)|*.gb"
+                };
+                
+                DialogResult result = openFileDialog.ShowDialog(); // Show the dialog.
+                if (result == DialogResult.OK) // Test result.
+                {
+                    try
+                    {
+                        byte[] data = File.ReadAllBytes(openFileDialog.FileName);
+
+                        if (data.Length != 0x8000)
+                            return;
+
+                        byte[][] banks = new byte[2][];
+
+                        for (int bank = 0; bank < 2; bank++)
+                        {
+                            banks[bank] = new byte[0x4000];
+
+                            for (int addr = 0; addr < 0x4000; addr++)
+                            {
+                                banks[bank][addr] = data[bank * 0x4000 + addr];
+                            }
+                        }
+
+                        bus.LoadRomBank(0, banks[0]);
+                        bus.LoadRomBank(1, banks[1]);
+
+                        bus.GetCPU().Reset();
+                    }
+                    catch (IOException)
+                    {
+                    }
+                }
+            };
+
+            Invoke(methodInvokerDelegate);
         }
     }
 }
