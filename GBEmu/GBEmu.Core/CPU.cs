@@ -1,4 +1,5 @@
-﻿using GBEmu.Core.Instructions;
+﻿using GBEmu.Core.Exceptions;
+using GBEmu.Core.Instructions;
 using GBEmu.Core.Instructions.Branch;
 using GBEmu.Core.Instructions.Loads;
 using GBEmu.Core.Instructions.Math;
@@ -261,6 +262,10 @@ namespace GBEmu.Core
         {
             byte opCode = bus.ReadMemory(PC);
             PC++;
+
+            if (!lookup.ContainsKey(opCode))
+                throw new IllegalInstructionException(opCode);
+
             return lookup[opCode];
         }
 

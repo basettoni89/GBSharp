@@ -1,3 +1,4 @@
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,10 @@ namespace GBEmu.Win
         [STAThread]
         static void Main()
         {
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.File("log.txt")
+                .CreateLogger();
+
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

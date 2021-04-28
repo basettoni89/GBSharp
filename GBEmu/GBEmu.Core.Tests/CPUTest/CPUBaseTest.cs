@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GBEmu.Core.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
@@ -31,6 +32,19 @@ namespace GBEmu.Core.Tests.CPUTest
 
             Assert.Equal(0x0100, cpu.PC);
             Assert.Equal(0xFFFE, cpu.SP);
+        }
+
+        [Fact]
+        public void FetchInstruction_ThrowIllegalInstructionException()
+        {
+            cpu.Reset();
+
+            cpu.PC = 0xC000;
+
+            bus.SetMemory(0xCB, 0xC000);
+
+            IllegalInstructionException exception = Assert.Throws<IllegalInstructionException>(() => cpu.Clock());
+            Assert.Equal("The opCode 0xCB is not valid", exception.Message);
         }
 
         [Theory]

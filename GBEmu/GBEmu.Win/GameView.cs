@@ -1,5 +1,6 @@
 ﻿using GBEmu.Core;
 using SDL2;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -162,48 +163,65 @@ namespace GBEmu.Win
 
                 SDL.SDL_Event e;
 
-                while (true)
+                try
                 {
-                    now = DateTime.Now;
-                    elapsedTime = now - lastExecution;
-                    lastExecution = now;
-
-                    PrintCPU();
-
-                    while(SDL.SDL_PollEvent(out e) != 0)
+                    while (true)
                     {
-                         switch (e.type)
+                        now = DateTime.Now;
+                        elapsedTime = now - lastExecution;
+                        lastExecution = now;
+
+                        PrintCPU();
+
+                        while (SDL.SDL_PollEvent(out e) != 0)
                         {
-                            case SDL.SDL_EventType.SDL_KEYDOWN:
-                                switch (e.key.keysym.sym)
-                                {
-                                    case SDL.SDL_Keycode.SDLK_SPACE:
-                                        if (play) break;
-                                        do
-                                        {
-                                            bus.GetCPU().Clock();
-                                        } while (bus.GetCPU().Complete);
-                                        break;
-                                    case SDL.SDL_Keycode.SDLK_p:
-                                        play = !play;
-                                        break;
-                                }
-                                break;
+                            switch (e.type)
+                            {
+                                case SDL.SDL_EventType.SDL_KEYDOWN:
+                                    switch (e.key.keysym.sym)
+                                    {
+                                        case SDL.SDL_Keycode.SDLK_SPACE:
+                                            if (play)
+                                                break;
+
+                                            do
+                                            {
+                                                bus.GetCPU().Clock();
+                                            } while (bus.GetCPU().Complete);
+                                            break;
+                                        case SDL.SDL_Keycode.SDLK_p:
+                                            play = !play;
+                                            break;
+                                    }
+                                    break;
+                            }
                         }
-                    }
 
-                    if(play)
-                    {
-                        do
+                        if (play)
                         {
-                            bus.GetCPU().Clock();
-                        } while (bus.GetCPU().Complete);
+                            do
+                            {
+                                bus.GetCPU().Clock();
+                            } while (bus.GetCPU().Complete);
+                        }
+
+                        Render(elapsedTime.TotalMilliseconds);
+
+                        await Task.Delay(30);
                     }
 
-                    Render(elapsedTime.TotalMilliseconds);
-
-                    await Task.Delay(30);
                 }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "Rendering error");
+
+                    MethodInvoker methodInvokerDelegate = delegate ()
+                    {
+                        this.Close();
+                    };
+
+                    this.Invoke(methodInvokerDelegate);
+                }            
             }, renderCancellationToken.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
         }
 

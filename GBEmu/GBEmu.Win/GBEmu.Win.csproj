@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="SDL2-CS.NetCore" Version="2.0.8" />
+    <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
   </ItemGroup>
 
   <ItemGroup>
