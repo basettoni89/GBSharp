@@ -38,7 +38,7 @@ namespace GBEmu.Win
         static IntPtr textSurface;
         static IntPtr textTexture;
 
-        static Size windowSize = new Size(screenWidth + textWidth, screenHeight);
+        static Size windowSize;
 
         static SDL.SDL_Rect screenRect = new SDL.SDL_Rect()
         {
@@ -90,9 +90,25 @@ namespace GBEmu.Win
 
         public GameView()
         {
+            MenuStrip menu = new MenuStrip();
+            menu.Text = "File Menu";
+            menu.Name = "MainMenu";
+            menu.Dock = DockStyle.Top;
+
+            ToolStripMenuItem item = new ToolStripMenuItem("File");
+            item.DropDownItems.Add("Load", null, (s, e) => LoadROM());
+
+            menu.Items.Add(item);
+
+            this.MainMenuStrip = menu;
+            Controls.Add(menu);
+
+            windowSize = new Size(screenWidth + textWidth, screenHeight + menu.Height);
+
             gamePanel = new Panel();
             gamePanel.Size = windowSize;
-            gamePanel.Location = new Point(0, 0);
+            gamePanel.Location = new Point(0, menu.Height);
+            
 
             ClientSize = windowSize;
             FormClosing += new FormClosingEventHandler(WindowClosing);
@@ -170,9 +186,6 @@ namespace GBEmu.Win
                                         break;
                                     case SDL.SDL_Keycode.SDLK_p:
                                         play = !play;
-                                        break;
-                                    case SDL.SDL_Keycode.SDLK_l:
-                                        LoadROM();
                                         break;
                                 }
                                 break;
@@ -323,48 +336,42 @@ namespace GBEmu.Win
 
         private void LoadROM()
         {
-            MethodInvoker methodInvokerDelegate = delegate ()
+            var openFileDialog = new OpenFileDialog()
             {
-
-                var openFileDialog = new OpenFileDialog()
-                {
-                    Filter = "ROM files (*.gb)|*.gb"
-                };
-                
-                DialogResult result = openFileDialog.ShowDialog(); // Show the dialog.
-                if (result == DialogResult.OK) // Test result.
-                {
-                    try
-                    {
-                        byte[] data = File.ReadAllBytes(openFileDialog.FileName);
-
-                        if (data.Length != 0x8000)
-                            return;
-
-                        byte[][] banks = new byte[2][];
-
-                        for (int bank = 0; bank < 2; bank++)
-                        {
-                            banks[bank] = new byte[0x4000];
-
-                            for (int addr = 0; addr < 0x4000; addr++)
-                            {
-                                banks[bank][addr] = data[bank * 0x4000 + addr];
-                            }
-                        }
-
-                        bus.LoadRomBank(0, banks[0]);
-                        bus.LoadRomBank(1, banks[1]);
-
-                        bus.GetCPU().Reset();
-                    }
-                    catch (IOException)
-                    {
-                    }
-                }
+                Filter = "ROM files (*.gb)|*.gb"
             };
+                
+            DialogResult result = openFileDialog.ShowDialog(); // Show the dialog.
+            if (result == DialogResult.OK) // Test result.
+            {
+                try
+                {
+                    byte[] data = File.ReadAllBytes(openFileDialog.FileName);
 
-            Invoke(methodInvokerDelegate);
+                    if (data.Length != 0x8000)
+                        return;
+
+                    byte[][] banks = new byte[2][];
+
+                    for (int bank = 0; bank < 2; bank++)
+                    {
+                        banks[bank] = new byte[0x4000];
+
+                        for (int addr = 0; addr < 0x4000; addr++)
+                        {
+                            banks[bank][addr] = data[bank * 0x4000 + addr];
+                        }
+                    }
+
+                    bus.LoadRomBank(0, banks[0]);
+                    bus.LoadRomBank(1, banks[1]);
+
+                    bus.GetCPU().Reset();
+                }
+                catch (IOException)
+                {
+                }
+            }
         }
     }
 }
