@@ -50,6 +50,8 @@ namespace GBEmu.Core
 
         public FlagsClass Flags { get; private set; }
 
+        public bool IME { get; set; }
+
         private int cycles = 0;
 
         public bool Complete => cycles != 0;
@@ -228,6 +230,8 @@ namespace GBEmu.Core
                 {POPDE.OpCode, new POPDE(bus) },
                 {POPHL.OpCode, new POPHL(bus) },
                 {POPAF.OpCode, new POPAF(bus) },
+                {DI.OpCode, new DI(bus) },
+                {EI.OpCode, new EI(bus) },
             };
         }
 
@@ -237,6 +241,8 @@ namespace GBEmu.Core
             SP = 0xFFFE;
             PC = 0x0100;
             Flags = new FlagsClass();
+
+            IME = true;
         }
 
         public void Clock()
