@@ -12,14 +12,14 @@ namespace GBEmu.Core.Instructions.Loads
 
         public override int Execute()
         {
-            UInt16 address = GetAddress();
+            ushort address = GetAddress();
             byte value = bus.ReadMemory(address);
             Load(value);
 
             return 2;
         }
 
-        protected abstract UInt16 GetAddress();
+        protected abstract ushort GetAddress();
 
         protected abstract void Load(byte value);
     }
@@ -30,9 +30,9 @@ namespace GBEmu.Core.Instructions.Loads
         {
         }
 
-        protected override UInt16 GetAddress()
+        protected override ushort GetAddress()
         {
-            return (UInt16)(bus.GetCPU().L | (bus.GetCPU().H << 8));
+            return CombineHILO(bus.GetCPU().H, bus.GetCPU().L);
         }
 
         public override string ToString()
@@ -136,6 +136,35 @@ namespace GBEmu.Core.Instructions.Loads
         protected override void Load(byte value)
         {
             bus.GetCPU().L = value;
+        }
+    }
+
+    public class LDSPInd : Instruction
+    {
+        public static new byte OpCode => 0x08;
+
+        private ushort address = 0;
+
+        public LDSPInd(Bus bus) : base(bus, "LD")
+        {
+        }
+
+        public override int Execute()
+        {
+            byte lo = bus.GetCPU().Fetch();
+            byte hi = bus.GetCPU().Fetch();
+            
+            address = CombineHILO(hi, lo);
+
+            bus.WriteMemory((byte)bus.GetCPU().SP, address);
+            bus.WriteMemory((byte)(bus.GetCPU().SP >> 8), (ushort)(address + 1));
+
+            return 5;
+        }
+
+        public override string ToString()
+        {
+            return $"{Name} {address:X4}, SP";
         }
     }
 }

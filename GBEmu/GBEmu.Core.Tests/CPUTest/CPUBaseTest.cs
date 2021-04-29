@@ -1,5 +1,6 @@
 ﻿using GBEmu.Core.Exceptions;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
@@ -55,7 +56,7 @@ namespace GBEmu.Core.Tests.CPUTest
         [InlineData(false, false, false, false, 0b00000000)]
         [InlineData(true, false, true, false, 0b10100000)]
         [InlineData(true, true, true, true, 0b11110000)]
-        public void GetFRegister(bool zeroFlag, bool subFlag, 
+        public void GetFRegister(bool zeroFlag, bool subFlag,
             bool halfFlag, bool carryFlag, byte value)
         {
             cpu.Reset();
@@ -87,6 +88,78 @@ namespace GBEmu.Core.Tests.CPUTest
             Assert.Equal(subFlag, cpu.Flags.N);
             Assert.Equal(halfFlag, cpu.Flags.H);
             Assert.Equal(carryFlag, cpu.Flags.CY);
+        }
+
+        [Theory]
+        [ClassData(typeof(HiLoRegisterTestData))]
+        public void GetBCRegister(ushort value, byte b, byte c)
+        {
+            cpu.Reset();
+
+            cpu.B = b;
+            cpu.C = c;
+
+            Assert.Equal(value, cpu.BC);
+        }
+
+        [Theory]
+        [ClassData(typeof(HiLoRegisterTestData))]
+        public void SetBCRegister(ushort value, byte b, byte c)
+        {
+            cpu.Reset();
+
+            cpu.BC = value;
+
+            Assert.Equal(b, cpu.B);
+            Assert.Equal(c, cpu.C);
+        }
+
+        [Theory]
+        [ClassData(typeof(HiLoRegisterTestData))]
+        public void GetDERegister(ushort value, byte d, byte e)
+        {
+            cpu.Reset();
+
+            cpu.D = d;
+            cpu.E = e;
+
+            Assert.Equal(value, cpu.DE);
+        }
+
+        [Theory]
+        [ClassData(typeof(HiLoRegisterTestData))]
+        public void SetDERegister(ushort value, byte d, byte e)
+        {
+            cpu.Reset();
+
+            cpu.DE = value;
+
+            Assert.Equal(d, cpu.D);
+            Assert.Equal(e, cpu.E);
+        }
+
+        [Theory]
+        [ClassData(typeof(HiLoRegisterTestData))]
+        public void GetHLRegister(ushort value, byte h, byte l)
+        {
+            cpu.Reset();
+
+            cpu.H = h;
+            cpu.L = l;
+
+            Assert.Equal(value, cpu.HL);
+        }
+
+        [Theory]
+        [ClassData(typeof(HiLoRegisterTestData))]
+        public void SetHLRegister(ushort value, byte h, byte l)
+        {
+            cpu.Reset();
+
+            cpu.HL = value;
+
+            Assert.Equal(h, cpu.H);
+            Assert.Equal(l, cpu.L);
         }
 
         [Fact]
@@ -222,6 +295,21 @@ namespace GBEmu.Core.Tests.CPUTest
             readValue = cpu.Pop();
             Assert.Equal(0xFF, readValue);
             Assert.Equal(0xFFFE, cpu.SP);
+        }
+
+
+        class HiLoRegisterTestData : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return new object[] { 0x0000, 0x00, 0x00 };
+                yield return new object[] { 0x0001, 0x00, 0x01 };
+                yield return new object[] { 0x0100, 0x01, 0x00 };
+                yield return new object[] { 0x3225, 0x32, 0x25 };
+                yield return new object[] { 0xFFFF, 0xFF, 0xFF };
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
     }
 }

@@ -4,11 +4,11 @@ using System.Text;
 
 namespace GBEmu.Core.Instructions.Loads
 {
-    public abstract class LDImplied : Instruction
+    public abstract class LD8bitImplied : Instruction
     {
         protected byte value = 0;
 
-        public LDImplied(Bus bus, string name) : base(bus, name)
+        public LD8bitImplied(Bus bus, string name) : base(bus, name)
         {
         }
 
@@ -34,7 +34,39 @@ namespace GBEmu.Core.Instructions.Loads
         protected abstract void Load(byte value);
     }
 
-    public class LDAImpl : LDImplied
+    public abstract class LD16bitImplied : Instruction
+    {
+        protected ushort value = 0;
+
+        public LD16bitImplied(Bus bus, string name) : base(bus, name)
+        {
+        }
+
+        public override int Execute()
+        {
+            value = LoadImmediate();
+            Load(value);
+
+            return 3;
+        }
+
+        public override string ToString()
+        {
+            return $"{Name}, {value:X4}";
+        }
+
+        protected ushort LoadImmediate()
+        {
+            byte lo = bus.GetCPU().Fetch();
+            byte hi = bus.GetCPU().Fetch();
+
+            return CombineHILO(hi, lo);
+        }
+
+        protected abstract void Load(ushort value);
+    }
+
+    public class LDAImpl : LD8bitImplied
     {
         public static new byte OpCode => 0x3E;
 
@@ -48,7 +80,7 @@ namespace GBEmu.Core.Instructions.Loads
         }
     }
 
-    public class LDBImpl : LDImplied
+    public class LDBImpl : LD8bitImplied
     {
         public static new byte OpCode => 0x06;
 
@@ -62,7 +94,7 @@ namespace GBEmu.Core.Instructions.Loads
         }
     }
 
-    public class LDCImpl : LDImplied
+    public class LDCImpl : LD8bitImplied
     {
         public static new byte OpCode => 0x0E;
 
@@ -76,7 +108,7 @@ namespace GBEmu.Core.Instructions.Loads
         }
     }
 
-    public class LDDImpl : LDImplied
+    public class LDDImpl : LD8bitImplied
     {
         public static new byte OpCode => 0x16;
 
@@ -90,7 +122,7 @@ namespace GBEmu.Core.Instructions.Loads
         }
     }
 
-    public class LDEImpl : LDImplied
+    public class LDEImpl : LD8bitImplied
     {
         public static new byte OpCode => 0x1E;
 
@@ -104,7 +136,7 @@ namespace GBEmu.Core.Instructions.Loads
         }
     }
 
-    public class LDHImpl : LDImplied
+    public class LDHImpl : LD8bitImplied
     {
         public static new byte OpCode => 0x26;
 
@@ -118,7 +150,7 @@ namespace GBEmu.Core.Instructions.Loads
         }
     }
 
-    public class LDLImpl : LDImplied
+    public class LDLImpl : LD8bitImplied
     {
         public static new byte OpCode => 0x2E;
 
@@ -129,6 +161,62 @@ namespace GBEmu.Core.Instructions.Loads
         protected override void Load(byte value)
         {
             bus.GetCPU().L = value;
+        }
+    }
+
+    public class LDBCImpl : LD16bitImplied
+    {
+        public static new byte OpCode => 0x01;
+
+        public LDBCImpl(Bus bus) : base(bus, "LD BC")
+        {
+        }
+
+        protected override void Load(ushort value)
+        {
+            bus.GetCPU().BC = value;
+        }
+    }
+
+    public class LDDEImpl : LD16bitImplied
+    {
+        public static new byte OpCode => 0x11;
+
+        public LDDEImpl(Bus bus) : base(bus, "LD DE")
+        {
+        }
+
+        protected override void Load(ushort value)
+        {
+            bus.GetCPU().DE = value;
+        }
+    }
+
+    public class LDHLImpl : LD16bitImplied
+    {
+        public static new byte OpCode => 0x21;
+
+        public LDHLImpl(Bus bus) : base(bus, "LD HL")
+        {
+        }
+
+        protected override void Load(ushort value)
+        {
+            bus.GetCPU().HL = value;
+        }
+    }
+
+    public class LDSPImpl : LD16bitImplied
+    {
+        public static new byte OpCode => 0x31;
+
+        public LDSPImpl(Bus bus) : base(bus, "LD SP")
+        {
+        }
+
+        protected override void Load(ushort value)
+        {
+            bus.GetCPU().SP = value;
         }
     }
 }

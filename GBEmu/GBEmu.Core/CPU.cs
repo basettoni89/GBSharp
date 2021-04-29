@@ -24,6 +24,24 @@ namespace GBEmu.Core
         public byte H;
         public byte L;
 
+        public ushort BC
+        {
+            get => CombineHILO(B, C);
+            set => SplitHILO(value, out B, out C);
+        }
+
+        public ushort DE
+        {
+            get => CombineHILO(D, E);
+            set => SplitHILO(value, out D, out E);
+        }
+
+        public ushort HL
+        {
+            get => CombineHILO(H, L);
+            set => SplitHILO(value, out H, out L);
+        }
+
         public byte F
         {
             get 
@@ -72,6 +90,10 @@ namespace GBEmu.Core
                 {LDEImpl.OpCode, new LDEImpl(bus) },
                 {LDHImpl.OpCode, new LDHImpl(bus) },
                 {LDLImpl.OpCode, new LDLImpl(bus) },
+                {LDBCImpl.OpCode, new LDBCImpl(bus) },
+                {LDDEImpl.OpCode, new LDDEImpl(bus) },
+                {LDHLImpl.OpCode, new LDHLImpl(bus) },
+                {LDSPImpl.OpCode, new LDSPImpl(bus) },
                 {LDARegA.OpCode, new LDARegA(bus) },
                 {LDARegB.OpCode, new LDARegB(bus) },
                 {LDARegC.OpCode, new LDARegC(bus) },
@@ -128,6 +150,7 @@ namespace GBEmu.Core
                 {LDEIndHL.OpCode, new LDEIndHL(bus) },
                 {LDHIndHL.OpCode, new LDHIndHL(bus) },
                 {LDLIndHL.OpCode, new LDLIndHL(bus) },
+                {LDSPInd.OpCode, new LDSPInd(bus) },
                 {INCA.OpCode, new INCA(bus) },
                 {INCB.OpCode, new INCB(bus) },
                 {INCC.OpCode, new INCC(bus) },
@@ -301,6 +324,17 @@ namespace GBEmu.Core
         public Dictionary<byte, Instruction> GetInstructionLookup()
         {
             return lookup;
+        }
+
+        private ushort CombineHILO(byte hi, byte lo)
+        {
+            return (ushort)((hi << 8) + lo);
+        }
+
+        private void SplitHILO(ushort value, out byte hi, out byte lo)
+        {
+            hi = (byte)(value >> 8);
+            lo = (byte)(value);
         }
 
         public class FlagsClass
