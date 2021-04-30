@@ -8,8 +8,13 @@ namespace GBEmu.Core
     {
         private readonly CPU cpu;
 
+        //$FFFF Interrupt Enable Register
+        private byte IER = 0;
         //$FF80-$FFFE	Zero Page RAM - 127 bytes
         private readonly byte[] ZPRAM = new byte[0x7F];
+        //$FF00-$FF7F I/O Ports
+        private readonly byte[] IO = new byte[0x80]; 
+
         //$FE00-$FE9F OAM - Object Attribute Memory
         private readonly byte[] OAM = new byte[0x400];
         //$8000-$9FFF Video RAM
@@ -46,41 +51,51 @@ namespace GBEmu.Core
             return true;
         }
 
-        public byte ReadMemory(UInt32 address)
+        public byte ReadMemory(ushort address)
         {
             switch (address)
             {
-                case UInt32 a when (a <= 0xFFFE && a >= 0xFF80):
+                case 0xFFFF:
+                    return IER;
+                case ushort a when (a <= 0xFFFE && a >= 0xFF80):
                     return ZPRAM[address - 0xFF80];
-                case UInt32 a when (a <= 0xFE9F && a >= 0xFE00):
+                case ushort a when (a <= 0xFF7F && a >= 0xFF00):
+                    return IO[address - 0xFF00];
+                case ushort a when (a <= 0xFE9F && a >= 0xFE00):
                     return OAM[address - 0xFE00];
-                case UInt32 a when (a <= 0xDFFF && a >= 0xC000):
+                case ushort a when (a <= 0xDFFF && a >= 0xC000):
                     return WRAM[address - 0xC000];
-                case UInt32 a when (a <= 0x9FFF && a >= 0x8000):
+                case ushort a when (a <= 0x9FFF && a >= 0x8000):
                     return VRAM[address - 0x8000];
-                case UInt32 a when (a <= 0x7FFF && a >= 0x4000):
+                case ushort a when (a <= 0x7FFF && a >= 0x4000):
                     return ROM[1, address - 0x4000];
-                case UInt32 a when (a <= 0x3FFF):
+                case ushort a when (a <= 0x3FFF):
                     return ROM[0, address];
                 default:
                     return 0;
             }
         }
 
-        public void WriteMemory(byte value, UInt32 address)
+        public void WriteMemory(byte value, ushort address)
         {
             switch (address)
             {
-                case UInt32 a when (a <= 0xFFFE && a >= 0xFF80):
+                case 0xFFFF:
+                    IER = value;
+                    break;
+                case ushort a when (a <= 0xFFFE && a >= 0xFF80):
                     ZPRAM[address - 0xFF80] = value;
                     break;
-                case UInt32 a when (a <= 0xFE9F && a >= 0xFE00):
+                case ushort a when (a <= 0xFF7F && a >= 0xFF00):
+                    IO[address - 0xFF00] = value;
+                    break;
+                case ushort a when (a <= 0xFE9F && a >= 0xFE00):
                     OAM[address - 0xFE00] = value;
                     break;
-                case UInt32 a when (a <= 0x9FFF && a >= 0x8000):
+                case ushort a when (a <= 0x9FFF && a >= 0x8000):
                     VRAM[address - 0x8000] = value;
                     break;
-                case UInt32 a when (a <= 0xDFFF && a >= 0xC000):
+                case ushort a when (a <= 0xDFFF && a >= 0xC000):
                     WRAM[address - 0xC000] = value;
                     break;
             }
@@ -91,26 +106,32 @@ namespace GBEmu.Core
         /// </summary>
         /// <param name="value"></param>
         /// <param name="address"></param>
-        public void SetMemory(byte value, UInt32 address)
+        public void SetMemory(byte value, ushort address)
         {
             switch(address)
             {
-                case UInt32 a when (a <= 0xFFFE && a >= 0xFF80):
+                case 0xFFFF:
+                    IER = value;
+                    break;
+                case ushort a when (a <= 0xFFFE && a >= 0xFF80):
                     ZPRAM[address - 0xFF80] = value;
                     break;
-                case UInt32 a when (a <= 0xFE9F && a >= 0xFE00):
+                case ushort a when (a <= 0xFF7F && a >= 0xFF00):
+                    IO[address - 0xFF00] = value;
+                    break;
+                case ushort a when (a <= 0xFE9F && a >= 0xFE00):
                     OAM[address - 0xFE00] = value;
                     break;
-                case UInt32 a when (a <= 0x9FFF && a >= 0x8000):
+                case ushort a when (a <= 0x9FFF && a >= 0x8000):
                     VRAM[address - 0x8000] = value;
                     break;
-                case UInt32 a when (a <= 0xDFFF && a >= 0xC000):
+                case ushort a when (a <= 0xDFFF && a >= 0xC000):
                     WRAM[address - 0xC000] = value;
                     break;
-                case UInt32 a when (a <= 0x7FFF && a >= 0x4000):
+                case ushort a when (a <= 0x7FFF && a >= 0x4000):
                     ROM[1, address - 0x4000] = value;
                     break;
-                case UInt32 a when (a <= 0x3FFF):
+                case ushort a when (a <= 0x3FFF):
                     ROM[0, address] = value;
                     break;
             }
@@ -121,21 +142,25 @@ namespace GBEmu.Core
         /// </summary>
         /// <param name="address"></param>
         /// <returns></returns>
-        public byte GetMemory(UInt32 address)
+        public byte GetMemory(ushort address)
         {
             switch (address)
             {
-                case UInt32 a when (a <= 0xFFFE && a >= 0xFF80):
+                case 0xFFFF:
+                    return IER;
+                case ushort a when (a <= 0xFFFE && a >= 0xFF80):
                     return ZPRAM[address - 0xFF80];
-                case UInt32 a when (a <= 0xFE9F && a >= 0xFE00):
+                case ushort a when (a <= 0xFF7F && a >= 0xFF00):
+                    return IO[address - 0xFF00];
+                case ushort a when (a <= 0xFE9F && a >= 0xFE00):
                     return OAM[address - 0xFE00];
-                case UInt32 a when (a <= 0xDFFF && a >= 0xC000):
+                case ushort a when (a <= 0xDFFF && a >= 0xC000):
                     return WRAM[address - 0xC000];
-                case UInt32 a when (a <= 0x9FFF && a >= 0x8000):
+                case ushort a when (a <= 0x9FFF && a >= 0x8000):
                     return VRAM[address - 0x8000];
-                case UInt32 a when (a <= 0x7FFF && a >= 0x4000):
+                case ushort a when (a <= 0x7FFF && a >= 0x4000):
                     return ROM[1, address - 0x4000];
-                case UInt32 a when (a <= 0x3FFF):
+                case ushort a when (a <= 0x3FFF):
                     return ROM[0, address];
                 default:
                     return 0;

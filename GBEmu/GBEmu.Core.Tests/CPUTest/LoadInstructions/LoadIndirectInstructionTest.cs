@@ -64,27 +64,6 @@ namespace GBEmu.Core.Tests.CPUTest.LoadInstructions
             Assert.Equal(value, cpu.L);
         }
 
-        [Theory]
-        [ClassData(typeof(LoadIndirect16bitTestData))]
-        public void LDLSP_SPContanisIndirectValue(ushort addr, ushort value)
-        {
-            cpu.Reset();
-
-            cpu.PC = 0xC000;
-            cpu.SP = value;
-
-            bus.SetMemory(0x08, 0xC000);
-            bus.SetMemory((byte)addr, 0xC001);
-            bus.SetMemory((byte)(addr >> 8), 0xC002);
-
-            TestExecution(5);
-
-            Assert.Equal(0xC003, cpu.PC);
-
-            Assert.Equal((byte)value, bus.GetMemory(addr));
-            Assert.Equal((byte)(value >> 8), bus.GetMemory((ushort)(addr + 1)));
-        }
-
         private void Execute8bitTest(byte opcode, ushort addr, byte value, int expectedCycles)
         {
             cpu.Reset();
@@ -117,27 +96,6 @@ namespace GBEmu.Core.Tests.CPUTest.LoadInstructions
                 yield return new object[] { 0xCCFF, 0x01 };
                 yield return new object[] { 0xCCFF, 0x20 };
                 yield return new object[] { 0xCCFF, 0xFF };
-            }
-
-            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-        }
-
-        public class LoadIndirect16bitTestData : IEnumerable<object[]>
-        {
-            public IEnumerator<object[]> GetEnumerator()
-            {
-                yield return new object[] { 0xCC01, 0x0000 };
-                yield return new object[] { 0xCC01, 0x0001 };
-                yield return new object[] { 0xCC01, 0x2025 };
-                yield return new object[] { 0xCC01, 0xFFFF };
-                yield return new object[] { 0xC010, 0x0000 };
-                yield return new object[] { 0xC010, 0x0001 };
-                yield return new object[] { 0xC010, 0x2025 };
-                yield return new object[] { 0xC010, 0xFFFF };
-                yield return new object[] { 0xCCFF, 0x0000 };
-                yield return new object[] { 0xCCFF, 0x0001 };
-                yield return new object[] { 0xCCFF, 0x2025 };
-                yield return new object[] { 0xCCFF, 0xFFFF };
             }
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

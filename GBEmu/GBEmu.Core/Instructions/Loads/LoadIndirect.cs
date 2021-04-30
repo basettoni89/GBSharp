@@ -138,33 +138,4 @@ namespace GBEmu.Core.Instructions.Loads
             bus.GetCPU().L = value;
         }
     }
-
-    public class LDSPInd : Instruction
-    {
-        public static new byte OpCode => 0x08;
-
-        private ushort address = 0;
-
-        public LDSPInd(Bus bus) : base(bus, "LD")
-        {
-        }
-
-        public override int Execute()
-        {
-            byte lo = bus.GetCPU().Fetch();
-            byte hi = bus.GetCPU().Fetch();
-            
-            address = CombineHILO(hi, lo);
-
-            bus.WriteMemory((byte)bus.GetCPU().SP, address);
-            bus.WriteMemory((byte)(bus.GetCPU().SP >> 8), (ushort)(address + 1));
-
-            return 5;
-        }
-
-        public override string ToString()
-        {
-            return $"{Name} {address:X4}, SP";
-        }
-    }
 }

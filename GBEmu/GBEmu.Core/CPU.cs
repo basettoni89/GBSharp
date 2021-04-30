@@ -3,6 +3,7 @@ using GBEmu.Core.Instructions;
 using GBEmu.Core.Instructions.Branch;
 using GBEmu.Core.Instructions.Loads;
 using GBEmu.Core.Instructions.Math;
+using GBEmu.Core.Instructions.Stores;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -44,14 +45,14 @@ namespace GBEmu.Core
 
         public byte F
         {
-            get 
-            { 
+            get
+            {
                 return (byte)(
                     ((Flags.ZF ? 1 : 0) << 7)
                     | ((Flags.N ? 1 : 0) << 6)
                     | ((Flags.H ? 1 : 0) << 5)
                     | ((Flags.CY ? 1 : 0) << 4)
-                    ); 
+                    );
             }
 
             set
@@ -150,6 +151,13 @@ namespace GBEmu.Core
                 {LDEIndHL.OpCode, new LDEIndHL(bus) },
                 {LDHIndHL.OpCode, new LDHIndHL(bus) },
                 {LDLIndHL.OpCode, new LDLIndHL(bus) },
+                {LDAIndBC.OpCode, new LDAIndBC(bus) },
+                {LDAIndDE.OpCode, new LDAIndDE(bus) },
+                {LDAIndHLP.OpCode, new LDAIndHLP(bus) },
+                {LDAIndHLM.OpCode, new LDAIndHLM(bus) },
+                {LDAInd.OpCode, new LDAInd(bus) },
+                {LDAIndC.OpCode, new LDAIndC(bus) },
+                {LDIndHL.OpCode, new LDIndHL(bus) },
                 {LDSPInd.OpCode, new LDSPInd(bus) },
                 {INCA.OpCode, new INCA(bus) },
                 {INCB.OpCode, new INCB(bus) },
@@ -270,7 +278,7 @@ namespace GBEmu.Core
 
         public void Clock()
         {
-            if(!Complete)
+            if (!Complete)
             {
                 Instruction current = FetchInstruction();
 

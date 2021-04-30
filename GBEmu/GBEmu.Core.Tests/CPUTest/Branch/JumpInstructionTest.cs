@@ -67,8 +67,8 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
             cpu.Flags.ZF = zeroFlag;
 
             bus.SetMemory(0xCA, startAddress);
-            bus.SetMemory((byte)address, (uint)(startAddress + 1));
-            bus.SetMemory((byte)(address >> 8), (uint)(startAddress + 2));
+            bus.SetMemory((byte)address, (ushort)(startAddress + 1));
+            bus.SetMemory((byte)(address >> 8), (ushort)(startAddress + 2));
 
             cpu.PC = startAddress;
 
@@ -94,8 +94,8 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
             cpu.Flags.CY = carryFlag;
 
             bus.SetMemory(0xDA, startAddress);
-            bus.SetMemory((byte)address, (uint)(startAddress + 1));
-            bus.SetMemory((byte)(address >> 8), (uint)(startAddress + 2));
+            bus.SetMemory((byte)address, (ushort)(startAddress + 1));
+            bus.SetMemory((byte)(address >> 8), (ushort)(startAddress + 2));
 
             cpu.PC = startAddress;
 
@@ -121,8 +121,8 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
             cpu.Flags.ZF = zeroFlag;
 
             bus.SetMemory(0xC2, startAddress);
-            bus.SetMemory((byte)address, (uint)(startAddress + 1));
-            bus.SetMemory((byte)(address >> 8), (uint)(startAddress + 2));
+            bus.SetMemory((byte)address, (ushort)(startAddress + 1));
+            bus.SetMemory((byte)(address >> 8), (ushort)(startAddress + 2));
 
             cpu.PC = startAddress;
 
@@ -148,8 +148,8 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
             cpu.Flags.CY = carryFlag;
 
             bus.SetMemory(0xD2, startAddress);
-            bus.SetMemory((byte)address, (uint)(startAddress + 1));
-            bus.SetMemory((byte)(address >> 8), (uint)(startAddress + 2));
+            bus.SetMemory((byte)address, (ushort)(startAddress + 1));
+            bus.SetMemory((byte)(address >> 8), (ushort)(startAddress + 2));
 
             cpu.PC = startAddress;
 
@@ -172,7 +172,7 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
             cpu.Reset();
 
             bus.SetMemory(0x18, startAddress);
-            bus.SetMemory(offset, (uint)(startAddress + 1));
+            bus.SetMemory(offset, (ushort)(startAddress + 1));
 
             cpu.PC = startAddress;
 
@@ -200,7 +200,7 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
             cpu.Flags.ZF = zeroFlag;
 
             bus.SetMemory(0x28, startAddress);
-            bus.SetMemory(offset, (uint)(startAddress + 1));
+            bus.SetMemory(offset, (ushort)(startAddress + 1));
 
             cpu.PC = startAddress;
 
@@ -228,7 +228,7 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
             cpu.Flags.CY = carryFlag;
 
             bus.SetMemory(0x38, startAddress);
-            bus.SetMemory(offset, (uint)(startAddress + 1));
+            bus.SetMemory(offset, (ushort)(startAddress + 1));
 
             cpu.PC = startAddress;
 
@@ -256,7 +256,7 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
             cpu.Flags.ZF = zeroFlag;
 
             bus.SetMemory(0x20, startAddress);
-            bus.SetMemory(offset, (uint)(startAddress + 1));
+            bus.SetMemory(offset, (ushort)(startAddress + 1));
 
             cpu.PC = startAddress;
 
@@ -284,7 +284,7 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
             cpu.Flags.CY = carryFlag;
 
             bus.SetMemory(0x30, startAddress);
-            bus.SetMemory(offset, (uint)(startAddress + 1));
+            bus.SetMemory(offset, (ushort)(startAddress + 1));
 
             cpu.PC = startAddress;
 
