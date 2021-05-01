@@ -18,6 +18,22 @@ namespace GBEmu.Core.Instructions.Math
             return 1;
         }
     }
+
+    public class CPAInd : SubInstruction
+    {
+        public static new byte OpCode => 0xFE;
+
+        public CPAInd(Bus bus) : base(bus, "CP A, (d8)")
+        {
+        }
+
+        public override int Execute()
+        {
+            Sub(bus.GetCPU().A, bus.GetCPU().Fetch(), true, true);
+            return 2;
+        }
+    }
+
     public class CPB : SubInstruction
     {
         public static new byte OpCode => 0xB8;

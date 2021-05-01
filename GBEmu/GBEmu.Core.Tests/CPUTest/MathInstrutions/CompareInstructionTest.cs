@@ -26,6 +26,21 @@ namespace GBEmu.Core.Tests.CPUTest.MathInstrutions
 
         [Theory]
         [ClassData(typeof(Compare8bitTestData))]
+        public void CPAInd_FlagsUpdated(byte a, byte b, bool zeroFlag,
+            bool negative, bool halfCarry, bool carryFlag)
+        {
+            cpu.Reset();
+            cpu.A = a;
+
+            bus.SetMemory(b, 0xC001);
+
+            Execute8bitTest(0xFE, zeroFlag, negative, halfCarry, carryFlag, 2, 0xC002);
+
+            Assert.Equal(a, cpu.A);
+        }
+
+        [Theory]
+        [ClassData(typeof(Compare8bitTestData))]
         public void CPB_FlagsUpdated(byte a, byte b, bool zeroFlag, 
             bool negative, bool halfCarry, bool carryFlag)
         {

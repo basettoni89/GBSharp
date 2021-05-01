@@ -227,6 +227,7 @@ namespace GBEmu.Core
                 {XORAAddrHL.OpCode, new XORAAddrHL(bus) },
                 {XORAImpl.OpCode, new XORAImpl(bus) },
                 {CPA.OpCode, new CPA(bus) },
+                {CPAInd.OpCode, new CPAInd(bus) },
                 {CPB.OpCode, new CPB(bus) },
                 {CPC.OpCode, new CPC(bus) },
                 {CPD.OpCode, new CPD(bus) },
