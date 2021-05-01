@@ -64,6 +64,69 @@ namespace GBEmu.Core.Tests.CPUTest.LoadInstructions
             Assert.Equal(value, cpu.L);
         }
 
+        [Theory]
+        [InlineData(0x01, 0x00)]
+        [InlineData(0x01, 0x01)]
+        [InlineData(0x01, 0x25)]
+        [InlineData(0x01, 0xFF)]
+        [InlineData(0x81, 0x00)]
+        [InlineData(0x81, 0x01)]
+        [InlineData(0x81, 0x25)]
+        [InlineData(0x81, 0xFF)]
+        [InlineData(0xFF, 0x00)]
+        [InlineData(0xFF, 0x01)]
+        [InlineData(0xFF, 0x25)]
+        [InlineData(0xFF, 0xFF)]
+        public void LDAInd_AContanisIndirectValue(byte addr, byte value)
+        {
+            cpu.Reset();
+
+            cpu.PC = 0xC000;
+
+            bus.SetMemory(0xF0, 0xC000);
+            bus.SetMemory(addr, 0xC001);
+
+            bus.SetMemory(value, (ushort)(0xFF00 | addr));
+
+            TestExecution(3);
+
+            Assert.Equal(0xC002, cpu.PC);
+
+            Assert.Equal(value, cpu.A);
+        }
+
+        [Theory]
+        [InlineData(0x01, 0x00)]
+        [InlineData(0x01, 0x01)]
+        [InlineData(0x01, 0x25)]
+        [InlineData(0x01, 0xFF)]
+        [InlineData(0x81, 0x00)]
+        [InlineData(0x81, 0x01)]
+        [InlineData(0x81, 0x25)]
+        [InlineData(0x81, 0xFF)]
+        [InlineData(0xFF, 0x00)]
+        [InlineData(0xFF, 0x01)]
+        [InlineData(0xFF, 0x25)]
+        [InlineData(0xFF, 0xFF)]
+        public void LDAIndC_AContanisCIndirectValue(byte addr, byte value)
+        {
+            cpu.Reset();
+
+            cpu.PC = 0xC000;
+
+            cpu.C = addr;
+
+            bus.SetMemory(0xF2, 0xC000);
+
+            bus.SetMemory(value, (ushort)(0xFF00 | addr));
+
+            TestExecution(2);
+
+            Assert.Equal(0xC001, cpu.PC);
+
+            Assert.Equal(value, cpu.A);
+        }
+
         private void Execute8bitTest(byte opcode, ushort addr, byte value, int expectedCycles)
         {
             cpu.Reset();

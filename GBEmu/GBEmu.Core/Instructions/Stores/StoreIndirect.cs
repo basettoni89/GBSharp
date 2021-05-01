@@ -41,11 +41,11 @@ namespace GBEmu.Core.Instructions.Stores
         protected override int GetCycles() => 2;
     }
 
-    public class LDAIndBC : StoreAIndirect
+    public class STAIndBC : StoreAIndirect
     {
         public static new byte OpCode => 0x02;
 
-        public LDAIndBC(Bus bus) : base(bus, "LD (BC), A")
+        public STAIndBC(Bus bus) : base(bus, "LD (BC), A")
         {
         }
 
@@ -60,11 +60,11 @@ namespace GBEmu.Core.Instructions.Stores
         }
     }
 
-    public class LDAIndDE : StoreAIndirect
+    public class STAIndDE : StoreAIndirect
     {
         public static new byte OpCode => 0x12;
 
-        public LDAIndDE(Bus bus) : base(bus, "LD (DE), A")
+        public STAIndDE(Bus bus) : base(bus, "LD (DE), A")
         {
         }
 
@@ -79,11 +79,11 @@ namespace GBEmu.Core.Instructions.Stores
         }
     }
 
-    public class LDAIndHLP : StoreAIndirect
+    public class STAIndHLP : StoreAIndirect
     {
         public static new byte OpCode => 0x22;
 
-        public LDAIndHLP(Bus bus) : base(bus, "LD (HL+), A")
+        public STAIndHLP(Bus bus) : base(bus, "LD (HL+), A")
         {
         }
 
@@ -98,11 +98,11 @@ namespace GBEmu.Core.Instructions.Stores
         }
     }
 
-    public class LDAIndHLM : StoreAIndirect
+    public class STAIndHLM : StoreAIndirect
     {
         public static new byte OpCode => 0x32;
 
-        public LDAIndHLM(Bus bus) : base(bus, "LD (HL), A")
+        public STAIndHLM(Bus bus) : base(bus, "LD (HL), A")
         {
         }
 
@@ -117,13 +117,13 @@ namespace GBEmu.Core.Instructions.Stores
         }
     }
 
-    public class LDIndHL : StoreIndirect
+    public class STIndHL : StoreIndirect
     {
         public static new byte OpCode => 0x36;
 
         private byte value = 0;
 
-        public LDIndHL(Bus bus) : base(bus, "LD (HL)")
+        public STIndHL(Bus bus) : base(bus, "LD (HL)")
         {
         }
 
@@ -146,13 +146,13 @@ namespace GBEmu.Core.Instructions.Stores
         }
     }
 
-    public class LDAInd : StoreAIndirect
+    public class STAInd : StoreAIndirect
     {
         public static new byte OpCode => 0xE0;
 
         private byte value = 0;
 
-        public LDAInd(Bus bus) : base(bus, "LD")
+        public STAInd(Bus bus) : base(bus, "LD")
         {
         }
 
@@ -166,15 +166,15 @@ namespace GBEmu.Core.Instructions.Stores
 
         public override string ToString()
         {
-            return $"{Name} {value}, A";
+            return $"{Name} {value:X4}, A";
         }
     }
 
-    public class LDAIndC : StoreAIndirect
+    public class STAIndC : StoreAIndirect
     {
         public static new byte OpCode => 0xE2;
 
-        public LDAIndC(Bus bus) : base(bus, "LD (C), A")
+        public STAIndC(Bus bus) : base(bus, "LD (C), A")
         {
         }
 
@@ -189,13 +189,13 @@ namespace GBEmu.Core.Instructions.Stores
         }
     }
 
-    public class LDSPInd : Instruction
+    public class STSPInd : Instruction
     {
         public static new byte OpCode => 0x08;
 
         private ushort address = 0;
 
-        public LDSPInd(Bus bus) : base(bus, "LD")
+        public STSPInd(Bus bus) : base(bus, "LD")
         {
         }
 

@@ -16,12 +16,14 @@ namespace GBEmu.Core.Instructions.Loads
             byte value = bus.ReadMemory(address);
             Load(value);
 
-            return 2;
+            return GetCycles();
         }
 
         protected abstract ushort GetAddress();
 
         protected abstract void Load(byte value);
+
+        protected abstract int GetCycles();
     }
 
     public abstract class LDIndiretHL : LDIndirect
@@ -39,6 +41,8 @@ namespace GBEmu.Core.Instructions.Loads
         {
             return $"{Name}, (HL)";
         }
+
+        protected override int GetCycles() => 2;
     }
 
     public class LDAIndHL : LDIndiretHL
@@ -137,5 +141,52 @@ namespace GBEmu.Core.Instructions.Loads
         {
             bus.GetCPU().L = value;
         }
+    }
+
+    public class LDAInd : LDIndirect
+    {
+        public static new byte OpCode => 0xF0;
+
+        public LDAInd(Bus bus) : base(bus, "LD A, (a8)")
+        {
+        }
+
+        protected override ushort GetAddress()
+        {
+            byte lo = bus.GetCPU().Fetch();
+            return (ushort)(0xFF00 | lo);
+        }
+
+        protected override void Load(byte value)
+        {
+            bus.GetCPU().A = value;
+        }
+
+        protected override int GetCycles() => 3;
+
+        public override string ToString() => Name;
+    }
+
+    public class LDAIndC : LDIndirect
+    {
+        public static new byte OpCode => 0xF2;
+
+        public LDAIndC(Bus bus) : base(bus, "LD A, (C)")
+        {
+        }
+
+        protected override ushort GetAddress()
+        {
+            return (ushort)(0xFF00 | bus.GetCPU().C);
+        }
+
+        protected override void Load(byte value)
+        {
+            bus.GetCPU().A = value;
+        }
+
+        protected override int GetCycles() => 2;
+
+        public override string ToString() => Name;
     }
 }
