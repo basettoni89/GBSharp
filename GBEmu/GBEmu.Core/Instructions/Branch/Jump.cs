@@ -15,9 +15,9 @@ namespace GBEmu.Core.Instructions.Branch
             bus.GetCPU().PC = address;
         }
 
-        protected void JumpRelative(byte offset, int usedCycles)
+        protected void JumpRelative(sbyte offset)
         {
-            bus.GetCPU().PC = (ushort)(bus.GetCPU().PC + offset - usedCycles);
+            bus.GetCPU().PC = (ushort)(bus.GetCPU().PC + offset);
         }
     }
 
@@ -207,142 +207,117 @@ namespace GBEmu.Core.Instructions.Branch
 
     public class JRImpl : JumpInstruction
     {
-        private byte value;
-
         public static new byte OpCode => 0x18;
 
-        public JRImpl(Bus bus) : base(bus, "JR")
+        public JRImpl(Bus bus) : base(bus, "JR s8")
         {
         }
 
         public override int Execute()
         {
-            value = bus.GetCPU().Fetch();
+            sbyte addr = (sbyte)bus.GetCPU().Fetch();
 
-            JumpRelative(value, 2);
+            JumpRelative(addr);
 
             return 3;
         }
 
-        public override string ToString()
-        {
-            return $"{Name}, {value:X4}";
-        }
+        public override string ToString() => Name;
     }
 
     public class JRZImpl : JumpInstruction
     {
-        private byte value;
-
         public static new byte OpCode => 0x28;
 
-        public JRZImpl(Bus bus) : base(bus, "JR Z")
+        public JRZImpl(Bus bus) : base(bus, "JR Z, (s8)")
         {
         }
 
         public override int Execute()
         {
-            value = bus.GetCPU().Fetch();
+            sbyte addr = (sbyte)bus.GetCPU().Fetch();
 
             if(bus.GetCPU().Flags.ZF)
             {
-                JumpRelative(value, 2);
+                JumpRelative(addr);
                 return 3;
             }
 
             return 2;
         }
 
-        public override string ToString()
-        {
-            return $"{Name}, {value:X4}";
-        }
+        public override string ToString() => Name;
     }
 
     public class JRCImpl : JumpInstruction
     {
-        private byte value;
-
         public static new byte OpCode => 0x38;
 
-        public JRCImpl(Bus bus) : base(bus, "JR C")
+        public JRCImpl(Bus bus) : base(bus, "JR C, (s8)")
         {
         }
 
         public override int Execute()
         {
-            value = bus.GetCPU().Fetch();
+            sbyte addr = (sbyte)bus.GetCPU().Fetch();
 
             if(bus.GetCPU().Flags.CY)
             {
-                JumpRelative(value, 2);
+                JumpRelative(addr);
                 return 3;
             }
 
             return 2;
         }
 
-        public override string ToString()
-        {
-            return $"{Name}, {value:X4}";
-        }
+        public override string ToString() => Name;
     }
 
     public class JRNZImpl : JumpInstruction
     {
-        private byte value;
-
         public static new byte OpCode => 0x20;
 
-        public JRNZImpl(Bus bus) : base(bus, "JR NZ")
+        public JRNZImpl(Bus bus) : base(bus, "JR NZ, (s8)")
         {
         }
 
         public override int Execute()
         {
-            value = bus.GetCPU().Fetch();
+            sbyte addr = (sbyte)bus.GetCPU().Fetch();
 
             if (!bus.GetCPU().Flags.ZF)
             {
-                JumpRelative(value, 2);
+                JumpRelative(addr);
                 return 3;
             }
 
             return 2;
         }
 
-        public override string ToString()
-        {
-            return $"{Name}, {value:X4}";
-        }
+        public override string ToString() => Name;
     }
 
     public class JRNCImpl : JumpInstruction
     {
-        private byte value;
-
         public static new byte OpCode => 0x30;
 
-        public JRNCImpl(Bus bus) : base(bus, "JR NC")
+        public JRNCImpl(Bus bus) : base(bus, "JR NC, (s8)")
         {
         }
 
         public override int Execute()
         {
-            value = bus.GetCPU().Fetch();
+            sbyte addr = (sbyte)bus.GetCPU().Fetch();
 
             if (!bus.GetCPU().Flags.CY)
             {
-                JumpRelative(value, 2);
+                JumpRelative(addr);
                 return 3;
             }
 
             return 2;
         }
 
-        public override string ToString()
-        {
-            return $"{Name}, {value:X4}";
-        }
+        public override string ToString() => Name;
     }
 }

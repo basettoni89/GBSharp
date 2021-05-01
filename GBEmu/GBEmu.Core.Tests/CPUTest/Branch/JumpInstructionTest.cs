@@ -159,12 +159,13 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
         }
 
         [Theory]
-        [InlineData(0x00)]
-        [InlineData(0x09)]
-        [InlineData(0x10)]
-        [InlineData(0x0F)]
-        [InlineData(0xFF)]
-        public void JRImpl_PCContainsNewAddress(byte offset)
+        [InlineData(0x00, 0xC002)]
+        [InlineData(0x0B, 0xC00D)]
+        [InlineData(0x7F, 0xC081)]
+        [InlineData(-0x01, 0xC001)]
+        [InlineData(-0x20, 0xBFE2)]
+        [InlineData(-0x80, 0xBF82)]
+        public void JRImpl_PCContainsNewAddress(sbyte offset, ushort expectedPC)
         {
             ushort startAddress = 0xC000;
             int expectedCycles = 3;
@@ -172,27 +173,27 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
             cpu.Reset();
 
             bus.SetMemory(0x18, startAddress);
-            bus.SetMemory(offset, (ushort)(startAddress + 1));
+            bus.SetMemory((byte)offset, (ushort)(startAddress + 1));
 
             cpu.PC = startAddress;
 
             TestExecution(expectedCycles);
 
-            Assert.Equal(startAddress + offset, cpu.PC);
+            Assert.Equal(expectedPC, cpu.PC);
         }
 
         [Theory]
-        [InlineData(0xC000, 0x00, true, 0xC000, 3)]
+        [InlineData(0xC000, 0x00, true, 0xC002, 3)]
         [InlineData(0xC000, 0x00, false, 0xC002, 2)]
-        [InlineData(0xC000, 0x09, true, 0xC009, 3)]
+        [InlineData(0xC000, 0x09, true, 0xC00B, 3)]
         [InlineData(0xC000, 0x09, false, 0xC002, 2)]
-        [InlineData(0xC000, 0x10, true, 0xC010, 3)]
-        [InlineData(0xC000, 0x10, false, 0xC002, 2)]
-        [InlineData(0xC000, 0x0F, true, 0xC00F, 3)]
-        [InlineData(0xC000, 0x0F, false, 0xC002, 2)]
-        [InlineData(0xC000, 0xFF, true, 0xC0FF, 3)]
-        [InlineData(0xC000, 0xFF, false, 0xC002, 2)]
-        public void JRZImpl_PCContainsNewAddress(ushort startAddress, byte offset,
+        [InlineData(0xC000, 0x7F, true, 0xC081, 3)]
+        [InlineData(0xC000, 0x7F, false, 0xC002, 2)]
+        [InlineData(0xC000, -0x01, true, 0xC001, 3)]
+        [InlineData(0xC000, -0x01, false, 0xC002, 2)]
+        [InlineData(0xC000, -0x80, true, 0xBF82, 3)]
+        [InlineData(0xC000, -0x80, false, 0xC002, 2)]
+        public void JRZImpl_PCContainsNewAddress(ushort startAddress, sbyte offset,
             bool zeroFlag, ushort expectedPC, int expectedCycles)
         {
             cpu.Reset();
@@ -200,7 +201,7 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
             cpu.Flags.ZF = zeroFlag;
 
             bus.SetMemory(0x28, startAddress);
-            bus.SetMemory(offset, (ushort)(startAddress + 1));
+            bus.SetMemory((byte)offset, (ushort)(startAddress + 1));
 
             cpu.PC = startAddress;
 
@@ -210,17 +211,17 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
         }
 
         [Theory]
-        [InlineData(0xC000, 0x00, true, 0xC000, 3)]
+        [InlineData(0xC000, 0x00, true, 0xC002, 3)]
         [InlineData(0xC000, 0x00, false, 0xC002, 2)]
-        [InlineData(0xC000, 0x09, true, 0xC009, 3)]
+        [InlineData(0xC000, 0x09, true, 0xC00B, 3)]
         [InlineData(0xC000, 0x09, false, 0xC002, 2)]
-        [InlineData(0xC000, 0x10, true, 0xC010, 3)]
-        [InlineData(0xC000, 0x10, false, 0xC002, 2)]
-        [InlineData(0xC000, 0x0F, true, 0xC00F, 3)]
-        [InlineData(0xC000, 0x0F, false, 0xC002, 2)]
-        [InlineData(0xC000, 0xFF, true, 0xC0FF, 3)]
-        [InlineData(0xC000, 0xFF, false, 0xC002, 2)]
-        public void JRCImpl_PCContainsNewAddress(ushort startAddress, byte offset,
+        [InlineData(0xC000, 0x7F, true, 0xC081, 3)]
+        [InlineData(0xC000, 0x7F, false, 0xC002, 2)]
+        [InlineData(0xC000, -0x01, true, 0xC001, 3)]
+        [InlineData(0xC000, -0x01, false, 0xC002, 2)]
+        [InlineData(0xC000, -0x80, true, 0xBF82, 3)]
+        [InlineData(0xC000, -0x80, false, 0xC002, 2)]
+        public void JRCImpl_PCContainsNewAddress(ushort startAddress, sbyte offset,
             bool carryFlag, ushort expectedPC, int expectedCycles)
         {
             cpu.Reset();
@@ -228,7 +229,7 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
             cpu.Flags.CY = carryFlag;
 
             bus.SetMemory(0x38, startAddress);
-            bus.SetMemory(offset, (ushort)(startAddress + 1));
+            bus.SetMemory((byte)offset, (ushort)(startAddress + 1));
 
             cpu.PC = startAddress;
 
@@ -238,17 +239,17 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
         }
 
         [Theory]
-        [InlineData(0xC000, 0x00, false, 0xC000, 3)]
+        [InlineData(0xC000, 0x00, false, 0xC002, 3)]
         [InlineData(0xC000, 0x00, true, 0xC002, 2)]
-        [InlineData(0xC000, 0x09, false, 0xC009, 3)]
+        [InlineData(0xC000, 0x09, false, 0xC00B, 3)]
         [InlineData(0xC000, 0x09, true, 0xC002, 2)]
-        [InlineData(0xC000, 0x10, false, 0xC010, 3)]
-        [InlineData(0xC000, 0x10, true, 0xC002, 2)]
-        [InlineData(0xC000, 0x0F, false, 0xC00F, 3)]
-        [InlineData(0xC000, 0x0F, true, 0xC002, 2)]
-        [InlineData(0xC000, 0xFF, false, 0xC0FF, 3)]
-        [InlineData(0xC000, 0xFF, true, 0xC002, 2)]
-        public void JRNZImpl_PCContainsNewAddress(ushort startAddress, byte offset,
+        [InlineData(0xC000, 0x7F, false, 0xC081, 3)]
+        [InlineData(0xC000, 0x7F, true, 0xC002, 2)]
+        [InlineData(0xC000, -0x01, false, 0xC001, 3)]
+        [InlineData(0xC000, -0x01, true, 0xC002, 2)]
+        [InlineData(0xC000, -0x80, false, 0xBF82, 3)]
+        [InlineData(0xC000, -0x80, true, 0xC002, 2)]
+        public void JRNZImpl_PCContainsNewAddress(ushort startAddress, sbyte offset,
             bool zeroFlag, ushort expectedPC, int expectedCycles)
         {
             cpu.Reset();
@@ -256,7 +257,7 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
             cpu.Flags.ZF = zeroFlag;
 
             bus.SetMemory(0x20, startAddress);
-            bus.SetMemory(offset, (ushort)(startAddress + 1));
+            bus.SetMemory((byte)offset, (ushort)(startAddress + 1));
 
             cpu.PC = startAddress;
 
@@ -266,17 +267,17 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
         }
 
         [Theory]
-        [InlineData(0xC000, 0x00, false, 0xC000, 3)]
+        [InlineData(0xC000, 0x00, false, 0xC002, 3)]
         [InlineData(0xC000, 0x00, true, 0xC002, 2)]
-        [InlineData(0xC000, 0x09, false, 0xC009, 3)]
+        [InlineData(0xC000, 0x09, false, 0xC00B, 3)]
         [InlineData(0xC000, 0x09, true, 0xC002, 2)]
-        [InlineData(0xC000, 0x10, false, 0xC010, 3)]
-        [InlineData(0xC000, 0x10, true, 0xC002, 2)]
-        [InlineData(0xC000, 0x0F, false, 0xC00F, 3)]
-        [InlineData(0xC000, 0x0F, true, 0xC002, 2)]
-        [InlineData(0xC000, 0xFF, false, 0xC0FF, 3)]
-        [InlineData(0xC000, 0xFF, true, 0xC002, 2)]
-        public void JRNCImpl_PCContainsNewAddress(ushort startAddress, byte offset,
+        [InlineData(0xC000, 0x7F, false, 0xC081, 3)]
+        [InlineData(0xC000, 0x7F, true, 0xC002, 2)]
+        [InlineData(0xC000, -0x01, false, 0xC001, 3)]
+        [InlineData(0xC000, -0x01, true, 0xC002, 2)]
+        [InlineData(0xC000, -0x80, false, 0xBF82, 3)]
+        [InlineData(0xC000, -0x80, true, 0xC002, 2)]
+        public void JRNCImpl_PCContainsNewAddress(ushort startAddress, sbyte offset,
             bool carryFlag, ushort expectedPC, int expectedCycles)
         {
             cpu.Reset();
@@ -284,7 +285,7 @@ namespace GBEmu.Core.Tests.CPUTest.Branch
             cpu.Flags.CY = carryFlag;
 
             bus.SetMemory(0x30, startAddress);
-            bus.SetMemory(offset, (ushort)(startAddress + 1));
+            bus.SetMemory((byte)offset, (ushort)(startAddress + 1));
 
             cpu.PC = startAddress;
 
