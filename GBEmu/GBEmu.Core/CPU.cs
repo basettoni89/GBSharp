@@ -266,6 +266,14 @@ namespace GBEmu.Core
                 {POPAF.OpCode, new POPAF(bus) },
                 {DI.OpCode, new DI(bus) },
                 {EI.OpCode, new EI(bus) },
+                {RST0.OpCode, new RST0(bus) },
+                {RST1.OpCode, new RST1(bus) },
+                {RST2.OpCode, new RST2(bus) },
+                {RST3.OpCode, new RST3(bus) },
+                {RST4.OpCode, new RST4(bus) },
+                {RST5.OpCode, new RST5(bus) },
+                {RST6.OpCode, new RST6(bus) },
+                {RST7.OpCode, new RST7(bus) },
             };
         }
 
