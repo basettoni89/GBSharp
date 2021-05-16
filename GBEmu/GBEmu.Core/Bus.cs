@@ -7,6 +7,7 @@ namespace GBEmu.Core
     public class Bus
     {
         private readonly CPU cpu;
+        private readonly PPU ppu;
 
         //$FFFF Interrupt Enable Register
         private byte IER = 0;
@@ -32,6 +33,7 @@ namespace GBEmu.Core
         public Bus()
         {
             this.cpu = new CPU(this);
+            this.ppu = new PPU();
         }
 
         public bool LoadRomBank(int bank, byte[] data)
@@ -59,6 +61,26 @@ namespace GBEmu.Core
                     return IER;
                 case ushort a when (a <= 0xFFFE && a >= 0xFF80):
                     return ZPRAM[address - 0xFF80];
+                case 0xFF42:
+                    return ppu.SCY;
+                case 0xFF43:
+                    return ppu.SCX;
+                case 0xFF44:
+                    return ppu.LY;
+                case 0xFF45:
+                    return ppu.LYC;
+                case 0xFF46:
+                    return ppu.DMA;
+                case 0xFF47:
+                    return ppu.BGP;
+                case 0xFF48:
+                    return ppu.OBP0;
+                case 0xFF49:
+                    return ppu.OBP1;
+                case 0xFF4A:
+                    return ppu.WY;
+                case 0xFF4B:
+                    return ppu.WX;
                 case ushort a when (a <= 0xFF7F && a >= 0xFF00):
                     return IO[address - 0xFF00];
                 case ushort a when (a <= 0xFE9F && a >= 0xFE00):
@@ -86,6 +108,36 @@ namespace GBEmu.Core
                 case ushort a when (a <= 0xFFFE && a >= 0xFF80):
                     ZPRAM[address - 0xFF80] = value;
                     break;
+                case 0xFF42:
+                    ppu.SCY = value;
+                    return;
+                case 0xFF43:
+                    ppu.SCX = value;
+                    return;
+                case 0xFF44:
+                    ppu.LY = value;
+                    return;
+                case 0xFF45:
+                    ppu.LYC = value;
+                    return;
+                case 0xFF46:
+                    ppu.DMA = value;
+                    return;
+                case 0xFF47:
+                    ppu.BGP = value;
+                    return;
+                case 0xFF48:
+                    ppu.OBP0 = value;
+                    return;
+                case 0xFF49:
+                    ppu.OBP1 = value;
+                    return;
+                case 0xFF4A:
+                    ppu.WY = value;
+                    return;
+                case 0xFF4B:
+                    ppu.WX = value;
+                    return;
                 case ushort a when (a <= 0xFF7F && a >= 0xFF00):
                     IO[address - 0xFF00] = value;
                     break;
@@ -116,6 +168,36 @@ namespace GBEmu.Core
                 case ushort a when (a <= 0xFFFE && a >= 0xFF80):
                     ZPRAM[address - 0xFF80] = value;
                     break;
+                case 0xFF42:
+                    ppu.SCY = value;
+                    return;
+                case 0xFF43:
+                    ppu.SCX = value;
+                    return;
+                case 0xFF44:
+                    ppu.LY = value;
+                    return;
+                case 0xFF45:
+                    ppu.LYC = value;
+                    return;
+                case 0xFF46:
+                    ppu.DMA = value;
+                    return;
+                case 0xFF47:
+                    ppu.BGP = value;
+                    return;
+                case 0xFF48:
+                    ppu.OBP0 = value;
+                    return;
+                case 0xFF49:
+                    ppu.OBP1 = value;
+                    return;
+                case 0xFF4A:
+                    ppu.WY = value;
+                    return;
+                case 0xFF4B:
+                    ppu.WX = value;
+                    return;
                 case ushort a when (a <= 0xFF7F && a >= 0xFF00):
                     IO[address - 0xFF00] = value;
                     break;
@@ -150,6 +232,26 @@ namespace GBEmu.Core
                     return IER;
                 case ushort a when (a <= 0xFFFE && a >= 0xFF80):
                     return ZPRAM[address - 0xFF80];
+                case 0xFF42:
+                    return ppu.SCY;
+                case 0xFF43:
+                    return ppu.SCX;
+                case 0xFF44:
+                    return ppu.LY;
+                case 0xFF45:
+                    return ppu.LYC;
+                case 0xFF46:
+                    return ppu.DMA;
+                case 0xFF47:
+                    return ppu.BGP;
+                case 0xFF48:
+                    return ppu.OBP0;
+                case 0xFF49:
+                    return ppu.OBP1;
+                case 0xFF4A:
+                    return ppu.WY;
+                case 0xFF4B:
+                    return ppu.WX;
                 case ushort a when (a <= 0xFF7F && a >= 0xFF00):
                     return IO[address - 0xFF00];
                 case ushort a when (a <= 0xFE9F && a >= 0xFE00):
@@ -191,6 +293,15 @@ namespace GBEmu.Core
         public CPU GetCPU()
         {
             return this.cpu;
+        }
+
+        /// <summary>
+        /// Utility function for receiving PPU object
+        /// </summary>
+        /// <returns></returns>
+        public PPU GetPPU()
+        {
+            return this.ppu;
         }
     }
 }

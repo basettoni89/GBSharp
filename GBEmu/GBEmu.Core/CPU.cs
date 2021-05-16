@@ -1,4 +1,5 @@
 ﻿using GBEmu.Core.Exceptions;
+using GBEmu.Core.Extensions;
 using GBEmu.Core.Instructions;
 using GBEmu.Core.Instructions.Branch;
 using GBEmu.Core.Instructions.Loads;
@@ -57,10 +58,10 @@ namespace GBEmu.Core
 
             set
             {
-                Flags.ZF = (value & (1 << 7)) != 0;
-                Flags.N = (value & (1 << 6)) != 0;
-                Flags.H = (value & (1 << 5)) != 0;
-                Flags.CY = (value & (1 << 4)) != 0;
+                Flags.ZF = value.GetBit(7);
+                Flags.N = value.GetBit(6);
+                Flags.H = value.GetBit(5);
+                Flags.CY = value.GetBit(4);
             }
         }
 
