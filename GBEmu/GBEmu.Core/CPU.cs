@@ -48,12 +48,7 @@ namespace GBEmu.Core
         {
             get
             {
-                return (byte)(
-                    ((Flags.ZF ? 1 : 0) << 7)
-                    | ((Flags.N ? 1 : 0) << 6)
-                    | ((Flags.H ? 1 : 0) << 5)
-                    | ((Flags.CY ? 1 : 0) << 4)
-                    );
+                return ByteUtil.FromBits(false, false, false, false, Flags.CY, Flags.H, Flags.N, Flags.ZF);
             }
 
             set

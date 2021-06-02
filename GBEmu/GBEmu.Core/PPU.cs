@@ -39,35 +39,52 @@ namespace GBEmu.Core
             /// <summary>
             /// LCD enable
             /// </summary>
-            public bool _7 { get; set; }
+            public bool F7 { get; set; }
             /// <summary>
             /// Window tile map area
             /// </summary>
-            public bool _6 { get; set; }
+            public bool F6 { get; set; }
             /// <summary>
             /// Window enable
             /// </summary>
-            public bool _5 { get; set; }
+            public bool F5 { get; set; }
             /// <summary>
             /// BG and Window tile data area
             /// </summary>
-            public bool _4 { get; set; }
+            public bool F4 { get; set; }
             /// <summary>
             /// BG tile map area
             /// </summary>
-            public bool _3 { get; set; }
+            public bool F3 { get; set; }
             /// <summary>
             /// OBJ size
             /// </summary>
-            public bool _2 { get; set; }
+            public bool F2 { get; set; }
             /// <summary>
             /// OBJ enable
             /// </summary>
-            public bool _1 { get; set; }
+            public bool F1 { get; set; }
             /// <summary>
             /// BG and Window enable/priority
             /// </summary>
-            public bool _0 { get; set; }
+            public bool F0 { get; set; }
+
+            public void Write(byte value)
+            {
+                F0 = value.GetBit(0);
+                F1 = value.GetBit(1);
+                F2 = value.GetBit(2);
+                F3 = value.GetBit(3);
+                F4 = value.GetBit(4);
+                F5 = value.GetBit(5);
+                F6 = value.GetBit(6);
+                F7 = value.GetBit(7);
+            }
+
+            public byte Read()
+            {
+                return ByteUtil.FromBits(F0, F1, F2, F3, F4, F5, F6, F7);
+            }
         }
     }
 }

@@ -61,6 +61,8 @@ namespace GBEmu.Core
                     return IER;
                 case ushort a when (a <= 0xFFFE && a >= 0xFF80):
                     return ZPRAM[address - 0xFF80];
+                case 0xFF40:
+                    return ppu.LCDC.Read();
                 case 0xFF42:
                     return ppu.SCY;
                 case 0xFF43:
@@ -108,36 +110,39 @@ namespace GBEmu.Core
                 case ushort a when (a <= 0xFFFE && a >= 0xFF80):
                     ZPRAM[address - 0xFF80] = value;
                     break;
+                case 0xFF40:
+                    ppu.LCDC.Write(value);
+                    break;
                 case 0xFF42:
                     ppu.SCY = value;
-                    return;
+                    break;
                 case 0xFF43:
                     ppu.SCX = value;
-                    return;
+                    break;
                 case 0xFF44:
                     ppu.LY = value;
-                    return;
+                    break;
                 case 0xFF45:
                     ppu.LYC = value;
-                    return;
+                    break;
                 case 0xFF46:
                     ppu.DMA = value;
-                    return;
+                    break;
                 case 0xFF47:
                     ppu.BGP = value;
-                    return;
+                    break;
                 case 0xFF48:
                     ppu.OBP0 = value;
-                    return;
+                    break;
                 case 0xFF49:
                     ppu.OBP1 = value;
-                    return;
+                    break;
                 case 0xFF4A:
                     ppu.WY = value;
-                    return;
+                    break;
                 case 0xFF4B:
                     ppu.WX = value;
-                    return;
+                    break;
                 case ushort a when (a <= 0xFF7F && a >= 0xFF00):
                     IO[address - 0xFF00] = value;
                     break;
@@ -168,36 +173,39 @@ namespace GBEmu.Core
                 case ushort a when (a <= 0xFFFE && a >= 0xFF80):
                     ZPRAM[address - 0xFF80] = value;
                     break;
+                case 0xFF40:
+                    ppu.LCDC.Write(value);
+                    break;
                 case 0xFF42:
                     ppu.SCY = value;
-                    return;
+                    break;
                 case 0xFF43:
                     ppu.SCX = value;
-                    return;
+                    break;
                 case 0xFF44:
                     ppu.LY = value;
-                    return;
+                    break;
                 case 0xFF45:
                     ppu.LYC = value;
-                    return;
+                    break;
                 case 0xFF46:
                     ppu.DMA = value;
-                    return;
+                    break;
                 case 0xFF47:
                     ppu.BGP = value;
-                    return;
+                    break;
                 case 0xFF48:
                     ppu.OBP0 = value;
-                    return;
+                    break;
                 case 0xFF49:
                     ppu.OBP1 = value;
-                    return;
+                    break;
                 case 0xFF4A:
                     ppu.WY = value;
-                    return;
+                    break;
                 case 0xFF4B:
                     ppu.WX = value;
-                    return;
+                    break;
                 case ushort a when (a <= 0xFF7F && a >= 0xFF00):
                     IO[address - 0xFF00] = value;
                     break;
@@ -232,6 +240,8 @@ namespace GBEmu.Core
                     return IER;
                 case ushort a when (a <= 0xFFFE && a >= 0xFF80):
                     return ZPRAM[address - 0xFF80];
+                case 0xFF40:
+                    return ppu.LCDC.Read();
                 case 0xFF42:
                     return ppu.SCY;
                 case 0xFF43:

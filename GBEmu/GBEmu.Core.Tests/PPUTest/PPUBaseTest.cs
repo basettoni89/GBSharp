@@ -162,6 +162,39 @@ namespace GBEmu.Core.Tests.PPUTest
             TestSetRegisterValue(0xFF4B, value, (byte value) => ppu.WX = value);
         }
 
+        [Theory]
+        [ClassData(typeof(LCDCTestData))]
+        public void GetLCDCValue(bool[] bits, byte value)
+        {
+            ppu.LCDC.F0 = bits[0];
+            ppu.LCDC.F1 = bits[1];
+            ppu.LCDC.F2 = bits[2];
+            ppu.LCDC.F3 = bits[3];
+            ppu.LCDC.F4 = bits[4];
+            ppu.LCDC.F5 = bits[5];
+            ppu.LCDC.F6 = bits[6];
+            ppu.LCDC.F7 = bits[7];
+
+            Assert.Equal(value, bus.ReadMemory(0xFF40));
+        }
+
+        [Theory]
+        [ClassData(typeof(LCDCTestData))]
+        public void SetLCDCValue(bool[] bits, byte value)
+        {
+            bus.WriteMemory(value, 0xFF40);
+
+            Assert.Equal(bits[0], ppu.LCDC.F0);
+            Assert.Equal(bits[1], ppu.LCDC.F1);
+            Assert.Equal(bits[2], ppu.LCDC.F2);
+            Assert.Equal(bits[3], ppu.LCDC.F3);
+            Assert.Equal(bits[4], ppu.LCDC.F4);
+            Assert.Equal(bits[5], ppu.LCDC.F5);
+            Assert.Equal(bits[6], ppu.LCDC.F6);
+            Assert.Equal(bits[7], ppu.LCDC.F7);
+
+        }
+
         private void TestGetRegisterValue(ushort address, byte value, Func<byte> register)
         {
             bus.WriteMemory(value, address);
@@ -183,6 +216,28 @@ namespace GBEmu.Core.Tests.PPUTest
                 yield return new object[] { 0x10 };
                 yield return new object[] { 0x32 };
                 yield return new object[] { 0xFF };
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        }
+
+        class LCDCTestData : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return new object[] { new bool[] { false, false, false, false, false, false, false, false }, 0b00000000};
+                yield return new object[] { new bool[] { true, false, false, false, false, false, false, false }, 0b00000001 };
+                yield return new object[] { new bool[] { false, true, false, false, false, false, false, false }, 0b00000010 };
+                yield return new object[] { new bool[] { false, false, true, false, false, false, false, false }, 0b00000100 };
+                yield return new object[] { new bool[] { false, false, false, true, false, false, false, false }, 0b00001000 };
+                yield return new object[] { new bool[] { false, false, false, false, true, false, false, false }, 0b00010000 };
+                yield return new object[] { new bool[] { false, false, false, false, false, true, false, false }, 0b00100000 };
+                yield return new object[] { new bool[] { false, false, false, false, false, false, true, false }, 0b01000000 };
+                yield return new object[] { new bool[] { false, false, false, false, false, false, false, true }, 0b10000000 };
+                yield return new object[] { new bool[] { true, false, false, true, false, false, false, false }, 0b00001001 };
+                yield return new object[] { new bool[] { false, true, false, false, true, false, false, true }, 0b10010010 };
+                yield return new object[] { new bool[] { false, false, false, true, false, true, false, false }, 0b00101000 };
+                yield return new object[] { new bool[] { true, true, true, true, true, true, true, true }, 0b11111111 };
             }
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
