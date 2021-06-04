@@ -63,6 +63,8 @@ namespace GBEmu.Core
                     return ZPRAM[address - 0xFF80];
                 case 0xFF40:
                     return ppu.LCDC.Read();
+                case 0xFF41:
+                    return ppu.STAT.Read();
                 case 0xFF42:
                     return ppu.SCY;
                 case 0xFF43:
@@ -112,6 +114,9 @@ namespace GBEmu.Core
                     break;
                 case 0xFF40:
                     ppu.LCDC.Write(value);
+                    break;
+                case 0xFF41:
+                    ppu.STAT.Write(value);
                     break;
                 case 0xFF42:
                     ppu.SCY = value;
@@ -175,6 +180,9 @@ namespace GBEmu.Core
                     break;
                 case 0xFF40:
                     ppu.LCDC.Write(value);
+                    break;
+                case 0xFF41:
+                    ppu.STAT.Write(value);
                     break;
                 case 0xFF42:
                     ppu.SCY = value;
@@ -242,6 +250,8 @@ namespace GBEmu.Core
                     return ZPRAM[address - 0xFF80];
                 case 0xFF40:
                     return ppu.LCDC.Read();
+                case 0xFF41:
+                    return ppu.STAT.Read();
                 case 0xFF42:
                     return ppu.SCY;
                 case 0xFF43:

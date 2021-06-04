@@ -195,6 +195,37 @@ namespace GBEmu.Core.Tests.PPUTest
 
         }
 
+        [Theory]
+        [ClassData(typeof(STATTestData))]
+        public void GetSTATValue(PPU.ModeEnum mode, bool[] bits, byte value)
+        {
+            ppu.STAT.F2 = bits[0];
+            ppu.STAT.F3 = bits[1];
+            ppu.STAT.F4 = bits[2];
+            ppu.STAT.F5 = bits[3];
+            ppu.STAT.F6 = bits[4];
+
+            ppu.STAT.Mode = mode;
+
+            Assert.Equal(value, bus.ReadMemory(0xFF41));
+        }
+
+        [Theory]
+        [ClassData(typeof(STATTestData))]
+        public void SetSTATValue(PPU.ModeEnum mode, bool[] bits, byte value)
+        {
+            bus.WriteMemory(value, 0xFF41);
+
+            Assert.Equal(mode, ppu.STAT.Mode);
+
+            Assert.Equal(bits[0], ppu.STAT.F2);
+            Assert.Equal(bits[1], ppu.STAT.F3);
+            Assert.Equal(bits[2], ppu.STAT.F4);
+            Assert.Equal(bits[3], ppu.STAT.F5);
+            Assert.Equal(bits[4], ppu.STAT.F6);
+
+        }
+
         private void TestGetRegisterValue(ushort address, byte value, Func<byte> register)
         {
             bus.WriteMemory(value, address);
@@ -242,5 +273,32 @@ namespace GBEmu.Core.Tests.PPUTest
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
+    }
+
+    class STATTestData : IEnumerable<object[]>
+    {
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            //Testing Mode flag
+            yield return new object[] { PPU.ModeEnum.HBlank, new bool[] { false, false, false, false, false }, 0b00000000 };
+            yield return new object[] { PPU.ModeEnum.VBlank, new bool[] { false, false, false, false, false }, 0b00000001 };
+            yield return new object[] { PPU.ModeEnum.SearchingOAM, new bool[] { false, false, false, false, false }, 0b00000010 };
+            yield return new object[] { PPU.ModeEnum.TransferringData, new bool[] { false, false, false, false, false }, 0b00000011 };
+
+            //Testing individual bit flags
+            yield return new object[] { PPU.ModeEnum.HBlank, new bool[] { true, false, false, false, false }, 0b00000100 };
+            yield return new object[] { PPU.ModeEnum.HBlank, new bool[] { false, true, false, false, false }, 0b00001000 };
+            yield return new object[] { PPU.ModeEnum.HBlank, new bool[] { false, false, true, false, false }, 0b00010000 };
+            yield return new object[] { PPU.ModeEnum.HBlank, new bool[] { false, false, false, true, false }, 0b00100000 };
+            yield return new object[] { PPU.ModeEnum.HBlank, new bool[] { false, false, false, false, true }, 0b01000000 };
+
+            //Testing random configurations
+            yield return new object[] { PPU.ModeEnum.VBlank, new bool[] { false, true, false, false, false }, 0b00001001 };
+            yield return new object[] { PPU.ModeEnum.SearchingOAM, new bool[] { false, false, true, false, true }, 0b01010010 };
+            yield return new object[] { PPU.ModeEnum.TransferringData, new bool[] { false, true, false, true, false }, 0b00101011 };
+            yield return new object[] { PPU.ModeEnum.TransferringData, new bool[] { true, true, true, true, true }, 0b01111111 };
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }
